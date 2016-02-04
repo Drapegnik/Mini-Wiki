@@ -11,8 +11,7 @@ def registration(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            User.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'],
-                                     form.cleaned_data['password'])
+            User.objects.create_user(form.cleaned_data['username'], form.cleaned_data['password'])
         return redirect(reverse('login'))
     else:
         form = RegistrationForm()

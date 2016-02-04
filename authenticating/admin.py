@@ -1,8 +1,11 @@
-from authenticating.models import UserProfile
+from authenticating.models import Account
 from django.contrib import admin
 
 
 # Register your models here.
 
-admin.site.register(UserProfile)
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'location', 'gender', 'about', 'id') #'theme'
 
+
+admin.site.register(Account, AccountAdmin)
