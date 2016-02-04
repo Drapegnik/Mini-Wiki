@@ -4,9 +4,6 @@
 ;; gitignore for Django using pyCharm
 ;;
 
-;;files to ignore
-settings.py
-
 ;;extensions to ignore
 *.log
 *.pot
@@ -14,3 +11,4 @@ settings.py
 
 ;;directories to ignore
 .idea/
+courseproject/my.cnf
