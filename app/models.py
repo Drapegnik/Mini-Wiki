@@ -31,7 +31,7 @@ class Publication(models.Model):
         return self.header + u'. Author: %s'% self.user.username
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     user = models.ForeignKey(User)
     publication = models.ForeignKey(Publication)
     text = models.CharField(max_length=500)
