@@ -13,3 +13,4 @@
 .idea/
 courseproject/my.cnf
 authenticating/migrations/
+app/migrations/

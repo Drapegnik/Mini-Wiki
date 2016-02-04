@@ -1,4 +1,5 @@
 from django.db import models
+from app.models import Theme
 
 # Create your models here.
 
@@ -13,6 +14,7 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=140,blank=True)
     about = models.CharField(max_length=500,blank=True)
     photo = CloudinaryField('image',blank=True)
+    theme = models.ForeignKey(Theme)
 
     def __str__(self):
         return u'Profile of user: %s' % self.user.username
