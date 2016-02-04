@@ -1,22 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
 {% block content %}
-    <form class="form" method="post" action="{% url 'register' %}">
+
+    <form class="form-horizontal" method="post" action="{% url 'register' %}">
         {% csrf_token %}
-        <table>
-            {{ form }}
-            <tr>
-                <td></td>
-                <td><input class="myButton" type="submit" value="Register"/></td>
-            </tr>
-        </table>
+        <fieldset>
+            <div class="form-group">
+                <label for="id_username" class="col-lg-2 control-label">Username:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="id_username" maxlength="254" name="username"
+                           placeholder="User"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email" class="col-lg-2 control-label">Email:</label>
+                <div class="col-lg-10">
+                    <input class="form-control" id="id_email" maxlength="254" name="email" type="email"
+                           placeholder="Email"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password" class="col-lg-2 control-label">Password:</label>
+                <div class="col-lg-10">
+                    <input type="password" class="form-control" name="password" id="id_password"
+                           placeholder="Password"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <a href="{% url 'home' %}" type="reset" class="btn btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-primary" value="Register">Register</button>
+                </div>
+            </div>
+        </fieldset>
     </form>
 {% endblock %}
-</body>
-</html>
