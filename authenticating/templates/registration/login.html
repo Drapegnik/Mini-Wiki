@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}" type="text/css"><link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
 {% block content %}
 
     {% if form.errors %}
@@ -21,27 +14,36 @@
         {% endif %}
     {% endif %}
 
-    <form class="form" method="post" action="{% url 'login' %}">
+    <form class="form-horizontal" method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-        </table>
+        <fieldset>
+            <div class="form-group">
+                <label for="id_username" class="col-lg-2 control-label">Username:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="id_username" maxlength="254" name="username"
+                           placeholder="User"/>
+                </div>
+            </div>
 
-        <input class="myButton" type="submit" value="login"/>
-        <input type="hidden" name="next" value="{{ next }}"/>
-        {# Assumes you setup the password_reset view in your URLconf #}
-        <a class="myButton" href="{% url 'password_reset' %}">Lost password?</a>
+            <div class="form-group">
+                <label for="id_password" class="col-lg-2 control-label">Password:</label>
+                <div class="col-lg-10">
+                    <input type="password" class="form-control" name="password" id="id_password"
+                           placeholder="Password"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <a href="{% url 'home' %}" type="reset" class="btn btn-default">Cancel</a>
+                    <a href="/password_reset/" class="btn btn-info">Lost password?</a>
+                    <button type="submit" class="btn btn-primary" value="login">Login</button>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </div>
+            </div>
+        </fieldset>
     </form>
 
 
-
 {% endblock %}
-</body>
-</html>
