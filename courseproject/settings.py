@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authenticating',
+    'app',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -83,6 +84,12 @@ DATABASES = {
            'read_default_file': 'courseproject/my.cnf',
        },
    }
+}
+
+CLOUDINARY = {
+  'cloud_name': 'ddde4c88o',
+  'api_key': '825896387814594',
+  'api_secret': '053LWsq0SI83Lom6OZKfTLnZbLw',
 }
 
 
