@@ -12,3 +12,4 @@
 ;;directories to ignore
 .idea/
 courseproject/my.cnf
+authenticating/migrations/
