@@ -42,15 +42,15 @@
                     <button type="submit" class="btn btn-primary" value="login">{% trans 'Log in' %}</button>
                     <input type="hidden" name="next" value="{{ next }}"/>
 
-                    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" title="Login with Facebook">
+                    <a href="{% url 'social:begin' 'facebook' %}" title="Login with Facebook">
                         {% load staticfiles %}
                         <img src="{% static 'icons/icon_fb.png' %}" alt="Login with Facebook" style="width: 100px">
                     </a>
-                    <a href="{% url 'social:begin' 'vk-oauth2' %}?next={{ request.path }}" title="Login with VK">
+                    <a href="{% url 'social:begin' 'vk-oauth2' %}" title="Login with VK">
                         {% load staticfiles %}
                         <img src="{% static 'icons/icon_vk.png' %}" alt="Login with VK" style="width: 100px">
                     </a>
-                    <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}" title="Login with Twitter">
+                    <a href="{% url 'social:begin' 'twitter' %}" title="Login with Twitter">
                         {% load staticfiles %}
                         <img src="{% static 'icons/icon_twitter.png' %}" alt="Login with Twitter" style="width: 100px">
                     </a>

@@ -1,5 +1,6 @@
 from django.db import models
 from courseproject import settings
+from tagging.fields import TagField
 
 
 class Theme(models.Model):
@@ -25,6 +26,7 @@ class Publication(models.Model):
     rate = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
+    tag = TagField()
 
     def __str__(self):
         return self.header + u'. Author: %s' % self.username

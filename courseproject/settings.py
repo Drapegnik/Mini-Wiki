@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'app',
     'authenticating',
     'social.apps.django_app.default',
+    'tagging',
 ]
+
+FORCE_LOWERCASE_TAGS = True
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.email.EmailAuth',
@@ -186,9 +189,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.get_username',
     'social.pipeline.partial.save_status_to_session',
     'authenticating.validation.require_email',
-    'social.pipeline.social_auth.associate_by_email',  # <--- enable this one
+    'social.pipeline.social_auth.associate_by_email',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
 )
+
