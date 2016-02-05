@@ -7,11 +7,11 @@ from django.contrib import admin
 class AccountAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'location', 'gender', 'about', 'theme', 'created_at', 'updated_at', 'id')
     fieldsets = [
-        ('Basic',            {'fields': ['username', 'email', 'password', 'is_admin']}),
+        ('Basic', {'fields': ['username', 'email', 'password', 'is_admin']}),
         ('User information', {'fields': ['location', 'gender', 'about', 'theme', 'photo']}),
         ('Date information', {'fields': ['last_login']}),
     ]
-    #list_filter = ['id']
+    # list_filter = ['id']
 
 
 admin.site.register(Account, AccountAdmin)
