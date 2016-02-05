@@ -11,6 +11,5 @@ class AccountAdmin(admin.ModelAdmin):
         ('User information', {'fields': ['location', 'gender', 'about', 'theme', 'photo']}),
         ('Date information', {'fields': ['last_login']}),
     ]
-    list_filter = ['id']
 
 admin.site.register(Account, AccountAdmin)

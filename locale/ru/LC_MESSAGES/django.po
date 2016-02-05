@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-05 16:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: authenticating/templates/registration/login.html:22
+#: authenticating/templates/registration/login.html:25
+#: authenticating/templates/registration/register.html:9
+#: authenticating/templates/registration/register.html:12
+msgid "User"
+msgstr ""
+
+#: authenticating/templates/registration/login.html:30
+#: authenticating/templates/registration/login.html:33
+#: authenticating/templates/registration/register.html:25
+#: authenticating/templates/registration/register.html:28
+msgid "Password"
+msgstr ""
+
+#: authenticating/templates/registration/login.html:40
+#: authenticating/templates/registration/register.html:35
+msgid "Cancel"
+msgstr "Отмена"
+
+#: authenticating/templates/registration/login.html:41
+msgid "Lost password"
+msgstr "Забыли пароль"
+
+#: authenticating/templates/registration/login.html:42 templates/base.html:37
+msgid "Log in"
+msgstr ""
+
+#: courseproject/settings.py:133
+msgid "Russian"
+msgstr "Русский"
+
+#: templates/base.html:38
+msgid "Sign up"
+msgstr "Регистрация"
+
+#: templates/base.html:43 templates/base.html.py:45
+msgid "Search"
+msgstr ""
+
+#: templates/base.html:50
+msgid "Log out"
+msgstr ""

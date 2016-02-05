@@ -26,8 +26,8 @@ SECRET_KEY = '$qu71e3&tu8y%dzf7)o=0pkwxxq!cjgss$1buo0=y%d9vwum(d'
 DEBUG = True
 
 ALLOWED_HOSTS = (
-   'localhost',
-   '127.0.0.1',
+    'localhost',
+    '127.0.0.1',
 )
 
 APPEND_SLASH = True
@@ -131,6 +131,10 @@ LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
     ('ru', _('Russian')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
 )
 
 TIME_ZONE = 'Europe/Moscow'
