@@ -8,11 +8,11 @@ from app.models import Category
 def home(request):
     context_dict = {}
     try:
-        category = Category.objects.all()
-        context_dict['categories'] = category.Category
+        category = Category.objects.order_by('name')
+        context_dict['categories'] = category
     except Category.DoesNotExist:
         pass
-    return render(request, 'base.html',context_dict)
+    return render(request, 'home.html',context_dict)
 
 
 def user_profile(request, user_id):
