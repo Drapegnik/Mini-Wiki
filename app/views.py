@@ -5,7 +5,7 @@ from authenticating.models import Account, Theme
 # Create your views here.
 
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 
 def user_profile(request, user_id):
