@@ -4,26 +4,26 @@
 
     <form class="form-horizontal" method="post" action="{% url 'register' %}">
         {% csrf_token %}
-        <fieldset>
+        <fieldset class="col-md-5">
             <div class="form-group">
-                <label for="id_username" class="col-lg-2 control-label">{% trans 'User' %}:</label>
-                <div class="col-lg-10">
+                <label for="id_username" class="col-lg-4 control-label">{% trans 'User' %}:</label>
+                <div class="col-lg-8">
                     <input type="text" class="form-control" id="id_username" maxlength="254" name="username"
                            placeholder="{% trans 'User' %}"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="id_email" class="col-lg-2 control-label">Email:</label>
-                <div class="col-lg-10">
+                <label for="id_email" class="col-lg-4 control-label">Email:</label>
+                <div class="col-lg-8">
                     <input class="form-control" id="id_email" maxlength="254" name="email" type="email"
                            placeholder="Email"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="id_password" class="col-lg-2 control-label">{% trans 'Password' %}:</label>
-                <div class="col-lg-10">
+                <label for="id_password" class="col-lg-4 control-label">{% trans 'Password' %}:</label>
+                <div class="col-lg-8">
                     <input type="password" class="form-control" name="password" id="id_password"
                            placeholder="{% trans 'Password' %}"/>
                 </div>
@@ -31,10 +31,25 @@
 
 
             <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
+                <div class="col-lg-10 col-lg-offset-4">
                     <a href="{% url 'home' %}" type="reset" class="btn btn-default">{% trans 'Cancel' %}</a>
                     <button type="submit" class="btn btn-primary" value="Register">OK</button>
                 </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="col-md-3">
+            <div>
+
+                <a href="{% url 'social:begin' 'twitter' %}" class="btn btn-block btn-social btn-twitter">
+                    <span class="fa fa-twitter"></span> {% trans 'Sign up with' %} Twitter
+                </a>
+                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-social btn-facebook">
+                    <span class="fa fa-facebook"></span> {% trans 'Sign up with' %} Facebook
+                </a>
+                <a href="{% url 'social:begin' 'vk-oauth2' %}" class="btn btn-block btn-social btn-vk">
+                    <span class="fa fa-vk"></span> {% trans 'Sign up with' %} VK
+                </a>
             </div>
         </fieldset>
     </form>

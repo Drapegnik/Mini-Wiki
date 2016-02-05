@@ -15,53 +15,50 @@
         {% endif %}
     {% endif %}
 
-    <div class="col-md-6">
-        <form class="form-horizontal" method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <fieldset>
-                <div class="form-group">
-                    <label for="id_username" class="col-lg-2 control-label">{% trans 'User' %}:</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="id_username" maxlength="254" name="username"
-                               placeholder="{% trans 'User' %}"/>
-                    </div>
+    <form class="form-horizontal" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <fieldset class="col-md-5">
+            <div class="form-group">
+                <label for="id_username" class="col-lg-4 control-label">{% trans 'User' %}:</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="id_username" maxlength="254" name="username"
+                           placeholder="{% trans 'User' %}"/>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="id_password" class="col-lg-2 control-label">{% trans 'Password' %}:</label>
-                    <div class="col-lg-10">
-                        <input type="password" class="form-control" name="password" id="id_password"
-                               placeholder="{% trans 'Password' %}"/>
-                    </div>
+            <div class="form-group">
+                <label for="id_password" class="col-lg-4 control-label">{% trans 'Password' %}:</label>
+                <div class="col-lg-8">
+                    <input type="password" class="form-control" name="password" id="id_password"
+                           placeholder="{% trans 'Password' %}"/>
                 </div>
+            </div>
 
 
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <a href="{% url 'home' %}" type="reset" class="btn btn-default">{% trans 'Cancel' %}</a>
-                        <a href="/password_reset/" class="btn btn-info">{% trans 'Lost password' %}?</a>
-                        <button type="submit" class="btn btn-primary" value="login">{% trans 'Log in' %}</button>
-                        <input type="hidden" name="next" value="{{ next }}"/>
-                    </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-4">
+                    <a href="{% url 'home' %}" type="reset" class="btn btn-default">{% trans 'Cancel' %}</a>
+                    <a href="/password_reset/" class="btn btn-info">{% trans 'Lost password' %}?</a>
+                    <button type="submit" class="btn btn-primary" value="login">{% trans 'Log in' %}</button>
+                    <input type="hidden" name="next" value="{{ next }}"/>
                 </div>
-            </fieldset>
-        </form>
-    </div>
+            </div>
+        </fieldset>
+        <fieldset class="col-md-3">
+            <div>
 
-    <div class="col-md-6">
-        <a href="{% url 'social:begin' 'facebook' %}" title="Login with Facebook">
-            {% load staticfiles %}
-            <img src="{% static 'icons/icon_fb.png' %}" alt="Login with Facebook" style="width: 50px">
-        </a>
-        <a href="{% url 'social:begin' 'vk-oauth2' %}" title="Login with VK">
-            {% load staticfiles %}
-            <img src="{% static 'icons/icon_vk.png' %}" alt="Login with VK" style="width: 50px">
-        </a>
-        <a href="{% url 'social:begin' 'twitter' %}" title="Login with Twitter">
-            {% load staticfiles %}
-            <img src="{% static 'icons/icon_twitter.png' %}" alt="Login with Twitter" style="width: 50px">
-        </a>
-    </div>
+                <a href="{% url 'social:begin' 'twitter' %}" class="btn btn-block btn-social btn-twitter">
+                    <span class="fa fa-twitter"></span> {% trans 'Sign in with' %} Twitter
+                </a>
+                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-social btn-facebook">
+                    <span class="fa fa-facebook"></span> {% trans 'Sign in with' %} Facebook
+                </a>
+                <a href="{% url 'social:begin' 'vk-oauth2' %}" class="btn btn-block btn-social btn-vk">
+                    <span class="fa fa-vk"></span> {% trans 'Sign in with' %} VK
+                </a>
+            </div>
+        </fieldset>
+    </form>
 
 
 {% endblock %}

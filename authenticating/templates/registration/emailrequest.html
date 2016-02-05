@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <form class="form-horizontal" action="{% url "social:complete" backend=backend %}" method="post" role="form">
+        {% csrf_token %}
+        <fieldset class="col-md-5">
+            <h2 class="col-lg-offset-1 text-warning">{% trans 'Please, enter you email'%}.</h2>
+            <div class="form-group">
+                <label for="id_email" class=" col-lg-offset-1 col-lg-2 control-label">Email:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="id_email" maxlength="254" name="email" type="email"
+                           placeholder="Email"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-3">
+                    <a href="{% url 'home' %}" type="reset" class="btn btn-default">{% trans 'Cancel' %}</a>
+                    <button type="submit" class="btn btn-primary" value="Register">OK</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

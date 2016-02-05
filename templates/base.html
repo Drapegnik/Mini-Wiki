@@ -6,11 +6,16 @@
     <title>Course Project</title>
 
     <!-- Bootstrap -->
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'styles/bootstrap-social.css' %}" type="text/css">
     {% if user.is_authenticated %}
         <link rel="stylesheet" href="{{ user.theme.cssLink }}" type="text/css">
     {% else %}
         <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css" type="text/css">
     {% endif %}
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- CSS -->
     {% load staticfiles %}
@@ -32,7 +37,6 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                {#<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>#}
                 {% if not user.is_authenticated %}
                     <li><a href="/login/">{% trans 'Log in' %}</a></li>
                     <li><a href="/register/">{% trans 'Sign up' %}</a></li>
