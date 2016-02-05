@@ -35,8 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'authenticating',
     'app',
+    'authenticating',
     'social.apps.django_app.default',
 ]
 
@@ -80,6 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'read_default_file': 'courseproject/my.cnf',
+            "init_command": "SET foreign_key_checks = 0;",
         },
     }
 }

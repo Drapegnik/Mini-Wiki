@@ -13,10 +13,13 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class PublicationAdmin(admin.ModelAdmin):
-    list_display = ('category', 'header', 'description', 'rate', 'created_at', 'updated_at', 'id')
+    list_display = ('username', 'category', 'header', 'description', 'rate', 'created_at', 'updated_at', 'id')
+    list_filter = ['rate']
+
 
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ('publication', 'text', 'rate', 'created_at', 'updated_at',  'id')
+    list_display = ('username', 'publication', 'text', 'rate', 'created_at', 'updated_at', 'id')
+    list_filter = ['rate']
 
 
 admin.site.register(Theme, ThemeAdmin)

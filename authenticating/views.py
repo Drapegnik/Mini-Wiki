@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from authenticating.forms import RegistrationForm
-from django.shortcuts import redirect
+from .models import Account
 
 
 # Create your views here.
@@ -11,7 +10,8 @@ def registration(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            User.objects.create_user(form.cleaned_data['username'], form.cleaned_data['password'])
+            Account.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'],
+                                        form.cleaned_data['password'])
         return redirect(reverse('login'))
     else:
         form = RegistrationForm()

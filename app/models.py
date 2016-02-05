@@ -1,6 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.utils import timezone
 from courseproject import settings
 
 
@@ -20,7 +18,7 @@ class Category(models.Model):
 
 
 class Publication(models.Model):
-   # user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL)
     category = models.ForeignKey(Category)
     header = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
@@ -29,11 +27,11 @@ class Publication(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
 
     def __str__(self):
-        return self.header + u'. Author: %s' % self.user.username
+        return self.header + u'. Author: %s' % self.username
 
 
 class Comments(models.Model):
-   # user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL)
     publication = models.ForeignKey(Publication)
     text = models.CharField(max_length=500)
     rate = models.IntegerField(default=0)
@@ -41,4 +39,4 @@ class Comments(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
 
     def __str__(self):
-        return u'. Comment to: %s' % self.publication.header + u'. Author: %s' % self.user.username
+        return u'. Comment to: %s' % self.publication.header + u'. Author: %s' % self.username

@@ -1,30 +1,29 @@
 from django.db import models
 from app.models import Theme
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from cloudinary.models import CloudinaryField
+from django.utils import timezone
 
 
 # Create your models here.
 
 class AccountManager(BaseUserManager):
-    def create_user(self, email, password=None, **kwargs):
+    def create_user(self, username, email, password=None, **kwargs):
+        if not username:
+            raise ValueError('Users must have a valid username.')
+
         if not email:
             raise ValueError('Users must have a valid email address.')
 
-        if not kwargs.get('username'):
-            raise ValueError('Users must have a valid username.')
-
-        account = self.model(email=self.normalize_email(email), username=kwargs.get('username'))
+        account = self.model(username=username, email=self.normalize_email(email))
 
         account.set_password(password)
         account.save()
 
         return account
 
-    def create_superuser(self, email, password, **kwargs):
-        account = self.create_user(email, password, **kwargs)
+    def create_superuser(self, username, email, password, **kwargs):
+        account = self.create_user(username, email, password, **kwargs)
 
         account.is_admin = True
         account.save()
@@ -39,17 +38,37 @@ class Account(AbstractBaseUser):
     gender = models.CharField(max_length=140, blank=True)
     about = models.CharField(max_length=500, blank=True)
     photo = CloudinaryField('image', blank=True)
-    #theme = models.ForeignKey(Theme)
+    theme = models.ForeignKey(Theme, default=1)
 
     is_admin = models.BooleanField(default=False)
 
-    created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False, blank=True)
+    updated_at = models.DateTimeField(default=timezone.now, editable=False, blank=True)
 
     objects = AccountManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
-        return u'Profile of user: %s' % self.user.username
+        return self.username
+
+    def get_full_name(self):
+        return self.username
+
+    def get_short_name(self):
+        return self.username
+
+    @property
+    def is_superuser(self):
+        return self.is_admin
+
+    @property
+    def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin

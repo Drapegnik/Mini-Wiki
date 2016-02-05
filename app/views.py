@@ -6,7 +6,7 @@ from authenticating.models import Account, Theme
 
 def home(request):
     if request.user.is_authenticated():
-        themeid = Account.objects.filter(user=request.user).values_list('theme')
+        themeid = Account.objects.filter(username=request.user.username).values_list('theme')
         if (themeid):
             param = {'logined': 1, 'username': request.user.username,
                      'csslink': Theme.objects.filter(id=themeid).values_list('cssLink')[0][0]}
