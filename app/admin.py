@@ -1,7 +1,7 @@
 from django.contrib import admin
 from app.models import Theme, Category,Publication, Comment
 
-# Register your models here.
+#Register your models here.
 
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('name', 'cssLink', 'id')

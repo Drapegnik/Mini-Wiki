@@ -40,6 +40,14 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'social.backends.email.EmailAuth',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.vk.VKOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -135,3 +143,35 @@ LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'authenticating.Account'
 
+SOCIAL_AUTH_FACEBOOK_KEY = '1535977566730515'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'a03844bd78d9a5f0a5250f1f322e3698'
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email',
+}
+
+SOCIAL_AUTH_TWITTER_KEY = 'G02HMDVWrZPpu30LdGYwdL6ys'
+SOCIAL_AUTH_TWITTER_SECRET = 'gxAKBOaphHEqk9EJAyyO3H9QeBwmUtMnS61hmswrsYZTr3ql6f'
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '5273473'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'sTlBabmS9rx8laZSJpMH'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = [
+    'email',
+]
+SOCIAL_AUTH_VK_EXTRA_DATA = [
+    ('email', 'email'),
+]
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',  # <--- enable this one
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
