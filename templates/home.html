@@ -3,19 +3,29 @@
 {% load tagging_tags %}
 {% block content %}
     <div ng-controller="PublicationController as ctrl">
-        <div>
-            <div class="col-md-2">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{% trans 'Categories' %}</h3>
-                    </div>
-                    <div class="list-group">
-                        {% for category in categories %}
-                            <a href="#{{ category.name }}" ng-click="ctrl.setFilter({{ category.id }})" class="list-group-item">{% trans category.name %}</a>
-                        {% endfor %}
-                    </div>
+        <div class="col-md-2">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Categories' %}</h3>
+                </div>
+                <div class="list-group">
+                    {% for category in categories %}
+                        <a href="#{{ category.name }}" ng-click="ctrl.setFilter({{ category.id }})"
+                           class="list-group-item">{% trans category.name %}</a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+
+        <div class="col-md-10" ng-repeat="publication in ctrl.publications track by $index">
+            {% verbatim %}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ publication.header }}</h3>
+                </div>
+            </div>
+            {% endverbatim %}
+        </div>
+
     </div>
 {% endblock %}
