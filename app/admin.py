@@ -1,10 +1,16 @@
 from django.contrib import admin
-from app.models import Theme, Category,Publication, Comment
 from tagging.registry import register
+from app.models import *
 
+
+# Register your models here.
 
 class ThemeAdmin(admin.ModelAdmin):
     list_display = ('name', 'cssLink', 'id')
+
+
+class LanguageAdmin(admin.ModelAdmin):
+   list_display = ('name', 'id')
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -22,6 +28,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Theme, ThemeAdmin)
+admin.site.register(Language, LanguageAdmin)
 admin.site.register(Category, CategoryAdmin)
 register(Publication)
 admin.site.register(Publication, PublicationAdmin)

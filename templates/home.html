@@ -3,21 +3,19 @@
 {% load tagging_tags %}
 {% block content %}
     <div ng-controller="PublicationController as ctrl">
-        <div class="col-md-2">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">
-                    {% trans 'Categories' %}
-                </a>
-                {% for category in categories %}
-                    <a href="#{{ category.id }}" ng-click="ctrl.setFilter({{ category.id }})"
-                       class="list-group-item">{% trans category.name %}</a>
-                {% endfor %}
+        <div>
+            <div class="col-md-2">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans 'Categories' %}</h3>
+                    </div>
+                    <div class="list-group">
+                        {% for category in categories %}
+                            <a href="#{{ category.name }}" ng-click="ctrl.setFilter({{ category.id }})" class="list-group-item">{% trans category.name %}</a>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div>
-
-        </div>
     </div>
-
 {% endblock %}

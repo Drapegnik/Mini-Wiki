@@ -1,4 +1,101 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
-    you settings
+    <form class="form-horizontal" method="post" action="{% url 'profile-settings' user.id %}"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="col-md-4 col-md-offset-1" id="phototab">
+            <div id="photoitem">
+                <img class="img-responsive img-thumbnail" src="{{ user.photo.build_url }}"/>
+            </div>
+                <span id="photobutton" class="col-md-12 col-xs-12 btn btn-default btn-file">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        {% trans 'clik or drop image here' %}
+                        <input id="id_photo" name="photo" type="file" accept="image/*">
+                </span>
+        </fieldset>
+        <fieldset class="col-md-5">
+            <div class="form-group">
+                <label for="id_username" class="col-lg-4 control-label">{% trans 'User' %}:</label>
+                <div class="col-lg-8">
+                    <input type="text" disabled class="form-control" id="id_username" maxlength="254" name="username"
+                           placeholder="{% trans 'User' %}" value="{{ user.username }}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email" class="col-lg-4 control-label">Email:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="id_email" disabled maxlength="254" name="email" type="email"
+                           placeholder="Email" value="{{ user.email }}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_gender" class="col-lg-4 control-label">{% trans "Gender" %}:</label>
+                <div class="col-lg-8 selectlist">
+                    <select class="form-control col-lg-8" size="1" name="gender">
+                        {% for val in selectgender %}
+                            <option value="{{ val }}"
+                                    {% if val == user.gender %}
+                                    selected="selected"
+                                    {% elif val == 'select' %}
+                                    selected="selected" disabled="disabled"
+                                    {% endif %}>{% trans val %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_location" class="col-lg-4 control-label">{% trans 'Location' %}:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="id_location" maxlength="140" name="location"
+                           placeholder="{% trans 'Location' %}" value="{{ user.about }}" type="text"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_about" class="col-lg-4 control-label">{% trans 'About' %}:</label>
+                <div class="col-lg-8">
+                    <textarea class="form-control" id="id_about" maxlength="500" name="about"
+                              placeholder="{% trans 'About' %}">{{ user.about }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_theme" class="col-lg-4 control-label">{% trans "Theme" %}:</label>
+                <div class="col-lg-8">
+                    {% for val in themes %}
+                        <label class="radio-inline">
+                            <input id="id_theme" type="radio" name="theme" value="{{ val.name }}"
+                                    {% if val.name == user.theme.name %}
+                                   checked="checked"
+                                    {% endif %}/>{% trans val.name %}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_language" class="col-lg-4 control-label">{% trans "Language" %}:</label>
+                <div class="col-lg-8 selectlist">
+                    <select id="id_language" class="form-control col-lg-8" size="1" name="language">
+                        {% for val in selectlang %}
+                            <option value="{{ val.name }}"
+                                    {% if val.name == user.language.name %}
+                                    selected="selected"
+                                    {% endif %}>{% trans val.name %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-4">
+                    <a href="{% url 'home' %}" type="reset" class="btn btn-default">{% trans 'Cancel' %}</a>
+                    <button type="submit" class="btn btn-primary" value="Register">OK</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}
