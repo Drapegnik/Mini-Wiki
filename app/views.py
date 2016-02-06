@@ -9,7 +9,6 @@ from authenticating.forms import AccountForm, PhotoForm
 import cloudinary
 
 
-
 # Create your views here.
 
 def home(request):
@@ -37,12 +36,11 @@ def profile_settings(request, user_id):
         obj.location = request.POST.get('location')
         obj.gender = request.POST.get('gender')
         obj.about = request.POST.get('about')
-        obj.photo = request.FILES.get('photo')
+        if (request.POST.get('photo') != ''):
+            obj.photo = request.FILES.get('photo')
         obj.theme = Theme.objects.filter(name=request.POST.get('theme'))[0]
         obj.language = Language.objects.filter(name=request.POST.get('language'))[0]
         obj.save()
-        print(PhotoForm())
-        print(request.FILES)
         return redirect(reverse('home'))
 
 
@@ -57,4 +55,3 @@ def getPublications(request):
             publications.values('username', 'category', 'header', 'description', 'rate', 'created_at',
                                 'tag'))))
     return response
-
