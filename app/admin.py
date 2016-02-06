@@ -1,8 +1,6 @@
 from django.contrib import admin
 from app.models import Theme, Category,Publication, Comment
-
-#Register your models here.
-
+from tagging.registry import register
 
 
 class ThemeAdmin(admin.ModelAdmin):
@@ -25,5 +23,6 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Theme, ThemeAdmin)
 admin.site.register(Category, CategoryAdmin)
+register(Publication)
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Comment, CommentAdmin)

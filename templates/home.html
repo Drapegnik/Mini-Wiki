@@ -2,14 +2,22 @@
 {% load i18n %}
 {% load tagging_tags %}
 {% block content %}
-    <div class="col-md-2">
-        <div class="list-group">
-            <a href="#" class="list-group-item active">
-                {% trans 'Categories' %}
-            </a>
-            {% for category in categories %}
-                <a href="#{{ category.name  }}" class="list-group-item">{% trans category.name %}</a>
-            {% endfor %}
+    <div ng-controller="PublicationController as ctrl">
+        <div class="col-md-2">
+            <div class="list-group">
+                <a href="#" class="list-group-item active">
+                    {% trans 'Categories' %}
+                </a>
+                {% for category in categories %}
+                    <a href="#{{ category.id }}" ng-click="ctrl.setFilter({{ category.id }})"
+                       class="list-group-item">{% trans category.name %}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+
         </div>
     </div>
+
 {% endblock %}
