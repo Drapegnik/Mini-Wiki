@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-05 16:51+0300\n"
+"POT-Creation-Date: 2016-02-05 22:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: authenticating/templates/registration/emailrequest.html:8
+msgid "Please, enter you email"
+msgstr "Пожалуйста, введите ваш email"
+
+#: authenticating/templates/registration/emailrequest.html:19
+#: authenticating/templates/registration/login.html:40
+#: authenticating/templates/registration/register.html:35
+msgid "Cancel"
+msgstr "Отмена"
 
 #: authenticating/templates/registration/login.html:22
 #: authenticating/templates/registration/login.html:25
@@ -34,31 +44,49 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: authenticating/templates/registration/login.html:40
-#: authenticating/templates/registration/register.html:35
-msgid "Cancel"
-msgstr "Отмена"
-
 #: authenticating/templates/registration/login.html:41
 msgid "Lost password"
 msgstr "Забыли пароль"
 
-#: authenticating/templates/registration/login.html:42 templates/base.html:37
+#: authenticating/templates/registration/login.html:42 templates/base.html:41
 msgid "Log in"
 msgstr ""
 
-#: courseproject/settings.py:133
+#: authenticating/templates/registration/login.html:51
+#: authenticating/templates/registration/login.html:54
+#: authenticating/templates/registration/login.html:57
+
+msgid "Sign in with"
+msgstr "Войти через"
+
+#: authenticating/templates/registration/register.html:45
+#: authenticating/templates/registration/register.html:48
+#: authenticating/templates/registration/register.html:51
+
+#: courseproject/settings.py:136
 msgid "Russian"
 msgstr "Русский"
 
-#: templates/base.html:38
+#: templates/base.html:42
 msgid "Sign up"
 msgstr "Регистрация"
 
-#: templates/base.html:43 templates/base.html.py:45
+#: templates/base.html:47 templates/base.html.py:49
 msgid "Search"
 msgstr ""
 
-#: templates/base.html:50
+#: templates/base.html:57
+msgid "Profile"
+msgstr "Профиль"
+
+#: templates/base.html:58
+msgid "Profile settings"
+msgstr "Настройки профиля"
+
+#: templates/base.html:60
 msgid "Log out"
 msgstr ""
+
+#: templates/home.html:8
+msgid "Categories"
+msgstr "Категории"

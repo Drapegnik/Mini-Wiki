@@ -1,5 +1,5 @@
 from django.db import models
-from app.models import Theme
+from app.models import Theme, Language
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from cloudinary.models import CloudinaryField
 from django.utils import timezone
@@ -19,7 +19,6 @@ class AccountManager(BaseUserManager):
 
         account.set_password(password)
         account.save()
-
         return account
 
     def create_superuser(self, username, email, password, **kwargs):
@@ -39,6 +38,7 @@ class Account(AbstractBaseUser):
     about = models.CharField(max_length=500, blank=True)
     photo = CloudinaryField('image', blank=True)
     theme = models.ForeignKey(Theme, default=1)
+    language = models.ForeignKey(Language, default=1)
 
     is_admin = models.BooleanField(default=False)
 

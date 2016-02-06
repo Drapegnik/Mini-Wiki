@@ -11,12 +11,18 @@ class Theme(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Language(models.Model):
     name = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
         return self.name
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Publication(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL)
