@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'', include('authenticating.urls')),
     url(r'', include('app.urls')),
-    url(r'^emailrequired/',acquire_email,name='acquire_email'),
+    url(r'^emailrequired/', acquire_email, name='acquire_email'),
 ]

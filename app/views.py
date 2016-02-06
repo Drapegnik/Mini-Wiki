@@ -1,6 +1,9 @@
-from django.shortcuts import render
-from authenticating.models import Account, Theme
+from django.core.urlresolvers import reverse
+from django.shortcuts import render, redirect
+from authenticating.models import Account, Theme, Language
 from app.models import Category
+from authenticating.forms import AccountForm, PhotoForm
+import cloudinary
 
 
 # Create your views here.
@@ -12,7 +15,7 @@ def home(request):
         context_dict['categories'] = category
     except Category.DoesNotExist:
         pass
-    return render(request, 'home.html',context_dict)
+    return render(request, 'home.html', context_dict)
 
 
 def user_profile(request, user_id):
@@ -20,4 +23,20 @@ def user_profile(request, user_id):
 
 
 def profile_settings(request, user_id):
-    return render(request, 'profile_settings.html')
+    if request.method == 'GET':
+        return render(request, 'profile_settings.html',
+                      {'selectgender': ['select', 'Male', 'Female'],
+                       'themes': Theme.objects.all(),
+                       'selectlang': Language.objects.all()})
+    else:
+        obj = Account.objects.filter(id=request.user.id)[0]
+        obj.location = request.POST.get('location')
+        obj.gender = request.POST.get('gender')
+        obj.about = request.POST.get('about')
+        obj.photo = request.FILES.get('photo')
+        obj.theme = Theme.objects.filter(name=request.POST.get('theme'))[0]
+        obj.language = Language.objects.filter(name=request.POST.get('language'))[0]
+        obj.save()
+        print(PhotoForm())
+        print(request.FILES)
+        return redirect(reverse('home'))
