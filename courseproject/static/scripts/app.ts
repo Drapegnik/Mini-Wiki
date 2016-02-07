@@ -42,11 +42,13 @@ class PublicationController {
         this.scope = $scope;
         this.filter = new Filter();
         this.publications = [];
+        this.viewProfile = false;
     }
 
     scope:ng.IScope;
     filter:Filter;
     publications:any;
+    viewProfile:boolean
 
     private http:HttpHandlerService
 

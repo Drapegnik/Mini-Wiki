@@ -33,6 +33,7 @@ var PublicationController = (function () {
         this.scope = $scope;
         this.filter = new Filter();
         this.publications = [];
+        this.viewProfile = false;
     }
     PublicationController.prototype.setFilter = function (categoryId, userId) {
         var _this = this;
