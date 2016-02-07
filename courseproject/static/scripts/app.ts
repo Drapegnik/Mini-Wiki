@@ -1,5 +1,4 @@
 /// <reference path="angular.d.ts"/>
-/// <reference path="types.ts"/>
 class Filter {
     userId:number;
     //tags:any;
@@ -59,9 +58,14 @@ class PublicationController {
         }).then((data) => this.fillPublication(data));
 
     }
+
     private fillPublication(data:any) {
         this.publications = data.publications;
+        for (var iterartor in this.publications) {
+            this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
+        }
         console.log(this.publications);
+
     }
 
 }

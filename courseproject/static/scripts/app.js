@@ -1,5 +1,4 @@
 /// <reference path="angular.d.ts"/>
-/// <reference path="types.ts"/>
 var Filter = (function () {
     function Filter() {
     }
@@ -47,6 +46,9 @@ var PublicationController = (function () {
     };
     PublicationController.prototype.fillPublication = function (data) {
         this.publications = data.publications;
+        for (var iterartor in this.publications) {
+            this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
+        }
         console.log(this.publications);
     };
     return PublicationController;

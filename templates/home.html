@@ -19,13 +19,24 @@
 
         <div class="col-md-10" ng-repeat="publication in ctrl.publications track by $index">
             {% verbatim %}
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ publication.header }}</h3>
+            <a href="#">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ publication.header }}</h3>
+                    </div>
                 </div>
+            </a>
+            <div class="panel-body">{{ publication.description }}</div>
+            {{ publication.rate }}   {{ publication.username }}   {{ publication.created_at }} {{ publication.category }}
+            <div class=" panel-body">
+                <ul class="tags">
+                    <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
+                </ul>
             </div>
+
             {% endverbatim %}
         </div>
 
     </div>
+
 {% endblock %}
