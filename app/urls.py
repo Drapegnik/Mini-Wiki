@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from app.views import user_profile, profile_settings,getPublications
+from app.views import *
 
 urlpatterns = [
     url(r'^user/(?P<user_id>\d+)/profile/$', user_profile, name='user-profile'),

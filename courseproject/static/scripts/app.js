@@ -1,5 +1,4 @@
 /// <reference path="angular.d.ts"/>
-/// <reference path="types.ts"/>
 var Filter = (function () {
     function Filter() {
     }

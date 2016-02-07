@@ -1,5 +1,4 @@
 /// <reference path="angular.d.ts"/>
-/// <reference path="types.ts"/>
 class Filter {
     userId:number;
     //tags:any;
@@ -49,7 +48,7 @@ class PublicationController {
     filter:Filter;
     publications:any;
 
-    private http:HttpHandlerService
+    private http:HttpHandlerService;
 
     public setFilter(categoryId:number = 0, userId:number = 0) {
         this.http.handlerUrl = "publications/";
@@ -59,6 +58,7 @@ class PublicationController {
         }).then((data) => this.fillPublication(data));
 
     }
+
     private fillPublication(data:any) {
         this.publications = data.publications;
         console.log(this.publications);

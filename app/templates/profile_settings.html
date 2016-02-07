@@ -8,10 +8,15 @@
             <div id="photoitem">
                 <img class="img-responsive img-thumbnail" src="{{ user.photo.build_url }}"/>
             </div>
+            <div id="dropZone">
+                Для загрузки, перетащите файл сюда.
+            </div>
                 <span id="photobutton" class="col-md-12 col-xs-12 btn btn-default btn-file">
+                    <span class="vcenter">
                         <span class="glyphicon glyphicon-camera"></span>
                         {% trans 'clik or drop image here' %}
-                        <input id="id_photo" name="photo" type="file" accept="image/*">
+                    </span>
+                    <input id="id_photo" name="photo" type="file" accept="image/*">
                 </span>
         </fieldset>
         <fieldset class="col-md-5">
@@ -98,4 +103,9 @@
             </div>
         </fieldset>
     </form>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    {% load staticfiles %}
+    <script src="{% static 'scripts/test.js' %}"></script>
 {% endblock %}

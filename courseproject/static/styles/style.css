@@ -34,3 +34,37 @@
     cursor: inherit;
     display: inline;
 }
+
+
+#dropZone {
+    color: #555;
+    font-size: 18px;
+    text-align: center;
+
+    /*width: 400px;*/
+    /*padding: 50px 0;*/
+    /*margin: 50px auto;*/
+    height: 100px;
+
+    background: white;
+    border: 1px solid #ccc;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#dropZone.hover {
+    background: #ddd;
+    border-color: #9bcae6;
+}
+
+#dropZone.error {
+    background: #faa;
+    border-color: #f00;
+}
+
+#dropZone.drop {
+    background: #afa;
+    border-color: #0f0;
+}

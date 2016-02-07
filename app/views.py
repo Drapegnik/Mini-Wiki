@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
 from app.models import Category, Publication
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from authenticating.models import Account, Theme, Language
@@ -41,6 +42,8 @@ def profile_settings(request, user_id):
         obj.theme = Theme.objects.filter(name=request.POST.get('theme'))[0]
         obj.language = Language.objects.filter(name=request.POST.get('language'))[0]
         obj.save()
+        print(request.POST)
+        print(request.FILES)
         return redirect(reverse('home'))
 
 

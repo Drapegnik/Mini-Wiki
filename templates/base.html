@@ -2,9 +2,8 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en" ng-app="app">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script src = "{% static 'scripts/app.js' %}" ></script>
 <head>
+    <meta charset="utf-8">
     <title>Course Project</title>
 
     <!-- Bootstrap -->
@@ -72,6 +71,10 @@
 </nav>
 {% block content %}{% endblock %}
 </body>
+
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="{% static 'scripts/app.js' %}"></script>
 
 <!-- jQuery -->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
