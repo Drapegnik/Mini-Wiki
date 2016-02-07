@@ -42,11 +42,13 @@ class PublicationController {
         this.scope = $scope;
         this.filter = new Filter();
         this.publications = [];
+        this.viewProfile = false;
     }
 
     scope:ng.IScope;
     filter:Filter;
     publications:any;
+    viewProfile:boolean
 
     private http:HttpHandlerService;
 
@@ -61,7 +63,11 @@ class PublicationController {
 
     private fillPublication(data:any) {
         this.publications = data.publications;
+        for (var iterartor in this.publications) {
+            this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
+        }
         console.log(this.publications);
+
     }
 
 }

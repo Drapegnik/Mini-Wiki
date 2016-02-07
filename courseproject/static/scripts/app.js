@@ -33,6 +33,7 @@ var PublicationController = (function () {
         this.scope = $scope;
         this.filter = new Filter();
         this.publications = [];
+        this.viewProfile = false;
     }
     PublicationController.prototype.setFilter = function (categoryId, userId) {
         var _this = this;
@@ -46,6 +47,9 @@ var PublicationController = (function () {
     };
     PublicationController.prototype.fillPublication = function (data) {
         this.publications = data.publications;
+        for (var iterartor in this.publications) {
+            this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
+        }
         console.log(this.publications);
     };
     return PublicationController;

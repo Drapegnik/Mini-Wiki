@@ -47,14 +47,20 @@ def profile_settings(request, user_id):
         return redirect(reverse('home'))
 
 
+def normalizePublication(publication):
+    publication['category'] = Category.objects.get(id=publication['category']).name
+    publication['username'] = Account.objects.get(id=publication['username']).username
+
+
 def getPublications(request):
     userId = request.GET.get("userId")
     categoryId = request.GET.get("categoryId")
-    if (categoryId != 0):
+    if categoryId != 0:
         publications = Publication.objects.filter(category=categoryId)
     else:
         publications = Publication.objects.filter(username=userId)
-    response = JsonResponse(dict(publications=list(
-            publications.values('username', 'category', 'header', 'description', 'rate', 'created_at',
-                                'tag'))))
+    publicationsValues = list(publications.values('username', 'category', 'header', 'description', 'rate', 'created_at',
+                                                  'tag'))
+    for i in range(len(publicationsValues)): normalizePublication(publicationsValues[i])
+    response = JsonResponse(dict(publications=publicationsValues))
     return response
