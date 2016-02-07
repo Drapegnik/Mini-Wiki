@@ -27,7 +27,7 @@
                 </div>
             </a>
             <div class="panel-body">{{ publication.description }}</div>
-            {{ publication.rate }}   {{ publication.username }}   {{ publication.created_at }} {{ publication.category }}
+            {{ publication.rate }}   {{ publication.username }}   <span>{{publication.created_at | date:'medium'}}</span> {{ publication.category }}
             <div class=" panel-body">
                 <ul class="tags">
                     <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
