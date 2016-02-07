@@ -3,7 +3,7 @@
 {% load tagging_tags %}
 {% block content %}
     <div ng-controller="PublicationController as ctrl">
-        <div class="col-md-2" ng-show = "!ctrl.viewProfile">
+        <div class="col-md-2" ng-show="!ctrl.viewProfile">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">{% trans 'Categories' %}</h3>
@@ -17,26 +17,34 @@
             </div>
         </div>
 
-        <div class="col-md-10" ng-repeat="publication in ctrl.publications track by $index">
+        <div class="col-md-10 pull-right" ng-repeat="publication in ctrl.publications track by $index">
             {% verbatim %}
-            <a href="#">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ publication.header }}</h3>
-                    </div>
+            <div class="panel panel-success">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"><a href="#$">{{ publication.header }}</a></h3>
                 </div>
-            </a>
-            <div class="panel-body">{{ publication.description }}</div>
-            {{ publication.rate }}   {{ publication.username }}   {{publication.created_at | date:'medium'}} {{ publication.category }}
-            <div class=" panel-body">
-                <ul class="tags">
-                    <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
-                </ul>
+
+                <div class="panel-body">
+                    <div class="well">
+                        {{ publication.description }}
+                    </div>
+
+                    <ul class="breadcrumb">
+                        <li>{{publication.category }}</li>
+                        <li><span class="label label-success"><a href="#">{{ publication.username }}</a></span></li>
+                        <li class="active">{{publication.created_at | date:'medium'}}</li>
+                        <li><span class="badge">{{ publication.rate }}</span></li>
+                    </ul>
+                </div>
             </div>
+            <ul class="tags ">
+                <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
+            </ul>
 
             {% endverbatim %}
         </div>
-
     </div>
 
 {% endblock %}
+

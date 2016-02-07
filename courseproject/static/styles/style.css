@@ -1,3 +1,31 @@
+#categoryes {
+    height: 100%;
+}
+
+.well {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #18bc9c;
+}
+
+.badge {
+    background-color: #f39c12;
+    color: #2c3e50;
+}
+
+.breadcrumb {
+    margin-bottom: 0px;
+}
+
+.panel a {
+    text-decoration: none;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #2c3e50;
+}
+
 .selectlist {
     padding-top: 10px;
 }
@@ -33,38 +61,4 @@
     background: white;
     cursor: inherit;
     display: inline;
-}
-
-
-#dropZone {
-    color: #555;
-    font-size: 18px;
-    text-align: center;
-
-    /*width: 400px;*/
-    /*padding: 50px 0;*/
-    /*margin: 50px auto;*/
-    height: 100px;
-
-    background: white;
-    border: 1px solid #ccc;
-
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
-
-#dropZone.hover {
-    background: #ddd;
-    border-color: #9bcae6;
-}
-
-#dropZone.error {
-    background: #faa;
-    border-color: #f00;
-}
-
-#dropZone.drop {
-    background: #afa;
-    border-color: #0f0;
 }
