@@ -7,7 +7,7 @@
             <div id="photoitem">
                 <img id="photo" class="img-responsive img-thumbnail" src="{{ user.photo }}"/>
             </div>
-                <span id="photobutton" class="col-md-12 col-xs-12 btn btn-default btn-file">
+                <span id="dropZone" class="col-md-12 col-xs-12 btn btn-default btn-file">
                     <span class="vcenter">
                         <span class="glyphicon glyphicon-camera"></span>
                         {% trans 'cliсk or drop image here' %}
@@ -109,5 +109,4 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     {% load staticfiles %}
-    <script src="{% static 'scripts/test.js' %}"></script>
 {% endblock %}

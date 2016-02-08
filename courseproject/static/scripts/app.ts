@@ -70,20 +70,23 @@ class dragAndDrop {
         this.fileReader = new FileReader();
         this.initFileReader(this);
         this.changed = false;
+        this.prevPhoto = "";
     }
 
-    dropzone:JQuery;
-    destination:JQuery;
+    dropzone:ng.IAugmentedJQuery;
+    destination:ng.IAugmentedJQuery;
     scope:ng.IScope;
     file:File;
     maxFileSize:number;
-    fileReader:FileReader
-    changed:boolean
+    fileReader:FileReader;
+    changed:boolean;
+    prevPhoto:string;
 
     public init(dropzoneId:string, targetId:string) {
-        this.dropzone = $(dropzoneId);
-        this.destination = $(targetId);
+        this.dropzone = angular.element(dropzoneId);
+        this.destination = angular.element(targetId);
         this.initDropzone(this);
+        this.getPrevPhoto();
     }
 
     private initDropzone(thisObj:dragAndDrop) {
@@ -92,7 +95,7 @@ class dragAndDrop {
             return false;
         };
         this.dropzone[0].ondragleave = function () {
-            this.dropzone.removeClass('hover');
+            thisObj.dropzone.removeClass('hover');
             return false;
         };
         this.dropzone[0].ondrop = function (event) {
@@ -114,6 +117,11 @@ class dragAndDrop {
             thisObj.destination.attr('src', event.target.result);
             thisObj.changed = true;
         })
+    }
+
+    private getPrevPhoto(){
+        this.prevPhoto = this.destination.attr('src');
+        console.log(this.prevPhoto);
     }
 }
 var app = angular
