@@ -1,3 +1,4 @@
+import cloudinary
 from django.db import models
 from app.models import Theme, Language
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -36,7 +37,7 @@ class Account(AbstractBaseUser):
     location = models.CharField(max_length=140, blank=True)
     gender = models.CharField(max_length=140, blank=True)
     about = models.CharField(max_length=500, blank=True)
-    photo = CloudinaryField('image', blank=True)
+    photo = models.URLField(blank=True)
     theme = models.ForeignKey(Theme, default=1)
     language = models.ForeignKey(Language, default=1)
 

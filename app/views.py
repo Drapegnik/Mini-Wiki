@@ -35,10 +35,13 @@ def profile_settings(request, user_id):
     else:
         obj = Account.objects.filter(id=request.user.id)[0]
         obj.location = request.POST.get('location')
-        obj.gender = request.POST.get('gender')
+        print(request.POST.get('gender'))
+        if (request.POST.get('gender')):
+            obj.gender = request.POST.get('gender')
         obj.about = request.POST.get('about')
         if (request.POST.get('photo') != ''):
-            obj.photo = request.FILES.get('photo')
+            cloudinary.uploader.destroy(user_id, invalidate=True)
+            obj.photo = cloudinary.uploader.upload(request.FILES.get('photo'), public_id=user_id, invalidate=True)['url']
         obj.theme = Theme.objects.filter(name=request.POST.get('theme'))[0]
         obj.language = Language.objects.filter(name=request.POST.get('language'))[0]
         obj.save()
