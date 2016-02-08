@@ -57,8 +57,8 @@ var dragAndDrop = (function () {
         this.changed = false;
     }
     dragAndDrop.prototype.init = function (dropzoneId, targetId) {
-        this.dropzone = $(dropzoneId);
-        this.destination = $(targetId);
+        this.dropzone = angular.element(dropzoneId);
+        this.destination = angular.element(targetId);
         this.initDropzone(this);
     };
     dragAndDrop.prototype.initDropzone = function (thisObj) {

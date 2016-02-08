@@ -72,8 +72,8 @@ class dragAndDrop {
         this.changed = false;
     }
 
-    dropzone:JQuery;
-    destination:JQuery;
+    dropzone:ng.IAugmentedJQuery;
+    destination:ng.IAugmentedJQuery
     scope:ng.IScope;
     file:File;
     maxFileSize:number;
@@ -81,8 +81,8 @@ class dragAndDrop {
     changed:boolean
 
     public init(dropzoneId:string, targetId:string) {
-        this.dropzone = $(dropzoneId);
-        this.destination = $(targetId);
+        this.dropzone = angular.element(dropzoneId);
+        this.destination = angular.element(targetId);
         this.initDropzone(this);
     }
 
