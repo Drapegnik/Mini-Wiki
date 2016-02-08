@@ -6,15 +6,12 @@
         {% csrf_token %}
         <fieldset class="col-md-4 col-md-offset-1" id="phototab">
             <div id="photoitem">
-                <img class="img-responsive img-thumbnail" src="{{ user.photo.build_url }}"/>
-            </div>
-            <div id="dropZone">
-                Для загрузки, перетащите файл сюда.
+                <img class="img-responsive img-thumbnail" src="{{ user.photo }}"/>
             </div>
                 <span id="photobutton" class="col-md-12 col-xs-12 btn btn-default btn-file">
                     <span class="vcenter">
                         <span class="glyphicon glyphicon-camera"></span>
-                        {% trans 'clik or drop image here' %}
+                        {% trans 'cliсk or drop image here' %}
                     </span>
                     <input id="id_photo" name="photo" type="file" accept="image/*">
                 </span>
