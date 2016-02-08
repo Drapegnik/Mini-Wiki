@@ -1,6 +1,6 @@
 import cloudinary
 from django.db import models
-from app.models import Theme, Language
+from courseproject.models import Theme, Language
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from cloudinary.models import CloudinaryField
 from django.utils import timezone

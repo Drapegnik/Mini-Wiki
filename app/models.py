@@ -1,28 +1,7 @@
 from django.db import models
 from courseproject import settings
 from tagging.fields import TagField
-
-
-class Theme(models.Model):
-    name = models.CharField(max_length=150, unique=True)
-    cssLink = models.URLField()
-
-    def __str__(self):
-        return self.name
-
-
-class Language(models.Model):
-    name = models.CharField(max_length=150, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=150, unique=True)
-
-    def __str__(self):
-        return self.name
+from courseproject.models import Category
 
 class Publication(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL)

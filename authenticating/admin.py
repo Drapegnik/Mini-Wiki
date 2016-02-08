@@ -6,7 +6,7 @@ from django.contrib import admin
 
 class AccountAdmin(admin.ModelAdmin):
     list_display = (
-        'username', 'email', 'location', 'gender', 'about', 'theme', 'language', 'created_at', 'updated_at', 'id')
+        'username', 'email', 'location', 'gender', 'about', 'theme', 'language', 'created_at', 'updated_at', 'photo', 'id')
     fieldsets = [
         ('Basic', {'fields': ['username', 'email', 'password', 'is_admin']}),
         ('User information', {'fields': ['location', 'gender', 'about', 'theme', 'language', 'photo']}),

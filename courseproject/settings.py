@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'authenticating',
+    'courseproject',
     'social.apps.django_app.default',
     'tagging',
 ]
