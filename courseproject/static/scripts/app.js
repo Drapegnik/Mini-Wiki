@@ -55,11 +55,13 @@ var dragAndDrop = (function () {
         this.fileReader = new FileReader();
         this.initFileReader(this);
         this.changed = false;
+        this.prevPhoto = "";
     }
     dragAndDrop.prototype.init = function (dropzoneId, targetId) {
         this.dropzone = angular.element(dropzoneId);
         this.destination = angular.element(targetId);
         this.initDropzone(this);
+        this.getPrevPhoto();
     };
     dragAndDrop.prototype.initDropzone = function (thisObj) {
         this.dropzone[0].ondragover = function () {
@@ -67,7 +69,7 @@ var dragAndDrop = (function () {
             return false;
         };
         this.dropzone[0].ondragleave = function () {
-            this.dropzone.removeClass('hover');
+            thisObj.dropzone.removeClass('hover');
             return false;
         };
         this.dropzone[0].ondrop = function (event) {
@@ -88,6 +90,10 @@ var dragAndDrop = (function () {
             thisObj.destination.attr('src', event.target.result);
             thisObj.changed = true;
         });
+    };
+    dragAndDrop.prototype.getPrevPhoto = function () {
+        this.prevPhoto = this.destination.attr('src');
+        console.log(this.prevPhoto);
     };
     return dragAndDrop;
 })();
