@@ -1,10 +1,4 @@
 /// <reference path="angular.d.ts"/>
-class Filter {
-    userId:number;
-    //tags:any;
-    category:number;
-}
-
 
 class HttpHandlerService {
     httpService:ng.IHttpService;
@@ -40,13 +34,11 @@ class PublicationController {
                 $http:ng.IHttpService) {
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
-        this.filter = new Filter();
         this.publications = [];
         this.viewProfile = false;
     }
 
     scope:ng.IScope;
-    filter:Filter;
     publications:any;
     viewProfile:boolean
 
@@ -71,8 +63,60 @@ class PublicationController {
     }
 
 }
+class dragAndDrop {
+    constructor($scope:ng.IScope) {
+        this.scope = $scope;
+        this.maxFileSize = 5242880;
+        this.fileReader = new FileReader();
+        this.initFileReader(this);
+        this.changed = false;
+    }
 
+    dropzone:JQuery;
+    destination:JQuery;
+    scope:ng.IScope;
+    file:File;
+    maxFileSize:number;
+    fileReader:FileReader
+    changed:boolean
 
+    public init(dropzoneId:string, targetId:string) {
+        this.dropzone = $(dropzoneId);
+        this.destination = $(targetId);
+        this.initDropzone(this);
+    }
+
+    private initDropzone(thisObj:dragAndDrop) {
+        this.dropzone[0].ondragover = function () {
+            thisObj.dropzone.addClass('hover');
+            return false;
+        };
+        this.dropzone[0].ondragleave = function () {
+            this.dropzone.removeClass('hover');
+            return false;
+        };
+        this.dropzone[0].ondrop = function (event) {
+            event.preventDefault();
+            thisObj.dropzone.removeClass('hover');
+            thisObj.dropzone.addClass('drop');
+            thisObj.file = event.dataTransfer.files[0];
+            if (thisObj.file.size > thisObj.maxFileSize) {
+                thisObj.dropzone.text('Файл слишком большой!');
+                thisObj.dropzone.addClass('error');
+                return false;
+            }
+            thisObj.fileReader.readAsDataURL(thisObj.file)
+        };
+    }
+
+    private initFileReader(thisObj:dragAndDrop) {
+        this.fileReader.onload = (function (event) {
+            thisObj.destination.attr('src', event.target.result);
+            thisObj.changed = true;
+        })
+    }
+}
 var app = angular
     .module("app", [])
-    .controller("PublicationController", ["$scope", "$http", PublicationController]);
+    .controller("PublicationController", ["$scope", "$http", PublicationController])
+    .controller("dragAndDrop", ["$scope", dragAndDrop]);
