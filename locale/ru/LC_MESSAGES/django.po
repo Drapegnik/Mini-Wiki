@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-05 22:05+0300\n"
+"POT-Creation-Date: 2016-02-08 21:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,22 +20,51 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: authenticating/templates/registration/emailrequest.html:8
-msgid "Please, enter you email"
-msgstr "Пожалуйста, введите ваш email"
+#: app/templates/profile_settings.html:13
+msgid "cliсk or drop image here"
+msgstr "кликни или перетяни фото сюда"
 
-#: authenticating/templates/registration/emailrequest.html:19
-#: authenticating/templates/registration/login.html:40
-#: authenticating/templates/registration/register.html:35
-msgid "Cancel"
-msgstr "Отмена"
-
+#: app/templates/profile_settings.html:26
+#: app/templates/profile_settings.html:30
 #: authenticating/templates/registration/login.html:22
 #: authenticating/templates/registration/login.html:25
 #: authenticating/templates/registration/register.html:9
 #: authenticating/templates/registration/register.html:12
 msgid "User"
 msgstr ""
+
+#: app/templates/profile_settings.html:43
+msgid "Gender"
+msgstr ""
+
+#: app/templates/profile_settings.html:59
+#: app/templates/profile_settings.html:62
+msgid "Location"
+msgstr ""
+
+#: app/templates/profile_settings.html:67
+#: app/templates/profile_settings.html:70
+msgid "About"
+msgstr ""
+
+#: app/templates/profile_settings.html:75
+msgid "Theme"
+msgstr ""
+
+#: app/templates/profile_settings.html:88
+msgid "Language"
+msgstr ""
+
+#: app/templates/profile_settings.html:103
+#: authenticating/templates/registration/emailrequest.html:19
+#: authenticating/templates/registration/login.html:40
+#: authenticating/templates/registration/register.html:35
+msgid "Cancel"
+msgstr "Отмена"
+
+#: authenticating/templates/registration/emailrequest.html:8
+msgid "Please, enter you email"
+msgstr "Пожалуйста, введите ваш email"
 
 #: authenticating/templates/registration/login.html:30
 #: authenticating/templates/registration/login.html:33
@@ -48,45 +77,55 @@ msgstr ""
 msgid "Lost password"
 msgstr "Забыли пароль"
 
-#: authenticating/templates/registration/login.html:42 templates/base.html:41
+#: authenticating/templates/registration/login.html:42 templates/base.html:46
 msgid "Log in"
 msgstr ""
 
 #: authenticating/templates/registration/login.html:51
 #: authenticating/templates/registration/login.html:54
 #: authenticating/templates/registration/login.html:57
-
-msgid "Sign in with"
-msgstr "Войти через"
-
 #: authenticating/templates/registration/register.html:45
 #: authenticating/templates/registration/register.html:48
 #: authenticating/templates/registration/register.html:51
+msgid "Sign in with"
+msgstr "Войти через"
 
-#: courseproject/settings.py:136
+#: courseproject/settings.py:137
 msgid "Russian"
 msgstr "Русский"
 
-#: templates/base.html:42
+#: templates/base.html:47
 msgid "Sign up"
 msgstr "Регистрация"
 
-#: templates/base.html:47 templates/base.html.py:49
+#: templates/base.html:52 templates/base.html.py:54
 msgid "Search"
 msgstr ""
 
-#: templates/base.html:57
+#: templates/base.html:68
 msgid "Profile"
 msgstr "Профиль"
 
-#: templates/base.html:58
+#: templates/base.html:69
 msgid "Profile settings"
 msgstr "Настройки профиля"
 
-#: templates/base.html:60
+#: templates/base.html:71
 msgid "Log out"
 msgstr ""
 
-#: templates/home.html:8
+#: templates/home.html:9
 msgid "Categories"
 msgstr "Категории"
+
+msgid "Programming"
+msgstr "Программирование"
+
+msgid "Biology"
+msgstr "Биология"
+
+msgid "Chemistry"
+msgstr "Химия"
+
+msgid "Physics"
+msgstr "Физика"
