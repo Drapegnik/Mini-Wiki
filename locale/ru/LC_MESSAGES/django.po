@@ -35,25 +35,25 @@ msgstr ""
 
 #: app/templates/profile_settings.html:43
 msgid "Gender"
-msgstr ""
+msgstr "Пол"
 
 #: app/templates/profile_settings.html:59
 #: app/templates/profile_settings.html:62
 msgid "Location"
-msgstr ""
+msgstr "Местоположение"
 
 #: app/templates/profile_settings.html:67
 #: app/templates/profile_settings.html:70
 msgid "About"
-msgstr ""
+msgstr "О себе"
 
 #: app/templates/profile_settings.html:75
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
 #: app/templates/profile_settings.html:88
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: app/templates/profile_settings.html:103
 #: authenticating/templates/registration/emailrequest.html:19
