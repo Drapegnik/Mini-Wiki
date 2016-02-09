@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from authenticating.models import Account, Theme, Language
 from app.models import Category
 from django.utils import translation
+from django.views.generic.base import View
 import cloudinary
 
 
@@ -17,7 +18,7 @@ def home(request):
         context_dict['categories'] = category
     except Category.DoesNotExist:
         pass
-    if (request.user.is_authenticated()):
+    if request.user.is_authenticated():
         translation.activate(request.user.language.code)
         request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
     return render(request, 'home.html', context_dict)
@@ -28,7 +29,7 @@ def user_profile(request, user_id):
 
 
 def profile_settings(request, user_id):
-    if (request.user.is_authenticated()):
+    if request.user.is_authenticated():
         translation.activate(request.user.language.code)
         request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
     if request.method == 'GET':
@@ -41,29 +42,32 @@ def profile_settings(request, user_id):
         obj.gender = request.POST.get('gender', ' ')
         obj.location = request.POST.get('location')
         obj.about = request.POST.get('about')
-        # if (request.POST.get('photo') != ''):
-        #     cloudinary.uploader.destroy(user_id, invalidate=True)
-        #     obj.photo = cloudinary.uploader.upload(request.FILES.get('photo'), public_id=user_id, invalidate=True)['url']
         obj.theme = Theme.objects.filter(name=request.POST.get('theme'))[0]
         obj.language = Language.objects.filter(name=request.POST.get('language'))[0]
         obj.save()
         return redirect(reverse('home'))
 
 
-def normalizePublication(publication):
+def normalize_publication(publication):
     publication['category'] = Category.objects.get(id=publication['category']).name
     publication['username'] = Account.objects.get(id=publication['username']).username
 
 
-def getPublications(request):
-    userId = request.GET.get("userId")
-    categoryId = request.GET.get("categoryId")
-    if categoryId != 0:
-        publications = Publication.objects.filter(category=categoryId)
+def get_publications(request):
+    user_id = request.GET.get("userId")
+    category_id = request.GET.get("categoryId")
+    if category_id != 0:
+        publications = Publication.objects.filter(category=category_id)
     else:
-        publications = Publication.objects.filter(username=userId)
-    publicationsValues = list(publications.values('username', 'category', 'header', 'description', 'rate', 'created_at',
-                                                  'tag'))
-    for i in range(len(publicationsValues)): normalizePublication(publicationsValues[i])
-    response = JsonResponse(dict(publications=publicationsValues))
+        publications = Publication.objects.filter(username=user_id)
+    publications_values = list(publications.values('username', 'category', 'header', 'description', 'rate',
+                                                   'created_at', 'tag'))
+    for i in range(len(publications_values)): normalize_publication(publications_values[i])
+    response = JsonResponse(dict(publications=publications_values))
     return response
+
+
+class UpdatePhoto(View):
+    def post(self, request, *args, **kwargs):
+        photo_src = request.POST.get('src')
+        print (photo_src)

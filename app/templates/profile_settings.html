@@ -2,17 +2,23 @@
 {% load i18n %}
 {% block content %}
 
-    <div ng-controller="dragAndDrop as ctrl" ng-init="ctrl.init('#dropZone','#photo')">
+    <div ng-controller="photoUploader as ctrl" ng-init="ctrl.init('#dropZone','#photo')">
         <div class="col-md-4 col-md-offset-1" id="phototab">
             <div id="photoitem">
-                <img id="photo" class="img-responsive img-thumbnail" src="{{ user.photo }}"/>
+                <img id="photo" class="img-responsive img-thumbnail" src="{{ user.photo }}"
+                     on-src-changed="ctrl.inverseParametrChanged()"/>
+            </div>
+            <div ng-show="ctrl.changed">
+                <button class="button" ng-click="ctrl.applyChange()"> Apply</button>
+                <button class="button" ng-click="ctrl.cancelChange()"> Cancel</button>
             </div>
                 <span id="dropZone" class="col-md-12 col-xs-12 btn btn-default btn-file">
                     <span class="vcenter">
                         <span class="glyphicon glyphicon-camera"></span>
                         {% trans 'cliсk or drop image here' %}
                     </span>
-                    <input id="id_photo" name="photo" type="file" accept="image/*">
+                    <input id="id_photo" name="photo" type="file" accept="image/*"
+                           on-read-file="ctrl.fillFileFromInput()">
                 </span>
         </div>
     </div>

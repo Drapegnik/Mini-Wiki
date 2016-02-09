@@ -58,7 +58,6 @@ class PublicationController {
         for (var iterartor in this.publications) {
             this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
         }
-        console.log(this.publications);
 
     }
 
@@ -69,8 +68,9 @@ class dragAndDrop {
         this.maxFileSize = 5242880;
         this.fileReader = new FileReader();
         this.initFileReader(this);
-        this.changed = false;
         this.prevPhoto = "";
+        this.file = null;
+        this.changed = false;
     }
 
     dropzone:ng.IAugmentedJQuery;
@@ -79,8 +79,8 @@ class dragAndDrop {
     file:File;
     maxFileSize:number;
     fileReader:FileReader;
-    changed:boolean;
     prevPhoto:string;
+    changed:boolean;
 
     public init(dropzoneId:string, targetId:string) {
         this.dropzone = angular.element(dropzoneId);
@@ -89,7 +89,8 @@ class dragAndDrop {
         this.getPrevPhoto();
     }
 
-    private initDropzone(thisObj:dragAndDrop) {
+    private initDropzone(thissObj:dragAndDrop) {
+        var thisObj = this;
         this.dropzone[0].ondragover = function () {
             thisObj.dropzone.addClass('hover');
             return false;
@@ -108,23 +109,83 @@ class dragAndDrop {
                 thisObj.dropzone.addClass('error');
                 return false;
             }
-            thisObj.fileReader.readAsDataURL(thisObj.file)
+            thisObj.fileReader.readAsDataURL(thisObj.file);
         };
     }
 
-    private initFileReader(thisObj:dragAndDrop) {
-        this.fileReader.onload = (function (event) {
+    private initFileReader(thissObj:dragAndDrop) {
+        var thisObj = this;
+        this.fileReader.onload =  function (event) {
             thisObj.destination.attr('src', event.target.result);
-            thisObj.changed = true;
-        })
+        }
     }
 
-    private getPrevPhoto(){
+    private getPrevPhoto() {
         this.prevPhoto = this.destination.attr('src');
-        console.log(this.prevPhoto);
+    }
+    public inverseParametrChanged(){
+        this.changed = this.changed ? false : true
     }
 }
+
+class photoUploader extends dragAndDrop {
+    constructor($scope:ng.IScope, $http:ng.IHttpService) {
+        super($scope);
+        this.http = new HttpHandlerService($http);
+    }
+
+    http:HttpHandlerService;
+
+    public fillFileFromInput() {
+        this.fileReader.readAsDataURL(this.file);
+    }
+
+    public applyChange(){
+
+    }
+
+    public cancelChange(){
+        this.destination.attr('src', this.prevPhoto);
+    }
+}
+
+
 var app = angular
     .module("app", [])
     .controller("PublicationController", ["$scope", "$http", PublicationController])
-    .controller("dragAndDrop", ["$scope", dragAndDrop]);
+    .controller("dragAndDrop", ["$scope", dragAndDrop])
+    .controller("photoUploader", ["$scope", "$http", photoUploader])
+
+
+app.directive('onReadFile', function ($parse) {
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function (scope, element, attrs) {
+            var fn = $parse(attrs.onReadFile);
+
+            element.on('change', function (onChangeEvent) {
+                scope.$apply(function () {
+                    scope.ctrl.file = element[0].files[0]
+                    fn(scope);
+                });
+            });
+        }
+    };
+})
+
+app.directive('onSrcChanged', function ($parse) {
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function (scope, element, attrs) {
+            var fn = $parse(attrs.onSrcChanged);
+            element.on('load', function (onChangeEvent) {
+                console.log("Half");
+                scope.$apply(function () {
+                    fn(scope);
+                });
+            });
+        }
+    };
+})
