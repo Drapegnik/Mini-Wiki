@@ -55,7 +55,6 @@ def normalize_publication(publication):
 
 
 def get_publications(request):
-    print(request.GET)
     username = request.GET.get("username")
     category_id = request.GET.get("categoryId")
     if category_id != '0':
@@ -74,9 +73,17 @@ class UpdatePhoto(View):
     def post(self, request, *args, **kwargs):
         photo_src = request.POST.get("photo_src")
         user_id = request.user.id
-        print (user_id)
         uploader.destroy(request.user, invalidate=True)
         user = Account.objects.get(id=user_id)
         user.photo = uploader.upload(photo_src, public_id=user_id, invalidate=True)['url']
         user.save()
-        return JsonResponse({"done":"true"})
+        return JsonResponse({"done": "true"})
+
+
+class GetProfile(View):
+    def get(self, request, *args, **kwargs):
+        username = request.GET.get("username")
+        profile = list(
+            Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
+                                                             'photo'))
+        return JsonResponse(dict(profile=profile))

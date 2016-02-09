@@ -33,10 +33,22 @@ var HttpHandlerService = (function () {
 })(); // HttpHandlerService class
 'use strict';
 var UserProfile = (function () {
-    function UserProfile($scope, $http) {
+    function UserProfile($http) {
         this.http = new HttpHandlerService($http);
-        this.scope = $scope;
+        this.testText = "(_!_)";
+        this.profile = null;
     }
+    UserProfile.prototype.getProfile = function (username) {
+        var _this = this;
+        this.http.handlerUrl = "getProfile/";
+        this.http.useGetHandler({
+            "username": username
+        }).then(function (data) { return _this.fillUserProfile(data); });
+    };
+    UserProfile.prototype.fillUserProfile = function (data) {
+        this.profile = data.profile[0];
+        console.log(this.profile);
+    };
     return UserProfile;
 })();
 var PublicationController = (function () {
@@ -45,6 +57,7 @@ var PublicationController = (function () {
         this.scope = $scope;
         this.publications = [];
         this.viewProfile = false;
+        this.userProfile = new UserProfile($http);
     }
     PublicationController.prototype.setFilter = function (categoryId, username) {
         var _this = this;
@@ -52,6 +65,9 @@ var PublicationController = (function () {
         if (username === void 0) { username = ""; }
         this.http.handlerUrl = "publications/";
         this.viewProfile = categoryId == 0;
+        if (categoryId == 0) {
+            this.userProfile.getProfile(username);
+        }
         var result = this.http.useGetHandler({
             "categoryId": categoryId,
             "username": username

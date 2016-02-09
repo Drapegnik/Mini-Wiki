@@ -36,14 +36,28 @@ class HttpHandlerService {
 
 'use strict';
 class UserProfile {
-    constructor($scope:ng.IScope,
-                $http:ng.IHttpService) {
+    constructor($http:ng.IHttpService) {
         this.http = new HttpHandlerService($http);
-        this.scope = $scope;
+        this.testText = "(_!_)";
+        this.profile = null;
     }
 
-    scope:ng.IScope;
+    testText:string;
     private http:HttpHandlerService;
+    profile:any;
+
+    public getProfile(username:string) {
+        this.http.handlerUrl = "getProfile/";
+        this.http.useGetHandler({
+            "username": username
+        }).then((data) => this.fillUserProfile(data));
+    }
+
+    public fillUserProfile(data:any) {
+        this.profile = data.profile[0];
+        console.log(this.profile);
+    }
+
 }
 
 
@@ -54,17 +68,22 @@ class PublicationController {
         this.scope = $scope;
         this.publications = [];
         this.viewProfile = false;
+        this.userProfile = new UserProfile($http);
     }
 
     scope:ng.IScope;
     publications:any;
-    viewProfile:boolean
+    viewProfile:boolean;
+    userProfile:UserProfile;
 
     private http:HttpHandlerService;
 
     public setFilter(categoryId:number = 0, username:string = "") {
         this.http.handlerUrl = "publications/";
         this.viewProfile = categoryId == 0;
+        if (categoryId == 0) {
+            this.userProfile.getProfile(username);
+        }
         var result:any = this.http.useGetHandler({
             "categoryId": categoryId,
             "username": username
