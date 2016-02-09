@@ -1,8 +1,3 @@
-.content {
-    /*margin-left: 1px;*/
-    /*padding: 1px;*/
-}
-
 #userpicnavbar {
     position: relative;
     float: left;
@@ -54,14 +49,6 @@
 
 #photoitem {
     padding-bottom: 10px;
-}
-
-#phototab {
-    padding-bottom: 20px;
-}
-
-#photobutton {
-    height: 100px;
 }
 
 .btn-file {
