@@ -35,6 +35,18 @@ class HttpHandlerService {
 
 
 'use strict';
+class UserProfile {
+    constructor($scope:ng.IScope,
+                $http:ng.IHttpService) {
+        this.http = new HttpHandlerService($http);
+        this.scope = $scope;
+    }
+
+    scope:ng.IScope;
+    private http:HttpHandlerService;
+}
+
+
 class PublicationController {
     constructor($scope:ng.IScope,
                 $http:ng.IHttpService) {
@@ -50,11 +62,12 @@ class PublicationController {
 
     private http:HttpHandlerService;
 
-    public setFilter(categoryId:number = 0, userId:number = 0) {
+    public setFilter(categoryId:number = 0, username:string = "") {
         this.http.handlerUrl = "publications/";
+        this.viewProfile = categoryId == 0;
         var result:any = this.http.useGetHandler({
             "categoryId": categoryId,
-            "userId": userId
+            "username": username
         }).then((data) => this.fillPublication(data));
 
     }
@@ -131,8 +144,8 @@ class dragAndDrop {
         this.prevPhoto = this.destination.attr('src');
     }
 
-    public inverseParametrChanged() {
-        this.changed = this.changed ? false : true
+    public inverseParameterChanged() {
+        this.changed = !this.changed;
     }
 }
 
@@ -150,7 +163,7 @@ class photoUploader extends dragAndDrop {
 
     public applyChange() {
         this.http.handlerUrl = "updatePhoto/";
-        var data = $.param({photo_src : this.destination.attr('src')});
+        var data = $.param({photo_src: this.destination.attr('src')});
         this.changed = false;
         this.inLoading = true;
         this.http.usePostHandler(data)
@@ -159,8 +172,10 @@ class photoUploader extends dragAndDrop {
 
     public cancelChange() {
         this.destination.attr('src', this.prevPhoto);
+
     }
-    private loadingFinished(){
+
+    private loadingFinished() {
         this.inLoading = false;
     }
 }

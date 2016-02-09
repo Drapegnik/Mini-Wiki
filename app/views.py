@@ -56,11 +56,12 @@ def normalize_publication(publication):
 
 def get_publications(request):
     print(request.GET)
-    user_id = request.GET.get("userId")
+    username = request.GET.get("username")
     category_id = request.GET.get("categoryId")
-    if category_id != 0:
+    if category_id != '0':
         publications = Publication.objects.filter(category=category_id)
     else:
+        user_id = Account.objects.get(username=username).id
         publications = Publication.objects.filter(username=user_id)
     publications_values = list(publications.values('username', 'category', 'header', 'description', 'rate',
                                                    'created_at', 'tag'))

@@ -32,6 +32,13 @@ var HttpHandlerService = (function () {
     return HttpHandlerService;
 })(); // HttpHandlerService class
 'use strict';
+var UserProfile = (function () {
+    function UserProfile($scope, $http) {
+        this.http = new HttpHandlerService($http);
+        this.scope = $scope;
+    }
+    return UserProfile;
+})();
 var PublicationController = (function () {
     function PublicationController($scope, $http) {
         this.http = new HttpHandlerService($http);
@@ -39,14 +46,15 @@ var PublicationController = (function () {
         this.publications = [];
         this.viewProfile = false;
     }
-    PublicationController.prototype.setFilter = function (categoryId, userId) {
+    PublicationController.prototype.setFilter = function (categoryId, username) {
         var _this = this;
         if (categoryId === void 0) { categoryId = 0; }
-        if (userId === void 0) { userId = 0; }
+        if (username === void 0) { username = ""; }
         this.http.handlerUrl = "publications/";
+        this.viewProfile = categoryId == 0;
         var result = this.http.useGetHandler({
             "categoryId": categoryId,
-            "userId": userId
+            "username": username
         }).then(function (data) { return _this.fillPublication(data); });
     };
     PublicationController.prototype.fillPublication = function (data) {
@@ -104,8 +112,8 @@ var dragAndDrop = (function () {
     dragAndDrop.prototype.getPrevPhoto = function () {
         this.prevPhoto = this.destination.attr('src');
     };
-    dragAndDrop.prototype.inverseParametrChanged = function () {
-        this.changed = this.changed ? false : true;
+    dragAndDrop.prototype.inverseParameterChanged = function () {
+        this.changed = !this.changed;
     };
     return dragAndDrop;
 })();
