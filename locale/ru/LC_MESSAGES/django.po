@@ -129,3 +129,19 @@ msgstr "Химия"
 
 msgid "Physics"
 msgstr "Физика"
+
+msgid "Dark"
+msgstr "Тёмная"
+
+msgid "Light"
+msgstr "Светлая"
+
+msgid "select"
+msgstr "не выбран"
+
+msgid "Male"
+msgstr "Мужской"
+
+msgid "Female"
+msgstr "Женский"
+
