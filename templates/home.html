@@ -3,7 +3,7 @@
 {% load tagging_tags %}
 {% block content %}
     <div ng-controller="PublicationController as ctrl">
-        <div class="col-md-2" ng-show="!ctrl.viewProfile">
+        <div ng-cloak ng-show="!ctrl.viewProfile" class="col-md-2">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">{% trans 'Categories' %}</h3>
@@ -16,6 +16,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-2" ng-show="ctrl.viewProfile">
+            {% verbatim %}
+            {{ ctrl.userProfile.profile.home }}
+            {{ ctrl.userProfile.profile.email }}
+            {{ ctrl.userProfile.profile.gender }}
+            {{ ctrl.userProfile.profile.location }}
+            {{ ctrl.userProfile.profile.photo }}
+            {{ ctrl.userProfile.profile.username }}
+            {% endverbatim %}
+        </div>
+
 
         <div class="col-md-10 pull-right" ng-repeat="publication in ctrl.publications track by $index">
             {% verbatim %}
@@ -32,7 +44,9 @@
 
                     <ul class="breadcrumb">
                         <li>{{publication.category }}</li>
-                        <li><span class="label label-success"><a href="#">{{ publication.username }}</a></span></li>
+                        <li><span class="label label-success"><a href="#"
+                                                                 ng-click="ctrl.setFilter(0,publication.username)">{{
+                            publication.username }}</a></span></li>
                         <li class="active">{{publication.created_at | date:'medium'}}</li>
                         <li><span class="badge"><span
                                 ng-show="publication.rate > 0">+</span>{{ publication.rate }}</span></li>

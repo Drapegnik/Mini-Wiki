@@ -16,4 +16,3 @@ for name, cssLink in themes.items():
 
 for lang, code in languages.items():
     Language.objects.create(name=lang, code=code)
-

@@ -1,11 +1,13 @@
-from app.models import Category, Publication
-from django.http import JsonResponse, HttpResponse
+from cloudinary import uploader
 from django.core.urlresolvers import reverse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from authenticating.models import Account, Theme, Language
-from app.models import Category
 from django.utils import translation
-import cloudinary
+from django.views.generic.base import View
+
+from app.models import Category
+from app.models import Publication
+from authenticating.models import Account, Theme, Language
 
 
 # Create your views here.
@@ -23,7 +25,7 @@ def home(request):
         context_dict['categories'] = category
     except Category.DoesNotExist:
         pass
-    if (request.user.is_authenticated()):
+    if request.user.is_authenticated():
         translation.activate(request.user.language.code)
         request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
     return render(request, 'home.html', context_dict)
@@ -45,29 +47,47 @@ def profile_settings(request, user_id):
         obj.gender = request.POST.get('gender', ' ')
         obj.location = request.POST.get('location')
         obj.about = request.POST.get('about')
-        # if (request.POST.get('photo') != ''):
-        #     cloudinary.uploader.destroy(user_id, invalidate=True)
-        #     obj.photo = cloudinary.uploader.upload(request.FILES.get('photo'), public_id=user_id, invalidate=True)['url']
         obj.theme = Theme.objects.filter(name=request.POST.get('theme'))[0]
         obj.language = Language.objects.filter(name=request.POST.get('language'))[0]
         obj.save()
         return redirect(reverse('home'))
 
 
-def normalizePublication(publication):
+def normalize_publication(publication):
     publication['category'] = Category.objects.get(id=publication['category']).name
     publication['username'] = Account.objects.get(id=publication['username']).username
 
 
-def getPublications(request):
-    userId = request.GET.get("userId")
-    categoryId = request.GET.get("categoryId")
-    if categoryId != 0:
-        publications = Publication.objects.filter(category=categoryId)
+def get_publications(request):
+    username = request.GET.get("username")
+    category_id = request.GET.get("categoryId")
+    if category_id != '0':
+        publications = Publication.objects.filter(category=category_id)
     else:
-        publications = Publication.objects.filter(username=userId)
-    publicationsValues = list(publications.values('username', 'category', 'header', 'description', 'rate', 'created_at',
-                                                  'tag'))
-    for i in range(len(publicationsValues)): normalizePublication(publicationsValues[i])
-    response = JsonResponse(dict(publications=publicationsValues))
+        user_id = Account.objects.get(username=username).id
+        publications = Publication.objects.filter(username=user_id)
+    publications_values = list(publications.values('username', 'category', 'header', 'description', 'rate',
+                                                   'created_at', 'tag'))
+    for i in range(len(publications_values)): normalize_publication(publications_values[i])
+    response = JsonResponse(dict(publications=publications_values))
     return response
+
+
+class UpdatePhoto(View):
+    def post(self, request, *args, **kwargs):
+        photo_src = request.POST.get("photo_src")
+        user_id = request.user.id
+        uploader.destroy(request.user, invalidate=True)
+        user = Account.objects.get(id=user_id)
+        user.photo = uploader.upload(photo_src, public_id=user_id, invalidate=True)['url']
+        user.save()
+        return JsonResponse({"done": "true"})
+
+
+class GetProfile(View):
+    def get(self, request, *args, **kwargs):
+        username = request.GET.get("username")
+        profile = list(
+            Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
+                                                             'photo'))
+        return JsonResponse(dict(profile=profile))

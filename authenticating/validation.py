@@ -1,6 +1,4 @@
 from django.shortcuts import redirect
-from social.pipeline.partial import partial
-from social.pipeline.user import USER_FIELDS
 
 
 def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
