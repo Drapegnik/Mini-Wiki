@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load staticfiles %}
 {% block content %}
 
     <div ng-controller="photoUploader as ctrl" ng-init="ctrl.init('#dropZone','#photo')">
@@ -12,7 +13,6 @@
                 <button class="btn btn-danger" ng-click="ctrl.cancelChange()">{% trans 'Cancel' %}</button>
                 <button class="btn btn-success" ng-click="ctrl.applyChange()">{% trans 'Apply' %}</button>
             </div>
-            {% load staticfiles %}
             <img ng-cloak ng-show="ctrl.inLoading" src="{% static 'icons/loading_spinner.gif' %}">
             <div ng-cloak ng-show="ctrl.inLoading" class="progress progress-striped active">
                 <div class="progress-bar" style="width: 50%">{% trans 'loading ' %}50%</div>

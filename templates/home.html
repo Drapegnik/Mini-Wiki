@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load tagging_tags %}
+{% load staticfiles %}
 {% block content %}
+
+    <a href="#add"><img id="add"  src="{% static 'icons/add_red.png' %}"></a>
     <div ng-controller="PublicationController as ctrl">
         <div class="col-md-2" ng-cloak ng-show="!ctrl.viewProfile">
             <div class="panel panel-success">
