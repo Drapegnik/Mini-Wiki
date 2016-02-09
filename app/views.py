@@ -1,12 +1,13 @@
-from app.models import Category, Publication
-from django.http import JsonResponse, HttpResponse
+from cloudinary import uploader
 from django.core.urlresolvers import reverse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from authenticating.models import Account, Theme, Language
-from app.models import Category
 from django.utils import translation
 from django.views.generic.base import View
-import cloudinary
+
+from app.models import Category
+from app.models import Publication
+from authenticating.models import Account, Theme, Language
 
 
 # Create your views here.
@@ -54,6 +55,7 @@ def normalize_publication(publication):
 
 
 def get_publications(request):
+    print(request.GET)
     user_id = request.GET.get("userId")
     category_id = request.GET.get("categoryId")
     if category_id != 0:
@@ -69,5 +71,11 @@ def get_publications(request):
 
 class UpdatePhoto(View):
     def post(self, request, *args, **kwargs):
-        photo_src = request.POST.get('src')
-        print (photo_src)
+        photo_src = request.POST.get("photo_src")
+        user_id = request.user.id
+        print (user_id)
+        uploader.destroy(request.user, invalidate=True)
+        user = Account.objects.get(id=user_id)
+        user.photo = uploader.upload(photo_src, public_id=user_id, invalidate=True)['url']
+        user.save()
+        return JsonResponse({"done":"true"})

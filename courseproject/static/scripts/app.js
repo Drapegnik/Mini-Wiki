@@ -7,6 +7,11 @@ var __extends = (this && this.__extends) || function (d, b) {
 var HttpHandlerService = (function () {
     function HttpHandlerService($http) {
         this.httpService = $http;
+        this.config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            }
+        };
     }
     HttpHandlerService.prototype.useGetHandler = function (params) {
         var _this = this;
@@ -16,7 +21,7 @@ var HttpHandlerService = (function () {
     };
     HttpHandlerService.prototype.usePostHandler = function (params) {
         var _this = this;
-        var result = this.httpService.post(this.handlerUrl, params)
+        var result = this.httpService.post(this.handlerUrl, params, this.config)
             .then(function (response) { return _this.handlerResponded(response, params); });
         return result;
     };
@@ -61,24 +66,24 @@ var dragAndDrop = (function () {
         this.prevPhoto = "";
         this.file = null;
         this.changed = false;
+        this.inLoading = false;
     }
     dragAndDrop.prototype.init = function (dropzoneId, targetId) {
         this.dropzone = angular.element(dropzoneId);
         this.destination = angular.element(targetId);
-        this.initDropzone(this);
         this.getPrevPhoto();
+        this.initDropzone(this);
     };
-    dragAndDrop.prototype.initDropzone = function (thissObj) {
-        var thisObj = this;
-        this.dropzone[0].ondragover = function () {
-            thisObj.dropzone.addClass('hover');
-            return false;
-        };
-        this.dropzone[0].ondragleave = function () {
+    dragAndDrop.prototype.initDropzone = function (thisObj) {
+        thisObj.dropzone[0].ondragleave = function () {
             thisObj.dropzone.removeClass('hover');
             return false;
         };
-        this.dropzone[0].ondrop = function (event) {
+        thisObj.dropzone[0].ondragover = function () {
+            thisObj.dropzone.addClass('hover');
+            return false;
+        };
+        thisObj.dropzone[0].ondrop = function (event) {
             event.preventDefault();
             thisObj.dropzone.removeClass('hover');
             thisObj.dropzone.addClass('drop');
@@ -91,8 +96,7 @@ var dragAndDrop = (function () {
             thisObj.fileReader.readAsDataURL(thisObj.file);
         };
     };
-    dragAndDrop.prototype.initFileReader = function (thissObj) {
-        var thisObj = this;
+    dragAndDrop.prototype.initFileReader = function (thisObj) {
         this.fileReader.onload = function (event) {
             thisObj.destination.attr('src', event.target.result);
         };
@@ -115,14 +119,28 @@ var photoUploader = (function (_super) {
         this.fileReader.readAsDataURL(this.file);
     };
     photoUploader.prototype.applyChange = function () {
+        var _this = this;
+        this.http.handlerUrl = "updatePhoto/";
+        var data = $.param({ photo_src: this.destination.attr('src') });
+        this.changed = false;
+        this.inLoading = true;
+        this.http.usePostHandler(data)
+            .then(function (data) { return _this.loadingFinished(); });
     };
     photoUploader.prototype.cancelChange = function () {
         this.destination.attr('src', this.prevPhoto);
+    };
+    photoUploader.prototype.loadingFinished = function () {
+        this.inLoading = false;
     };
     return photoUploader;
 })(dragAndDrop);
 var app = angular
     .module("app", [])
+    .config(function ($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+})
     .controller("PublicationController", ["$scope", "$http", PublicationController])
     .controller("dragAndDrop", ["$scope", dragAndDrop])
     .controller("photoUploader", ["$scope", "$http", photoUploader]);
@@ -148,7 +166,6 @@ app.directive('onSrcChanged', function ($parse) {
         link: function (scope, element, attrs) {
             var fn = $parse(attrs.onSrcChanged);
             element.on('load', function (onChangeEvent) {
-                console.log("Half");
                 scope.$apply(function () {
                     fn(scope);
                 });

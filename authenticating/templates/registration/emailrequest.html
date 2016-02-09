@@ -5,7 +5,7 @@
     <form class="form-horizontal" action="{% url "social:complete" backend=backend %}" method="post" role="form">
         {% csrf_token %}
         <fieldset class="col-md-5">
-            <h2 class="col-lg-offset-1 text-warning">{% trans 'Please, enter you email'%}.</h2>
+            <h2 class="col-lg-offset-1 text-warning">{% trans 'Please, enter you email' %}.</h2>
             <div class="form-group">
                 <label for="id_email" class=" col-lg-offset-1 col-lg-2 control-label">Email:</label>
                 <div class="col-lg-8">

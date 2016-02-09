@@ -3,9 +3,15 @@
 class HttpHandlerService {
     httpService:ng.IHttpService;
     handlerUrl:string;
+    config:any;
 
     constructor($http:ng.IHttpService) {
         this.httpService = $http;
+        this.config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            }
+        }
     }
 
     useGetHandler(params:any):ng.IPromise< any > {
@@ -15,7 +21,7 @@ class HttpHandlerService {
     }
 
     usePostHandler(params:any):ng.IPromise< any > {
-        var result:ng.IPromise< any > = this.httpService.post(this.handlerUrl, params)
+        var result:ng.IPromise< any > = this.httpService.post(this.handlerUrl, params, this.config)
             .then((response:any):ng.IPromise< any > => this.handlerResponded(response, params));
         return result;
     }
@@ -71,6 +77,7 @@ class dragAndDrop {
         this.prevPhoto = "";
         this.file = null;
         this.changed = false;
+        this.inLoading = false;
     }
 
     dropzone:ng.IAugmentedJQuery;
@@ -81,25 +88,26 @@ class dragAndDrop {
     fileReader:FileReader;
     prevPhoto:string;
     changed:boolean;
+    inLoading:boolean;
 
     public init(dropzoneId:string, targetId:string) {
         this.dropzone = angular.element(dropzoneId);
         this.destination = angular.element(targetId);
-        this.initDropzone(this);
         this.getPrevPhoto();
+        this.initDropzone(this);
+
     }
 
-    private initDropzone(thissObj:dragAndDrop) {
-        var thisObj = this;
-        this.dropzone[0].ondragover = function () {
-            thisObj.dropzone.addClass('hover');
-            return false;
-        };
-        this.dropzone[0].ondragleave = function () {
+    private initDropzone(thisObj:dragAndDrop) {
+        thisObj.dropzone[0].ondragleave = function () {
             thisObj.dropzone.removeClass('hover');
             return false;
         };
-        this.dropzone[0].ondrop = function (event) {
+        thisObj.dropzone[0].ondragover = function () {
+            thisObj.dropzone.addClass('hover');
+            return false;
+        };
+        thisObj.dropzone[0].ondrop = function (event) {
             event.preventDefault();
             thisObj.dropzone.removeClass('hover');
             thisObj.dropzone.addClass('drop');
@@ -113,9 +121,8 @@ class dragAndDrop {
         };
     }
 
-    private initFileReader(thissObj:dragAndDrop) {
-        var thisObj = this;
-        this.fileReader.onload =  function (event) {
+    private initFileReader(thisObj:dragAndDrop) {
+        this.fileReader.onload = function (event) {
             thisObj.destination.attr('src', event.target.result);
         }
     }
@@ -123,7 +130,8 @@ class dragAndDrop {
     private getPrevPhoto() {
         this.prevPhoto = this.destination.attr('src');
     }
-    public inverseParametrChanged(){
+
+    public inverseParametrChanged() {
         this.changed = this.changed ? false : true
     }
 }
@@ -140,18 +148,30 @@ class photoUploader extends dragAndDrop {
         this.fileReader.readAsDataURL(this.file);
     }
 
-    public applyChange(){
-
+    public applyChange() {
+        this.http.handlerUrl = "updatePhoto/";
+        var data = $.param({photo_src : this.destination.attr('src')});
+        this.changed = false;
+        this.inLoading = true;
+        this.http.usePostHandler(data)
+            .then((data) => this.loadingFinished());
     }
 
-    public cancelChange(){
+    public cancelChange() {
         this.destination.attr('src', this.prevPhoto);
+    }
+    private loadingFinished(){
+        this.inLoading = false;
     }
 }
 
 
 var app = angular
     .module("app", [])
+    .config(function ($httpProvider) {
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+    })
     .controller("PublicationController", ["$scope", "$http", PublicationController])
     .controller("dragAndDrop", ["$scope", dragAndDrop])
     .controller("photoUploader", ["$scope", "$http", photoUploader])
@@ -181,7 +201,6 @@ app.directive('onSrcChanged', function ($parse) {
         link: function (scope, element, attrs) {
             var fn = $parse(attrs.onSrcChanged);
             element.on('load', function (onChangeEvent) {
-                console.log("Half");
                 scope.$apply(function () {
                     fn(scope);
                 });

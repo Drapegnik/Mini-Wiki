@@ -8,11 +8,13 @@
                 <img id="photo" class="img-responsive img-thumbnail" src="{{ user.photo }}"
                      on-src-changed="ctrl.inverseParametrChanged()"/>
             </div>
-            <div ng-show="ctrl.changed">
+            <div ng-if="ctrl.changed">
                 <button class="button" ng-click="ctrl.applyChange()"> Apply</button>
                 <button class="button" ng-click="ctrl.cancelChange()"> Cancel</button>
             </div>
-                <span id="dropZone" class="col-md-12 col-xs-12 btn btn-default btn-file">
+            {% load staticfiles %}
+            <img ng-if="ctrl.inLoading" src="{% static 'icons/loading_spinner.gif' %}">
+                <span ng-if="!ctrl.inLoading && !ctrl.changed" id="dropZone" class="col-md-12 col-xs-12 btn btn-default btn-file">
                     <span class="vcenter">
                         <span class="glyphicon glyphicon-camera"></span>
                         {% trans 'cliсk or drop image here' %}
@@ -114,5 +116,4 @@
     </form>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    {% load staticfiles %}
 {% endblock %}

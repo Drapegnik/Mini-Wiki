@@ -1,12 +1,11 @@
+import cloudinary
+from django.contrib.auth import views
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
+
 from authenticating.forms import RegistrationForm
-from .models import Account
-from django.contrib.auth import views
-import cloudinary
 from courseproject import settings
-from social.pipeline.partial import partial
-from social.pipeline.user import USER_FIELDS
+from .models import Account
 
 
 # Create your views here.
@@ -21,7 +20,8 @@ def registration(request):
                 Account.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'],
                                             form.cleaned_data['password'])
                 obj = Account.objects.filter(username=form.cleaned_data['username'])[0]
-                obj.photo = cloudinary.uploader.upload(settings.STATIC_ROOT+'/static/icons/userpic.png', public_id=obj.id)['url']
+                obj.photo = \
+                cloudinary.uploader.upload(settings.STATIC_ROOT + '/static/icons/userpic.png', public_id=obj.id)['url']
                 obj.save()
             return redirect(reverse('login'))
         else:

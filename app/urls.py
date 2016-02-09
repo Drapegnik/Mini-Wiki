@@ -1,4 +1,5 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
+
 from app.views import *
 
 urlpatterns = [
@@ -7,5 +8,5 @@ urlpatterns = [
     url(r'publications/', get_publications, name='publications'),
     # url(r'^updateprofile/$', profile_settings, name='update-profile'),
     url(r'^category/(?P<category_name>\d+)$', user_profile, name='category'),
-    url(r'^updatePhoto/', UpdatePhoto.as_view())
+    url(r'updatePhoto/', UpdatePhoto.as_view())
 ]
