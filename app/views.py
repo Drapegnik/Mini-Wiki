@@ -12,7 +12,13 @@ from authenticating.models import Account, Theme, Language
 
 # Create your views here.
 
+def swap_language(request):
+    if (request.user.is_authenticated()):
+        translation.activate(request.user.language.code)
+        request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
+
 def home(request):
+    swap_language(request)
     context_dict = {}
     try:
         category = Category.objects.order_by('name')
@@ -30,10 +36,8 @@ def user_profile(request, user_id):
 
 
 def profile_settings(request, user_id):
-    if request.user.is_authenticated():
-        translation.activate(request.user.language.code)
-        request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
     if request.method == 'GET':
+        swap_language(request)
         return render(request, 'profile_settings.html',
                       {'selectgender': ['select', 'Male', 'Female'],
                        'themes': Theme.objects.all(),

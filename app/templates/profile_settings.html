@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load staticfiles %}
 {% block content %}
 
     <div ng-controller="photoUploader as ctrl" ng-init="ctrl.init('#dropZone','#photo')">
-        <div class="col-md-4 col-md-offset-1" id="phototab">
+        <div class="col-md-4 col-md-offset-1">
             <div id="photoitem">
                 <img id="photo" class="img-responsive img-thumbnail" src="{{ user.photo }}"
                      on-src-changed="ctrl.inverseParameterChanged()"/>
             </div>
             <div ng-cloak ng-show="ctrl.changed">
-                <button class="button" ng-click="ctrl.applyChange()"> Apply</button>
-                <button class="button" ng-click="ctrl.cancelChange()"> Cancel</button>
+                <button class="btn btn-danger" ng-click="ctrl.cancelChange()">{% trans 'Cancel' %}</button>
+                <button class="btn btn-success" ng-click="ctrl.applyChange()">{% trans 'Apply' %}</button>
             </div>
-            {% load staticfiles %}
             <img ng-cloak ng-show="ctrl.inLoading" src="{% static 'icons/loading_spinner.gif' %}">
-                <span ng-cloak ng-show="!ctrl.inLoading && !ctrl.changed" id="dropZone" class="col-md-12 col-xs-12 btn btn-default btn-file">
-                    <span class="vcenter">
+            <div ng-cloak ng-show="ctrl.inLoading" class="progress progress-striped active">
+                <div class="progress-bar" style="width: 50%">{% trans 'loading ' %}50%</div>
+            </div>
+                <span id="dropZone" ng-cloak ng-show="!ctrl.inLoading && !ctrl.changed"
+                      class=" dropzona col-md-12 col-xs-12 btn btn-default btn-file">
+                    <span>
+                        <br>
+                        <br>
                         <span class="glyphicon glyphicon-camera"></span>
                         {% trans 'cliсk or drop image here' %}
                     </span>

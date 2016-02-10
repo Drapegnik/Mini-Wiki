@@ -1,5 +1,6 @@
+from django.conf.urls import url, include
+from django.views.generic import TemplateView
 from django.conf.urls import url
-
 from app.views import *
 
 urlpatterns = [
@@ -9,5 +10,6 @@ urlpatterns = [
     # url(r'^updateprofile/$', profile_settings, name='update-profile'),
     # url(r'^category/(?P<category_name>\d+)$', user_profile, name='category'),
     url(r'updatePhoto/', UpdatePhoto.as_view()),
-    url(r'getProfile/', GetProfile.as_view())
+    url(r'getProfile/', GetProfile.as_view()),
+    url(r'^test/$', TemplateView.as_view(template_name="Template3.html")),
 ]

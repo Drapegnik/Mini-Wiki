@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load tagging_tags %}
+{% load staticfiles %}
 {% block content %}
+
+    <a href="#add"><img id="add"  src="{% static 'icons/add_red.png' %}"></a>
     <div ng-controller="PublicationController as ctrl">
-        <div ng-cloak ng-show="!ctrl.viewProfile" class="col-md-2">
+        <div class="col-md-2" ng-cloak ng-show="!ctrl.viewProfile">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">{% trans 'Categories' %}</h3>
@@ -17,19 +20,34 @@
             </div>
         </div>
 
-        <div class="col-md-2" ng-show="ctrl.viewProfile">
+        <div class="col-md-3" ng-show="ctrl.viewProfile">
             {% verbatim %}
-            {{ ctrl.userProfile.profile.home }}
-            {{ ctrl.userProfile.profile.email }}
-            {{ ctrl.userProfile.profile.gender }}
-            {{ ctrl.userProfile.profile.location }}
-            {{ ctrl.userProfile.profile.photo }}
-            {{ ctrl.userProfile.profile.username }}
-            {% endverbatim %}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h2 class="text-center">@{{ ctrl.userProfile.profile.username }}</h2>
+                </div>
+                <div class="panel-body list-group">
+                    <img id="photo" class="img-responsive img-thumbnail" src="{{ ctrl.userProfile.profile.photo }}">
+                    <div class="list-group-item">
+                        <label class="label label-info">email:</label>
+                        <span class="pull-right">{{ ctrl.userProfile.profile.email }}</span>
+                    </div>
+                    {% endverbatim %}
+                    <div class="list-group-item">
+                        <label class="label label-info">{% trans 'gender'%}:</label>
+                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.gender }}{% endverbatim %}</span>
+                    </div>
+                    <div class="list-group-item">
+                        <label class="label label-info">{% trans 'location' %}:</label>
+                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.location }}{% endverbatim %}</span>
+                    </div>
+                </div>
+                {#                <p class="list-group-item" {{ ctrl.userProfile.profile.home }}</p>#}
+            </div>
         </div>
 
 
-        <div class="col-md-10 pull-right" ng-repeat="publication in ctrl.publications track by $index">
+        <div class="col-md-9 pull-right" ng-repeat="publication in ctrl.publications track by $index">
             {% verbatim %}
             <div class="panel panel-success">
 
@@ -62,20 +80,4 @@
     </div>
 
 {% endblock %}
-
-{% get_available_languages as LANGUAGES %}
-<form action="{% url 'set_language' %}" method="post">
-    {% csrf_token %}
-    <input name="next" type="hidden" value="{{ redirect_to }}"/>
-    <select name="language">
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% get_current_language as LANGUAGE_CODE %}
-        {% for language in languages %}
-            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
-                {{ language.name_local }} ({{ language.code }})
-            </option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Go"/>
-</form>
 

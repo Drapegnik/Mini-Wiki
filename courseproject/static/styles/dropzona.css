@@ -1,32 +1,31 @@
-#dropZone {
-    color: #555;
-    font-size: 18px;
+.dropzona {
+    color: black; /*white;*/
+    font-family: Arial;
+    font-size: 20px;
     text-align: center;
+    height: 165px;
 
-    /*width: 400px;*/
-    /*padding: 50px 0;*/
-    /*margin: 50px auto;*/
-    height: 100px;
+    background: #c1dcfb;
+    /*background: #4c515b;*/
+    border: 2px dashed black; /*white*/
 
-    background: white;
-    border: 1px solid #ccc;
-
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-#dropZone.hover {
+.dropzona.hover {
     background: #ddd;
-    border-color: #9bcae6;
+    border-color: #c1dcfb;
 }
 
-#dropZone.error {
+.dropzona.error {
     background: #faa;
     border-color: #f00;
 }
 
-#dropZone.drop {
-    background: #afa;
-    border-color: #0f0;
-}
+/*.dropzona.drop {*/
+    /*background: #afa;*/
+    /*border-color: #0f0;*/
+/*}*/
