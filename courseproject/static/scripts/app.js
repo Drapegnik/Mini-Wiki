@@ -47,7 +47,6 @@ var UserProfile = (function () {
     };
     UserProfile.prototype.fillUserProfile = function (data) {
         this.profile = data.profile[0];
-        console.log(this.profile);
     };
     return UserProfile;
 })();
@@ -58,6 +57,7 @@ var PublicationController = (function () {
         this.publications = [];
         this.viewProfile = false;
         this.userProfile = new UserProfile($http);
+        this.tags = [];
     }
     PublicationController.prototype.setFilter = function (categoryId, username) {
         var _this = this;
@@ -184,12 +184,11 @@ var TagController = (function () {
                 : (tag.count / max) * (this.fontMax - this.fontMin) + this.fontMin;
             this.tags.push({ TagName: tag.name, Weight: Math.round(size) });
         }
-        console.log(this.tags);
     };
     return TagController;
 })();
 var app = angular
-    .module("app", [])
+    .module("app", ['ngTagsInput'])
     .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';

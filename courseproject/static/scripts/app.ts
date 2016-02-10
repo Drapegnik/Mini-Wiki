@@ -55,7 +55,6 @@ class UserProfile {
 
     public fillUserProfile(data:any) {
         this.profile = data.profile[0];
-        console.log(this.profile);
     }
 
 }
@@ -69,12 +68,15 @@ class PublicationController {
         this.publications = [];
         this.viewProfile = false;
         this.userProfile = new UserProfile($http);
+        this.tags = [];
     }
 
     scope:ng.IScope;
     publications:any;
     viewProfile:boolean;
     userProfile:UserProfile;
+    tags:any;
+    tagSearch:boolean;
 
     private http:HttpHandlerService;
 
@@ -228,14 +230,13 @@ class TagController {
                 : (tag.count / max) * (this.fontMax - this.fontMin) + this.fontMin;
             this.tags.push({TagName: tag.name, Weight: Math.round(size)});
         }
-        console.log(this.tags)
     }
 
 }
 
 
 var app = angular
-    .module("app", [])
+    .module("app", ['ngTagsInput'])
     .config(function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';

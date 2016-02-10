@@ -3,7 +3,7 @@
 {% load staticfiles %}
 <html lang="en" ng-app="app">
 <head>
-{% load staticfiles %}
+    {% load staticfiles %}
     <meta charset="utf-8">
     <title>Course Project</title>
 
@@ -14,6 +14,8 @@
     {% else %}
         <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css" type="text/css">
     {% endif %}
+    <link rel="stylesheet" href="{% static 'styles/ng-tags-input.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'styles/ng-tags-input.bootstrap.css' %}" type="text/css">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -84,6 +86,7 @@
 <script src="http://code.jquery.com/jquery-1.12.0.js"></script>
 <!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="{% static 'scripts/ng-tags-input.js' %}"></script>
 <script src="{% static 'scripts/app.js' %}"></script>
 
 <!-- Bootstrap -->
