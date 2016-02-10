@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    <div>
+        <table>
+            <tr class="row">
+                <td id="previewzona" class="row col-md-8">
+{#                    {% block article %}{% endblock %}#}
+                    {% block atricle %}
+                    {% include template %}
+                        {% endblock %}
+                </td>
+                <td class="col-md-4">
+                    <p>ХУЙ ПИЗДА ДЫЛТФАТФЛД ЫЬВДФЬЫАДФЬ ЫАДФЬЫА ДЬФДЫАЬДФЫЬАДФЫ ЬАДФЫЬАДФЬЫ АДЬДФЫАЬДФЫЛ АЬФДЫ ЬАДФЫАЬдыаь</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

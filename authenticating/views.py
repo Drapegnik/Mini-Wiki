@@ -30,7 +30,6 @@ def registration(request):
 
 
 def acquire_email(request, template_name="registration/emailrequest.html"):
-    print(request.session)
     backend = request.session['partial_pipeline']['backend']
     return render(request, template_name, {"backend": backend})
 

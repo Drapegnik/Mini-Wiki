@@ -8,9 +8,9 @@ from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag
 
-from app.models import Category
 from app.models import Publication
-from authenticating.models import Account, Theme, Language
+from courseproject.models import *
+from authenticating.models import Account
 
 
 # Create your views here.
@@ -23,7 +23,7 @@ def swap_language(request):
 
 def home(request):
     swap_language(request)
-    context_dict = {}
+    context_dict = {'templates': Template.objects.all()}
     try:
         category = Category.objects.order_by('name')
         context_dict['categories'] = category
@@ -41,11 +41,11 @@ def user_profile(request, user_id):
 
 def profile_settings(request, user_id):
     if request.method == 'GET':
+        context_dict = {'selectgender': ['select', 'Male', 'Female'],
+                        'themes': Theme.objects.all(),
+                        'selectlang': Language.objects.all()}
         swap_language(request)
-        return render(request, 'profile_settings.html',
-                      {'selectgender': ['select', 'Male', 'Female'],
-                       'themes': Theme.objects.all(),
-                       'selectlang': Language.objects.all()})
+        return render(request, 'profile_settings.html', context_dict)
     else:
         obj = Account.objects.filter(id=request.user.id)[0]
         obj.gender = request.POST.get('gender', ' ')
@@ -78,7 +78,8 @@ def get_publications(request):
 
 
 class UpdatePhoto(View):
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         photo_src = request.POST.get("photo_src")
         user_id = request.user.id
         uploader.destroy(request.user, invalidate=True)
@@ -89,7 +90,8 @@ class UpdatePhoto(View):
 
 
 class GetProfile(View):
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         username = request.GET.get("username")
         profile = list(
                 Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
@@ -97,8 +99,25 @@ class GetProfile(View):
         return JsonResponse(dict(profile=profile))
 
 
+class AddPublication(View):
+    @staticmethod
+    def get(request, template_id, *args, **kwargs):
+        if request.user.is_authenticated():
+            context_dict = {'template': Template.objects.filter(id=template_id)[0].name + '.html'}
+            return render(request, 'edit.html', context_dict)
+        else:
+            return redirect(reverse('login'))
+
+
+# class PublicationView(View):
+#     @staticmethod
+#     def get(request, *args, **kwargs):
+#         context_dict = {}
+#         return render(request, 'Template1.html', context_dict)
+
 class GetTags(View):
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         tags = Tag.objects.usage_for_model(Publication, counts=True)
         tags.sort(key=lambda tag: tag.count, reverse=True)
         tags = itertools.islice(tags, 0, 10)

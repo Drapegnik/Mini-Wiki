@@ -1,5 +1,4 @@
-from app.models import Category
-from courseproject.models import Theme, Language
+from courseproject.models import *
 
 categories = ["Programming", "Biology", "Chemistry", "History", "Physics"]
 
@@ -8,11 +7,19 @@ themes = {"Light": "https://bootswatch.com/flatly/bootstrap.min.css",
 
 languages = {"English": "en-us", "Russian": "ru"}
 
+templates = {"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105446/Template1.png",
+             "Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105454/Template2.png",
+             "Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105501/template3.png"}
+
 for category in categories:
     Category.objects.create(name=category)
 
-for name, cssLink in themes.items():
-    Theme.objects.create(name=name, cssLink=cssLink)
+for name, css_link in themes.items():
+    Theme.objects.create(name=name, css_link=css_link)
 
 for lang, code in languages.items():
     Language.objects.create(name=lang, code=code)
+
+for name, preview_link in templates.items():
+    Template.objects.create(name=name, preview_link=preview_link)
+

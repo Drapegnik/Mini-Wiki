@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'styles/bootstrap-social.css' %}" type="text/css">
     {% if user.is_authenticated %}
-        <link rel="stylesheet" href="{{ user.theme.cssLink }}" type="text/css">
+        <link rel="stylesheet" href="{{ user.theme.css_link }}" type="text/css">
     {% else %}
         <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css" type="text/css">
     {% endif %}

@@ -1,3 +1,25 @@
+#previewzona {
+    border-right: 3px solid #2c3e50;
+}
+
+#templatepanel {
+    border: 3px solid darkgray;
+    border-radius: 8px;
+}
+
+#templatetab {
+    position: fixed;
+    right: 0px;
+    z-index: 1;
+    bottom: 15%;
+}
+
+#templatelist {
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
 #add {
     width: 17%;
     max-width: 100px;
