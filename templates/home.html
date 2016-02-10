@@ -5,7 +5,8 @@
 {% block content %}
 
     <div ng-controller="PublicationController as ctrl">
-        <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add" src="{% static 'icons/add_red.png' %}"></a>
+        <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add"
+                                                                              src="{% static 'icons/add_red.png' %}"></a>
         <div id="templatetab" class="col-md-3 collapse">
             <div id="templatepanel" class="panel panel-success">
                 <div class="panel-heading">
@@ -97,6 +98,16 @@
 
             {% endverbatim %}
         </div>
+        <div class="col-md-3 hidden-xs hidden-sm" ng-controller="TagController as ctrl" ng-init="ctrl.init()">
+            <div class="dataBoxContent">
+                {% verbatim %}
+                   <span ng-cloak ng-repeat="tag in ctrl.tags"
+                         class="cloud_{{ tag.Weight }}"><a>{{ tag.TagName }}</a>  </span>
+                {% endverbatim %}
+            </div>
+        </div>
+
+
     </div>
 
 {% endblock %}

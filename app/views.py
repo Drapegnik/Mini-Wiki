@@ -1,9 +1,12 @@
+import itertools
+
 from cloudinary import uploader
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils import translation
 from django.views.generic.base import View
+from tagging.models import Tag
 
 from app.models import Publication
 from courseproject.models import *
@@ -111,3 +114,14 @@ class AddPublication(View):
 #     def get(request, *args, **kwargs):
 #         context_dict = {}
 #         return render(request, 'Template1.html', context_dict)
+
+class GetTags(View):
+    @staticmethod
+    def get(request, *args, **kwargs):
+        tags = Tag.objects.usage_for_model(Publication, counts=True)
+        tags.sort(key=lambda tag: tag.count, reverse=True)
+        tags = itertools.islice(tags, 0, 10)
+        response = []
+        for tag in tags:
+            response.append(dict(name=tag.name, count=tag.count))
+        return JsonResponse(dict(tags=response))
