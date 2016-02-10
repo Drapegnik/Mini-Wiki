@@ -42,7 +42,6 @@
                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.location }}{% endverbatim %}</span>
                     </div>
                 </div>
-                {#                <p class="list-group-item" {{ ctrl.userProfile.profile.home }}</p>#}
             </div>
         </div>
 
@@ -77,7 +76,7 @@
 
             {% endverbatim %}
         </div>
-        <div class="col-md-3 .hidden-sm-down" ng-controller="TagController as ctrl" ng-init="ctrl.init()">
+        <div class="col-md-3 hidden-xs hidden-sm" ng-controller="TagController as ctrl" ng-init="ctrl.init()">
             <div class="dataBoxContent">
                 {% verbatim %}
                    <span ng-cloak ng-repeat="tag in ctrl.tags"
