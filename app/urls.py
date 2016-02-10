@@ -11,5 +11,8 @@ urlpatterns = [
     # url(r'^category/(?P<category_name>\d+)$', user_profile, name='category'),
     url(r'updatePhoto/', UpdatePhoto.as_view()),
     url(r'getProfile/', GetProfile.as_view()),
-    url(r'^test/$', TemplateView.as_view(template_name="Template3.html")),
+    #url(r'^test/$', TemplateView.as_view(template_name="Template1.html", context={'parent': 'base.html'})),
+    #url(r'^test/$', PublicationView.as_view()),
+    url(r'^createpublication/(?P<template_id>\d+)/$', AddPublication.as_view(),
+        name='create-publication'),
 ]

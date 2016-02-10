@@ -13,9 +13,8 @@
                 <button class="btn btn-danger" ng-click="ctrl.cancelChange()">{% trans 'Cancel' %}</button>
                 <button class="btn btn-success" ng-click="ctrl.applyChange()">{% trans 'Apply' %}</button>
             </div>
-            <img ng-cloak ng-show="ctrl.inLoading" src="{% static 'icons/loading_spinner.gif' %}">
             <div ng-cloak ng-show="ctrl.inLoading" class="progress progress-striped active">
-                <div class="progress-bar" style="width: 50%">{% trans 'loading ' %}50%</div>
+                <div class="progress-bar" style="width: 100%">{% trans 'loading ' %}</div>
             </div>
                 <span id="dropZone" ng-cloak ng-show="!ctrl.inLoading && !ctrl.changed"
                       class=" dropzona col-md-12 col-xs-12 btn btn-default btn-file">

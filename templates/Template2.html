@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
-{% load i18n %}
-{% block content %}
-    <div>
+{#{% extends 'edit.html' %}#}
+{#{% load i18n %}#}
+{#{% block article %}#}
+    <div class="row">
         <div class="col-lg-5 col-md-6 pull-left">
             <img class="img-responsive img-thumbnail" src="http://placehold.it/600x500">
         </div>
@@ -14,50 +14,49 @@
                         ng-show="publication.rate > 0">+</span>24</span></li>
             </ul>
         </div>
-        <div class="container ">
-            <div class="content text-left">
-                <h1 class="text-center">Sponsoring AngularConnect</h1>
-                <h3>May 11, 2015 - 1 minute read</h3>
-                <p>Today we are very happy to announce that we’re going to sponsor AngularConnect, the official Angular
-                    conference in Europe, taking place on the 20th and 21st October in London this year. Not only that
-                    you can find us during the conference, we’re also going to run a workshop the day before to help you
-                    getting started with Angular and being perfectly prepared for the event.
+        <div class="content text-left">
+            <h1 class="text-center">Sponsoring AngularConnect</h1>
+            <h3>May 11, 2015 - 1 minute read</h3>
+            <p>Today we are very happy to announce that we’re going to sponsor AngularConnect, the official Angular
+                conference in Europe, taking place on the 20th and 21st October in London this year. Not only that
+                you can find us during the conference, we’re also going to run a workshop the day before to help you
+                getting started with Angular and being perfectly prepared for the event.
 
-                    The workshop will be a single-day training on the 19th October and mostly cover the first part of
-                    our Angular Master Class. However, we’re very flexible in interchanging specific topics, so you as
-                    an attendee get to learn what you want to learn! If you’re interested in attending AngularConnect,
-                    head over to their website and make sure to get a ticket.
-                    We are looking very forward to meeting you there at both, the workshop and the conference!
-                    Liked the article and found it useful? How about sharing it with others on twitter? We'd love to get
-                    your feedback!
-                    We regularly write articles and offer Git and Angular trainings. Subscribe here to get the latest
-                    updates about our articles and trainings in your city:
+                The workshop will be a single-day training on the 19th October and mostly cover the first part of
+                our Angular Master Class. However, we’re very flexible in interchanging specific topics, so you as
+                an attendee get to learn what you want to learn! If you’re interested in attending AngularConnect,
+                head over to their website and make sure to get a ticket.
+                We are looking very forward to meeting you there at both, the workshop and the conference!
+                Liked the article and found it useful? How about sharing it with others on twitter? We'd love to get
+                your feedback!
+                We regularly write articles and offer Git and Angular trainings. Subscribe here to get the latest
+                updates about our articles and trainings in your city:
 
-                    ngMessages revisited
-                    Jun 6, 2015 - Updated: Jun 16, 2015 - 4 minute read
-                    If you’ve followed our series on Exploring Angular 1.3, you know that we’ve written an article about
-                    a new module that has been introduced then, called ngMessages. If you haven’t read that article we
-                    highly recommend checking it out, since this article builds on top of that.
-                    Angular 1.4 has been released just a few days ago and weeks before that, there were several beta
-                    releases so we could make our feet wet with it. Next to a ton of improvements, bug fixes and
-                    features, this release also introduces a couple of minor breaking changes. In this article we
-                    discuss the latest changes to the ngMessages module, so you can update your application code
-                    accordingly.
+                ngMessages revisited
+                Jun 6, 2015 - Updated: Jun 16, 2015 - 4 minute read
+                If you’ve followed our series on Exploring Angular 1.3, you know that we’ve written an article about
+                a new module that has been introduced then, called ngMessages. If you haven’t read that article we
+                highly recommend checking it out, since this article builds on top of that.
+                Angular 1.4 has been released just a few days ago and weeks before that, there were several beta
+                releases so we could make our feet wet with it. Next to a ton of improvements, bug fixes and
+                features, this release also introduces a couple of minor breaking changes. In this article we
+                discuss the latest changes to the ngMessages module, so you can update your application code
+                accordingly.
 
-                    ngMessagesInclude no longer an attribute
-                    In applications where more than just a single form exists, we might want to reuse message templates.
-                    E.g. if we have an input field that is required, we want to display an error message that says so,
-                    in case the user forgets to enter anything. Such required fields appear very often in forms, so it
-                    would be quite cumbersome if we would have to define the same error message in a template over and
-                    over again.
-                    To solve that issue, there was an ngMessagesInclude attribute, which we could use in combination
-                    with the ngMessages directive, to include existing templates in other ngMessages container.
-                    To illustrate this scenario, here’s what such a template definition could look like:
-                </p>
-            </div>
+                ngMessagesInclude no longer an attribute
+                In applications where more than just a single form exists, we might want to reuse message templates.
+                E.g. if we have an input field that is required, we want to display an error message that says so,
+                in case the user forgets to enter anything. Such required fields appear very often in forms, so it
+                would be quite cumbersome if we would have to define the same error message in a template over and
+                over again.
+                To solve that issue, there was an ngMessagesInclude attribute, which we could use in combination
+                with the ngMessages directive, to include existing templates in other ngMessages container.
+                To illustrate this scenario, here’s what such a template definition could look like:
+            </p>
         </div>
         <div class="col-lg-offset-3 img-thumbnail">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/6dr-eeegw4g" frameborder="0" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/6dr-eeegw4g" frameborder="0"
+                    allowfullscreen></iframe>
         </div>
     </div>
-{% endblock %}
+{#{% endblock %}#}

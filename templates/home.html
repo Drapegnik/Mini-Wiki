@@ -4,8 +4,25 @@
 {% load staticfiles %}
 {% block content %}
 
-    <a href="#add"><img id="add"  src="{% static 'icons/add_red.png' %}"></a>
     <div ng-controller="PublicationController as ctrl">
+        <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add" src="{% static 'icons/add_red.png' %}"></a>
+        <div id="templatetab" class="col-md-3 collapse">
+            <div id="templatepanel" class="panel panel-success">
+                <div class="panel-heading">
+                    <h3>{% trans 'Templates' %}</h3>
+                </div>
+                <div class="panel-body list-group" id="templatelist">
+                    {% for template in templates %}
+                        <a href="{% url 'create-publication' template.id %}" class="list-group-item">
+                            <label>{{ template.name }}</label>
+                            <img id="photo" class="img-thumbnail" src="{{ template.preview_link }}">
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
         <div class="col-md-2" ng-cloak ng-show="!ctrl.viewProfile">
             <div class="panel panel-success">
                 <div class="panel-heading">
@@ -34,15 +51,18 @@
                     </div>
                     {% endverbatim %}
                     <div class="list-group-item">
-                        <label class="label label-info">{% trans 'gender'%}:</label>
-                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.gender }}{% endverbatim %}</span>
+                        <label class="label label-info">{% trans 'gender' %}:</label>
+                        <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.gender }}{% endverbatim %}</span>
                     </div>
                     <div class="list-group-item">
                         <label class="label label-info">{% trans 'location' %}:</label>
-                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.location }}{% endverbatim %}</span>
+                        <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.location }}{% endverbatim %}</span>
+                    </div>
+                    <div class="list-group-item">
+                        <label class="label label-info">{% trans 'about' %}:</label>
+                        <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.about}}{% endverbatim %}</span>
                     </div>
                 </div>
-                {#                <p class="list-group-item" {{ ctrl.userProfile.profile.home }}</p>#}
             </div>
         </div>
 
