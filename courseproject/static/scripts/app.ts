@@ -145,7 +145,7 @@ class dragAndDrop {
             thisObj.dropzone.addClass('drop');
             thisObj.file = event.dataTransfer.files[0];
             if (thisObj.file.size > thisObj.maxFileSize) {
-                thisObj.dropzone.text('Файл слишком большой!');
+                thisObj.dropzone.text('File too big!');
                 thisObj.dropzone.addClass('error');
                 return false;
             }
@@ -208,7 +208,7 @@ var app = angular
     })
     .controller("PublicationController", ["$scope", "$http", PublicationController])
     .controller("dragAndDrop", ["$scope", dragAndDrop])
-    .controller("photoUploader", ["$scope", "$http", photoUploader])
+    .controller("photoUploader", ["$scope", "$http", photoUploader]);
 
 
 app.directive('onReadFile', function ($parse) {
@@ -220,13 +220,13 @@ app.directive('onReadFile', function ($parse) {
 
             element.on('change', function (onChangeEvent) {
                 scope.$apply(function () {
-                    scope.ctrl.file = element[0].files[0]
+                    scope.ctrl.file = element[0].files[0];
                     fn(scope);
                 });
             });
         }
     };
-})
+});
 
 app.directive('onSrcChanged', function ($parse) {
     return {
@@ -241,4 +241,4 @@ app.directive('onSrcChanged', function ($parse) {
             });
         }
     };
-})
+});

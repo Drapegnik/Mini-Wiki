@@ -113,7 +113,7 @@ var dragAndDrop = (function () {
             thisObj.dropzone.addClass('drop');
             thisObj.file = event.dataTransfer.files[0];
             if (thisObj.file.size > thisObj.maxFileSize) {
-                thisObj.dropzone.text('Файл слишком большой!');
+                thisObj.dropzone.text('File too big!');
                 thisObj.dropzone.addClass('error');
                 return false;
             }
