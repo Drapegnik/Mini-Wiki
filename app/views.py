@@ -1,9 +1,12 @@
+import itertools
+
 from cloudinary import uploader
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils import translation
 from django.views.generic.base import View
+from tagging.models import Tag
 
 from app.models import Category
 from app.models import Publication
@@ -16,6 +19,7 @@ def swap_language(request):
     if (request.user.is_authenticated()):
         translation.activate(request.user.language.code)
         request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
+
 
 def home(request):
     swap_language(request)
@@ -88,6 +92,17 @@ class GetProfile(View):
     def get(self, request, *args, **kwargs):
         username = request.GET.get("username")
         profile = list(
-            Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
-                                                             'photo'))
+                Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
+                                                                 'photo'))
         return JsonResponse(dict(profile=profile))
+
+
+class GetTags(View):
+    def get(self, request, *args, **kwargs):
+        tags = Tag.objects.usage_for_model(Publication, counts=True)
+        tags.sort(key=lambda tag: tag.count, reverse=True)
+        tags = itertools.islice(tags, 0, 10)
+        response = []
+        for tag in tags:
+            response.append(dict(name=tag.name, count=tag.count))
+        return JsonResponse(dict(tags=response))

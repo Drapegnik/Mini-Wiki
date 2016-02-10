@@ -11,5 +11,6 @@ urlpatterns = [
     # url(r'^category/(?P<category_name>\d+)$', user_profile, name='category'),
     url(r'updatePhoto/', UpdatePhoto.as_view()),
     url(r'getProfile/', GetProfile.as_view()),
-    url(r'^test/$', TemplateView.as_view(template_name="Template3.html")),
+    url(r'test/$', TemplateView.as_view(template_name="Template3.html")),
+    url(r'getTags/', GetTags.as_view()),
 ]

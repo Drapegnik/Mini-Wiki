@@ -100,7 +100,7 @@ class PublicationController {
     }
 
 }
-class dragAndDrop {
+class DragAndDrop {
     constructor($scope:ng.IScope) {
         this.scope = $scope;
         this.maxFileSize = 5242880;
@@ -130,7 +130,7 @@ class dragAndDrop {
 
     }
 
-    private initDropzone(thisObj:dragAndDrop) {
+    private initDropzone(thisObj:DragAndDrop) {
         thisObj.dropzone[0].ondragleave = function () {
             thisObj.dropzone.removeClass('hover');
             return false;
@@ -153,7 +153,7 @@ class dragAndDrop {
         };
     }
 
-    private initFileReader(thisObj:dragAndDrop) {
+    private initFileReader(thisObj:DragAndDrop) {
         this.fileReader.onload = function (event) {
             thisObj.destination.attr('src', event.target.result);
         }
@@ -168,7 +168,7 @@ class dragAndDrop {
     }
 }
 
-class photoUploader extends dragAndDrop {
+class PhotoUploader extends DragAndDrop {
     constructor($scope:ng.IScope, $http:ng.IHttpService) {
         super($scope);
         this.http = new HttpHandlerService($http);
@@ -199,6 +199,40 @@ class photoUploader extends dragAndDrop {
     }
 }
 
+class TagController {
+    constructor($scope:ng.IScope, $http:ng.IHttpService) {
+        this.tags = [];
+        this.http = new HttpHandlerService($http);
+        this.http.handlerUrl = "getTags/"
+    }
+
+    tags:any;
+    fontMin = 1;
+    fontMax = 3;
+    http:HttpHandlerService;
+
+    public init() {
+        this.http.useGetHandler({}).then((data) => this.fillTags(data));
+    }
+
+    public fillTags(data:any) {
+        var max = -Infinity
+        var min = Infinity
+        for (var i in data.tags) {
+            max = data.tags[i].count > max ? data.tags[i].count : max;
+            min = data.tags[i].count < min ? data.tags[i].count : min;
+        }
+        for (var iter in data.tags) {
+            var tag = data.tags[iter];
+            var size = tag.count == min ? this.fontMin
+                : (tag.count / max) * (this.fontMax - this.fontMin) + this.fontMin;
+            this.tags.push({TagName: tag.name, Weight: Math.round(size)});
+        }
+        console.log(this.tags)
+    }
+
+}
+
 
 var app = angular
     .module("app", [])
@@ -207,8 +241,9 @@ var app = angular
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     })
     .controller("PublicationController", ["$scope", "$http", PublicationController])
-    .controller("dragAndDrop", ["$scope", dragAndDrop])
-    .controller("photoUploader", ["$scope", "$http", photoUploader]);
+    .controller("DragAndDrop", ["$scope", DragAndDrop])
+    .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
+    .controller("TagController", ["$scope", "$http", TagController]);
 
 
 app.directive('onReadFile', function ($parse) {

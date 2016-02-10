@@ -81,8 +81,8 @@ var PublicationController = (function () {
     };
     return PublicationController;
 })();
-var dragAndDrop = (function () {
-    function dragAndDrop($scope) {
+var DragAndDrop = (function () {
+    function DragAndDrop($scope) {
         this.scope = $scope;
         this.maxFileSize = 5242880;
         this.fileReader = new FileReader();
@@ -92,13 +92,13 @@ var dragAndDrop = (function () {
         this.changed = false;
         this.inLoading = false;
     }
-    dragAndDrop.prototype.init = function (dropzoneId, targetId) {
+    DragAndDrop.prototype.init = function (dropzoneId, targetId) {
         this.dropzone = angular.element(dropzoneId);
         this.destination = angular.element(targetId);
         this.getPrevPhoto();
         this.initDropzone(this);
     };
-    dragAndDrop.prototype.initDropzone = function (thisObj) {
+    DragAndDrop.prototype.initDropzone = function (thisObj) {
         thisObj.dropzone[0].ondragleave = function () {
             thisObj.dropzone.removeClass('hover');
             return false;
@@ -120,29 +120,29 @@ var dragAndDrop = (function () {
             thisObj.fileReader.readAsDataURL(thisObj.file);
         };
     };
-    dragAndDrop.prototype.initFileReader = function (thisObj) {
+    DragAndDrop.prototype.initFileReader = function (thisObj) {
         this.fileReader.onload = function (event) {
             thisObj.destination.attr('src', event.target.result);
         };
     };
-    dragAndDrop.prototype.getPrevPhoto = function () {
+    DragAndDrop.prototype.getPrevPhoto = function () {
         this.prevPhoto = this.destination.attr('src');
     };
-    dragAndDrop.prototype.inverseParameterChanged = function () {
+    DragAndDrop.prototype.inverseParameterChanged = function () {
         this.changed = !this.changed;
     };
-    return dragAndDrop;
+    return DragAndDrop;
 })();
-var photoUploader = (function (_super) {
-    __extends(photoUploader, _super);
-    function photoUploader($scope, $http) {
+var PhotoUploader = (function (_super) {
+    __extends(PhotoUploader, _super);
+    function PhotoUploader($scope, $http) {
         _super.call(this, $scope);
         this.http = new HttpHandlerService($http);
     }
-    photoUploader.prototype.fillFileFromInput = function () {
+    PhotoUploader.prototype.fillFileFromInput = function () {
         this.fileReader.readAsDataURL(this.file);
     };
-    photoUploader.prototype.applyChange = function () {
+    PhotoUploader.prototype.applyChange = function () {
         var _this = this;
         this.http.handlerUrl = "updatePhoto/";
         var data = $.param({ photo_src: this.destination.attr('src') });
@@ -151,14 +151,43 @@ var photoUploader = (function (_super) {
         this.http.usePostHandler(data)
             .then(function (data) { return _this.loadingFinished(); });
     };
-    photoUploader.prototype.cancelChange = function () {
+    PhotoUploader.prototype.cancelChange = function () {
         this.destination.attr('src', this.prevPhoto);
     };
-    photoUploader.prototype.loadingFinished = function () {
+    PhotoUploader.prototype.loadingFinished = function () {
         this.inLoading = false;
     };
-    return photoUploader;
-})(dragAndDrop);
+    return PhotoUploader;
+})(DragAndDrop);
+var TagController = (function () {
+    function TagController($scope, $http) {
+        this.fontMin = 1;
+        this.fontMax = 3;
+        this.tags = [];
+        this.http = new HttpHandlerService($http);
+        this.http.handlerUrl = "getTags/";
+    }
+    TagController.prototype.init = function () {
+        var _this = this;
+        this.http.useGetHandler({}).then(function (data) { return _this.fillTags(data); });
+    };
+    TagController.prototype.fillTags = function (data) {
+        var max = -Infinity;
+        var min = Infinity;
+        for (var i in data.tags) {
+            max = data.tags[i].count > max ? data.tags[i].count : max;
+            min = data.tags[i].count < min ? data.tags[i].count : min;
+        }
+        for (var iter in data.tags) {
+            var tag = data.tags[iter];
+            var size = tag.count == min ? this.fontMin
+                : (tag.count / max) * (this.fontMax - this.fontMin) + this.fontMin;
+            this.tags.push({ TagName: tag.name, Weight: Math.round(size) });
+        }
+        console.log(this.tags);
+    };
+    return TagController;
+})();
 var app = angular
     .module("app", [])
     .config(function ($httpProvider) {
@@ -166,8 +195,9 @@ var app = angular
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 })
     .controller("PublicationController", ["$scope", "$http", PublicationController])
-    .controller("dragAndDrop", ["$scope", dragAndDrop])
-    .controller("photoUploader", ["$scope", "$http", photoUploader]);
+    .controller("DragAndDrop", ["$scope", DragAndDrop])
+    .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
+    .controller("TagController", ["$scope", "$http", TagController]);
 app.directive('onReadFile', function ($parse) {
     return {
         restrict: 'A',
