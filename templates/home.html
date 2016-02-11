@@ -4,7 +4,8 @@
 {% load staticfiles %}
 {% block content %}
 
-    <div ng-controller="PublicationController as ctrl">
+    <divq ng-controller="PublicationController as ctrl" ng-init="ctrl.init()">
+
         <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add"
                                                                               src="{% static 'icons/add_red.png' %}"></a>
         <div id="templatetab" class="col-md-3 collapse">
@@ -21,9 +22,7 @@
                     {% endfor %}
                 </div>
             </div>
-
         </div>
-
         <div class="col-md-2" ng-cloak ng-show="!ctrl.viewProfile">
             <div class="panel panel-success">
                 <div class="panel-heading">
@@ -66,37 +65,37 @@
                 </div>
             </div>
         </div>
+        <div infinite-scroll='ctrl.loadMore()' infinite-scroll-disabled='ctrl.busy' infinite-scroll-distance='1'>
+            <div class="col-md-9 pull-right" ng-repeat="publication in ctrl.publications track by $index">
+                {% verbatim %}
+                <div class="panel panel-success">
 
-    <tags-input ng-model="tags"></tags-input>
-        <div class="col-md-9 pull-right" ng-repeat="publication in ctrl.publications track by $index">
-            {% verbatim %}
-            <div class="panel panel-success">
-
-                <div class="panel-heading">
-                    <h3 class="panel-title"><a href="#$">{{ publication.header }}</a></h3>
-                </div>
-
-                <div class="panel-body">
-                    <div class="well">
-                        {{ publication.description }}
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><a href="#$">{{ publication.header }}</a></h3>
                     </div>
 
-                    <ul class="breadcrumb">
-                        <li>{{publication.category }}</li>
-                        <li><span class="label label-success"><a href="#"
-                                                                 ng-click="ctrl.setFilter(0,publication.username)">{{
-                            publication.username }}</a></span></li>
-                        <li class="active">{{publication.created_at | date:'medium'}}</li>
-                        <li><span class="badge"><span
-                                ng-show="publication.rate > 0">+</span>{{ publication.rate }}</span></li>
-                    </ul>
-                </div>
-            </div>
-            <ul class="tags ">
-                <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
-            </ul>
+                    <div class="panel-body">
+                        <div class="well">
+                            {{ publication.description }}
+                        </div>
 
-            {% endverbatim %}
+                        <ul class="breadcrumb">
+                            <li>{{publication.category }}</li>
+                            <li><span class="label label-success"><a href="#"
+                                                                     ng-click="ctrl.setFilter(0,publication.username)">{{
+                                publication.username }}</a></span></li>
+                            <li class="active">{{publication.created_at | date:'medium'}}</li>
+                            <li><span class="badge"><span
+                                    ng-show="publication.rate > 0">+</span>{{ publication.rate }}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="tags ">
+                    <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
+                </ul>
+
+                {% endverbatim %}
+            </div>
         </div>
         <div class="col-md-3 hidden-xs hidden-sm" ng-controller="TagController as ctrl" ng-init="ctrl.init()">
             <div class="dataBoxContent">
@@ -108,7 +107,7 @@
         </div>
 
 
-    </div>
+    </divq>
 
 {% endblock %}
 

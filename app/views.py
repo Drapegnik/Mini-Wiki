@@ -9,8 +9,8 @@ from django.views.generic.base import View
 from tagging.models import Tag
 
 from app.models import Publication
-from courseproject.models import *
 from authenticating.models import Account
+from courseproject.models import *
 
 
 # Create your views here.
@@ -65,11 +65,21 @@ def normalize_publication(publication):
 def get_publications(request):
     username = request.GET.get("username")
     category_id = request.GET.get("categoryId")
-    if category_id != '0':
-        publications = Publication.objects.filter(category=category_id)
+    sort_by = request.GET.get("sort_by")
+    range_first = request.GET.get("first")
+    range_last = request.GET.get("last")
+    tags = request.GET.get("tag")
+
+    pub_filter = lambda xz: Publication.objects.filter(**xz).order_by(sort_by)[range_first:range_last]
+    if category_id:
+        publications = pub_filter({'category': category_id})
+    elif username:
+        publications = pub_filter({'username': Account.objects.get(username=username).id})
+    elif tags:
+        publications = pub_filter({'tag': tags})
     else:
-        user_id = Account.objects.get(username=username).id
-        publications = Publication.objects.filter(username=user_id)
+        publications = pub_filter({'rate__gte': -100})
+
     publications_values = list(publications.values('username', 'category', 'header', 'description', 'rate',
                                                    'created_at', 'tag'))
     for i in range(len(publications_values)): normalize_publication(publications_values[i])

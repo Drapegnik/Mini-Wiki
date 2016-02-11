@@ -68,7 +68,8 @@ class PublicationController {
         this.publications = [];
         this.viewProfile = false;
         this.userProfile = new UserProfile($http);
-        this.tags = [];
+        this.currentFilter = {};
+        this.busy = true;
     }
 
     scope:ng.IScope;
@@ -77,27 +78,58 @@ class PublicationController {
     userProfile:UserProfile;
     tags:any;
     tagSearch:boolean;
+    currentFilter:any;
+    busy:boolean;
 
     private http:HttpHandlerService;
 
-    public setFilter(categoryId:number = 0, username:string = "") {
+    public setFilter(categoryId:number = 0, username:string = "", tags = "", sortBy:string = "-rate") {
+        console.log("setFilter")
         this.http.handlerUrl = "publications/";
-        this.viewProfile = categoryId == 0;
-        if (categoryId == 0) {
+        this.viewProfile = username != "";
+        if (username) {
             this.userProfile.getProfile(username);
         }
-        var result:any = this.http.useGetHandler({
-            "categoryId": categoryId,
-            "username": username
-        }).then((data) => this.fillPublication(data));
+        this.currentFilter = {
+            "categoryId": categoryId == 0 ? "":categoryId,
+            "username": username,
+            "sort_by": sortBy
+        };
+        this.publications = [];
+        this.getPublications(0,4);
+    }
 
+    public addTag(tag:string){
+        var tags = this.currentFilter.tags;
+        tags.push(tag);
+        this.setFilter(0,"",tags,this.currentFilter.sort_by);
+    }
+
+    public loadMore()
+    {
+        this.busy = true;
+        this.getPublications(this.publications.length,this.publications.length+4);
+    }
+
+    public init(){
+        console.log("init")
+        this.setFilter()
     }
 
     private fillPublication(data:any) {
-        this.publications = data.publications;
-        for (var iterartor in this.publications) {
-            this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
+        for (var iterartor in data.publications) {
+            data.publications[iterartor].tag = data.publications[iterartor].tag.split(", ");
+            this.publications.push(data.publications[iterartor]);
         }
+        this.busy = false;
+    }
+
+    private getPublications(range_first:number,range_last:number){
+        console.log("getPublications")
+        var parameters:any = this.currentFilter;
+        parameters.range_first = range_first;
+        parameters.range_last = range_last;
+        this.http.useGetHandler(parameters).then((data) => this.fillPublication(data));
 
     }
 
@@ -236,7 +268,7 @@ class TagController {
 
 
 var app = angular
-    .module("app", ['ngTagsInput'])
+    .module("app", ['ngTagsInput','infinite-scroll'])
     .config(function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';

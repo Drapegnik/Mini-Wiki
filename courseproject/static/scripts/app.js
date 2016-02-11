@@ -57,27 +57,55 @@ var PublicationController = (function () {
         this.publications = [];
         this.viewProfile = false;
         this.userProfile = new UserProfile($http);
-        this.tags = [];
+        this.currentFilter = {};
+        this.busy = true;
     }
-    PublicationController.prototype.setFilter = function (categoryId, username) {
-        var _this = this;
+    PublicationController.prototype.setFilter = function (categoryId, username, tags, sortBy) {
         if (categoryId === void 0) { categoryId = 0; }
         if (username === void 0) { username = ""; }
+        if (tags === void 0) { tags = ""; }
+        if (sortBy === void 0) { sortBy = "-rate"; }
+        console.log("setFilter");
         this.http.handlerUrl = "publications/";
-        this.viewProfile = categoryId == 0;
-        if (categoryId == 0) {
+        this.viewProfile = username != "";
+        if (username) {
             this.userProfile.getProfile(username);
         }
-        var result = this.http.useGetHandler({
-            "categoryId": categoryId,
-            "username": username
-        }).then(function (data) { return _this.fillPublication(data); });
+        this.currentFilter = {
+            "categoryId": categoryId == 0 ? "" : categoryId,
+            "username": username,
+            "sort_by": sortBy
+        };
+        this.publications = [];
+        this.getPublications(0, 4);
+    };
+    PublicationController.prototype.addTag = function (tag) {
+        var tags = this.currentFilter.tags;
+        tags.push(tag);
+        this.setFilter(0, "", tags, this.currentFilter.sort_by);
+    };
+    PublicationController.prototype.loadMore = function () {
+        this.busy = true;
+        this.getPublications(this.publications.length, this.publications.length + 4);
+    };
+    PublicationController.prototype.init = function () {
+        console.log("init");
+        this.setFilter();
     };
     PublicationController.prototype.fillPublication = function (data) {
-        this.publications = data.publications;
-        for (var iterartor in this.publications) {
-            this.publications[iterartor].tag = this.publications[iterartor].tag.split(", ");
+        for (var iterartor in data.publications) {
+            data.publications[iterartor].tag = data.publications[iterartor].tag.split(", ");
+            this.publications.push(data.publications[iterartor]);
         }
+        this.busy = false;
+    };
+    PublicationController.prototype.getPublications = function (range_first, range_last) {
+        var _this = this;
+        console.log("getPublications");
+        var parameters = this.currentFilter;
+        parameters.range_first = range_first;
+        parameters.range_last = range_last;
+        this.http.useGetHandler(parameters).then(function (data) { return _this.fillPublication(data); });
     };
     return PublicationController;
 })();
@@ -188,7 +216,7 @@ var TagController = (function () {
     return TagController;
 })();
 var app = angular
-    .module("app", ['ngTagsInput'])
+    .module("app", ['ngTagsInput', 'infinite-scroll'])
     .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
