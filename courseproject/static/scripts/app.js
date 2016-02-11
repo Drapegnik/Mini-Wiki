@@ -161,11 +161,11 @@ var PhotoUploader = (function (_super) {
 })(DragAndDrop);
 var TagController = (function () {
     function TagController($scope, $http) {
-        this.fontMin = 1;
-        this.fontMax = 3;
         this.tags = [];
         this.http = new HttpHandlerService($http);
         this.http.handlerUrl = "getTags/";
+        this.fontMax = 3;
+        this.fontMin = 1;
     }
     TagController.prototype.init = function () {
         var _this = this;
@@ -188,6 +188,23 @@ var TagController = (function () {
     };
     return TagController;
 })();
+var PreviewController = (function () {
+    function PreviewController($scope, $sce) {
+        this.$scope = $scope;
+        this.$sce = $sce;
+        this.header = "Sample Header";
+        this.description = "Sample Description";
+        this.tags = "tags";
+        this.category = "Sample Category";
+    }
+    PreviewController.prototype.init = function (htmlcontentId) {
+        this.htmlcontent = angular.element(htmlcontentId);
+    };
+    PreviewController.prototype.ShowPublication = function () {
+        this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
+    };
+    return PreviewController;
+})();
 var app = angular
     .module("app", [])
     .config(function ($httpProvider) {
@@ -197,7 +214,8 @@ var app = angular
     .controller("PublicationController", ["$scope", "$http", PublicationController])
     .controller("DragAndDrop", ["$scope", DragAndDrop])
     .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
-    .controller("TagController", ["$scope", "$http", TagController]);
+    .controller("TagController", ["$scope", "$http", TagController])
+    .controller("PreviewController", ["$scope", "$sce", PreviewController]);
 app.directive('onReadFile', function ($parse) {
     return {
         restrict: 'A',

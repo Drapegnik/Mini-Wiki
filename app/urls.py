@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^createpublication/(?P<template_id>\d+)/$', AddPublication.as_view(),
         name='create-publication'),
     url(r'getTags/', GetTags.as_view()),
+    url(r'^test/', GetData.as_view(), name='test')
 ]

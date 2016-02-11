@@ -32,6 +32,7 @@
 
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-4">
+                    <div>{{ form.errors }}</div>
                     <a href="{% url 'home' %}" type="reset" class="btn btn-default">{% trans 'Cancel' %}</a>
                     <button type="submit" class="btn btn-primary" value="Register">OK</button>
                 </div>

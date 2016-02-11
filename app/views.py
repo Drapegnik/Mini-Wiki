@@ -103,7 +103,10 @@ class AddPublication(View):
     @staticmethod
     def get(request, template_id, *args, **kwargs):
         if request.user.is_authenticated():
-            context_dict = {'template': Template.objects.filter(id=template_id)[0].name + '.html'}
+            context_dict = {
+                'template': Template.objects.filter(id=template_id)[0].name + '.html',
+                'catlist': Category.objects.all().values('name')
+            }
             return render(request, 'edit.html', context_dict)
         else:
             return redirect(reverse('login'))
@@ -125,3 +128,8 @@ class GetTags(View):
         for tag in tags:
             response.append(dict(name=tag.name, count=tag.count))
         return JsonResponse(dict(tags=response))
+
+class GetData(View):
+    @staticmethod
+    def post(request, *args, **kwargs):
+        print(request.POST)

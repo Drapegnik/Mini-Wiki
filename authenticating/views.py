@@ -3,7 +3,7 @@ from django.contrib.auth import views
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 
-from authenticating.forms import RegistrationForm
+from authenticating.forms import RegForm
 from courseproject import settings
 from .models import Account
 
@@ -15,7 +15,7 @@ def registration(request):
         return redirect(reverse('home'))
     else:
         if request.method == 'POST':
-            form = RegistrationForm(request.POST)
+            form = RegForm(request.POST)
             if form.is_valid():
                 Account.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'],
                                             form.cleaned_data['password'])
@@ -23,9 +23,11 @@ def registration(request):
                 obj.photo = \
                 cloudinary.uploader.upload(settings.STATIC_ROOT + '/static/icons/userpic.png', public_id=obj.id)['url']
                 obj.save()
-            return redirect(reverse('login'))
+                return redirect(reverse('login'))
+            else:
+                return render(request, 'registration/register.html', {'form': form})
         else:
-            form = RegistrationForm()
+            form = RegForm()
     return render(request, 'registration/register.html', {'form': form})
 
 

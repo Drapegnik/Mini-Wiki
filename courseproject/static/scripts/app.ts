@@ -204,11 +204,13 @@ class TagController {
         this.tags = [];
         this.http = new HttpHandlerService($http);
         this.http.handlerUrl = "getTags/"
+        this.fontMax = 3;
+        this.fontMin = 1;
     }
 
     tags:any;
-    fontMin = 1;
-    fontMax = 3;
+    fontMin:number;
+    fontMax:number;
     http:HttpHandlerService;
 
     public init() {
@@ -216,8 +218,8 @@ class TagController {
     }
 
     public fillTags(data:any) {
-        var max = -Infinity
-        var min = Infinity
+        var max = -Infinity;
+        var min = Infinity;
         for (var i in data.tags) {
             max = data.tags[i].count > max ? data.tags[i].count : max;
             min = data.tags[i].count < min ? data.tags[i].count : min;
@@ -233,6 +235,36 @@ class TagController {
 
 }
 
+class PreviewController {
+
+    constructor($scope:ng.IScope, $sce:ng.ISCEService) {
+        this.$scope = $scope;
+        this.$sce = $sce;
+        this.header = "Sample Header";
+        this.description = "Sample Description";
+        this.tags = "tags";
+        this.category = "Sample Category";
+    }
+    $scope:ng.IScope;
+    $sce:ng.ISCEService;
+    header:string;
+    description:string;
+    category:string;
+    tags:string;
+    htmlcontent:ng.IAugmentedJQuery;
+
+
+    public init(htmlcontentId:string) {
+        this.htmlcontent = angular.element(htmlcontentId);
+    }
+
+    public ShowPublication(){
+        this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
+    }
+
+
+}
+
 
 var app = angular
     .module("app", [])
@@ -243,7 +275,8 @@ var app = angular
     .controller("PublicationController", ["$scope", "$http", PublicationController])
     .controller("DragAndDrop", ["$scope", DragAndDrop])
     .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
-    .controller("TagController", ["$scope", "$http", TagController]);
+    .controller("TagController", ["$scope", "$http", TagController])
+    .controller("PreviewController", ["$scope", "$sce", PreviewController]);
 
 
 app.directive('onReadFile', function ($parse) {

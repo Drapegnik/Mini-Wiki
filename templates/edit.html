@@ -1,19 +1,87 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-    <div>
-        <table>
-            <tr class="row">
-                <td id="previewzona" class="row col-md-8">
-{#                    {% block article %}{% endblock %}#}
-                    {% block atricle %}
-                    {% include template %}
-                        {% endblock %}
-                </td>
-                <td class="col-md-4">
-                    <p>ХУЙ ПИЗДА ДЫЛТФАТФЛД ЫЬВДФЬЫАДФЬ ЫАДФЬЫА ДЬФДЫАЬДФЫЬАДФЫ ЬАДФЫЬАДФЬЫ АДЬДФЫАЬДФЫЛ АЬФДЫ ЬАДФЫАЬдыаь</p>
-                </td>
-            </tr>
-        </table>
+    {% load staticfiles %}
+    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+
+    <div style="background-color: inherit" ng-controller="PreviewController as ctrl" ng-init="ctrl.init('#content')">
+
+        <div class="collapse" id="previewzona">
+            {% include template %}
+        </div>
+
+        <form class="form-horizontal" method="post" action="{% url 'test' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-offset-1 col-md-12" id="formzona">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label for="id_header" class=" control-label">{% trans 'Header' %}:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input ng-model="ctrl.header" type="text" class="form-control" id="id_header"
+                                   maxlength="254"
+                                   name="header"
+                                   placeholder="{% trans 'you header' %}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label for="id_description" class=" control-label">{% trans 'Description' %}:</label>
+                        </div>
+                        <div class="col-md-6">
+                <textarea ng-model="ctrl.description" class="form-control" id="id_description" maxlength="500"
+                          name="description" placeholder="{% trans 'you description' %}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label for="id_category" class=" control-label">{% trans 'Category' %}:</label>
+                        </div>
+                        <div class="col-md-6 selectlist">
+                            <select ng-model="ctrl.category" id="id_category" class="form-control col-md-6" size="1"
+                                    name="category">
+                                {% for val in catlist %}
+                                    <option value="{{ val.name }}">{% trans val.name %}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label for="id_tags" class=" control-label">{% trans 'Tags' %}:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input ng-model="ctrl.tags" type="text" class="form-control" id="id_tags" maxlength="254"
+                                   name="tags"
+                                   placeholder="{% trans 'you tags' %}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="dropview" class="dropzona col-md-8">
+                        <br>
+                        <br>
+                        <br>
+                        <span>{% trans 'drop your images here' %}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" id="editzona">
+                <textarea name="editor" id="editor" rows="10" cols="80">
+                    {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}
+                </textarea>
+                <script>CKEDITOR.replace('editor');</script>
+                <div class="editbuttongroup">
+                    <a href="#" class="btn btn-danger">Cansel</a>
+                    <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
+                       data-target="#previewzona" class="btn btn-warning">Preview</a>
+                    <input class="btn btn-success" type="submit" value="Publish">
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}
