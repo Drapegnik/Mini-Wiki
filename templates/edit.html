@@ -4,13 +4,13 @@
     {% load staticfiles %}
     <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
 
-    <div style="background-color: inherit" ng-controller="PreviewController as ctrl" ng-init="ctrl.init('#content')">
+    <div style="background-color: inherit" ng-controller="PreviewController as ctrl" ng-init="ctrl.initPreview('#content','#dropview','#target')">
 
         <div class="collapse" id="previewzona">
             {% include template %}
         </div>
 
-        <form class="form-horizontal" method="post" action="{% url 'test' %}" enctype="multipart/form-data">
+        <form class="form-horizontal">
             {% csrf_token %}
             <div class="col-md-offset-1 col-md-12" id="formzona">
                 <div class="col-md-6">
@@ -61,14 +61,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <span class="col-md-6">
                     <div id="dropview" class="dropzona col-md-8">
                         <br>
                         <br>
                         <br>
                         <span>{% trans 'drop your images here' %}</span>
+                        <input id="id_photo" name="photo" type="file" accept="image/*"
+                           on-read-file="ctrl.fillFileFromInput()">
                     </div>
-                </div>
+
+                </span>
             </div>
             <div class="col-md-12" id="editzona">
                 <textarea name="editor" id="editor" rows="10" cols="80">
@@ -79,7 +82,7 @@
                     <a href="#" class="btn btn-danger">Cansel</a>
                     <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
                        data-target="#previewzona" class="btn btn-warning">Preview</a>
-                    <input class="btn btn-success" type="submit" value="Publish">
+                    <input class="btn btn-success" ng-click="ctrl.submit()" value="Publish">
                 </div>
             </div>
         </form>

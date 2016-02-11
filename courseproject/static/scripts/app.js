@@ -65,7 +65,6 @@ var PublicationController = (function () {
         if (username === void 0) { username = ""; }
         if (tags === void 0) { tags = ""; }
         if (sortBy === void 0) { sortBy = "-rate"; }
-        console.log("setFilter");
         this.http.handlerUrl = "publications/";
         this.viewProfile = username != "";
         if (username) {
@@ -89,7 +88,6 @@ var PublicationController = (function () {
         this.getPublications(this.publications.length, this.publications.length + 4);
     };
     PublicationController.prototype.init = function () {
-        console.log("init");
         this.setFilter();
     };
     PublicationController.prototype.fillPublication = function (data) {
@@ -101,7 +99,6 @@ var PublicationController = (function () {
     };
     PublicationController.prototype.getPublications = function (range_first, range_last) {
         var _this = this;
-        console.log("getPublications");
         var parameters = this.currentFilter;
         parameters.range_first = range_first;
         parameters.range_last = range_last;
@@ -215,23 +212,47 @@ var TagController = (function () {
     };
     return TagController;
 })();
-var PreviewController = (function () {
-    function PreviewController($scope, $sce) {
+var PreviewController = (function (_super) {
+    __extends(PreviewController, _super);
+    function PreviewController($scope, $sce, $http) {
         this.$scope = $scope;
+        _super.call(this, $scope);
         this.$sce = $sce;
-        this.header = "Sample Header";
-        this.description = "Sample Description";
-        this.tags = "tags";
-        this.category = "Sample Category";
+        this.header = "";
+        this.description = "";
+        this.tags = "";
+        this.category = "";
+        this.http = new HttpHandlerService($http);
     }
-    PreviewController.prototype.init = function (htmlcontentId) {
+    PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target) {
         this.htmlcontent = angular.element(htmlcontentId);
+        this.init(dropzone, target);
     };
     PreviewController.prototype.ShowPublication = function () {
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     };
+    PreviewController.prototype.fillFileFromInput = function () {
+        this.fileReader.readAsDataURL(this.file);
+    };
+    PreviewController.prototype.submit = function () {
+        var _this = this;
+        var body = CKEDITOR.instances.editor.getData();
+        console.log(body);
+        var data = $.param({
+            header: this.header,
+            description: this.description,
+            category: this.category,
+            tags: this.tags,
+            body: body
+        });
+        this.http.handlerUrl = "makepublication/";
+        var response = this.http.usePostHandler(data).then(function (data) { return _this.checkResponse(data); });
+    };
+    PreviewController.prototype.checkResponse = function (data) {
+        console.log(data);
+    };
     return PreviewController;
-})();
+})(DragAndDrop);
 var app = angular
     .module("app", ['ngTagsInput', 'infinite-scroll'])
     .config(function ($httpProvider) {
@@ -242,7 +263,7 @@ var app = angular
     .controller("DragAndDrop", ["$scope", DragAndDrop])
     .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
     .controller("TagController", ["$scope", "$http", TagController])
-    .controller("PreviewController", ["$scope", "$sce", PreviewController]);
+    .controller("PreviewController", ["$scope", "$sce", "$http", PreviewController]);
 app.directive('onReadFile', function ($parse) {
     return {
         restrict: 'A',

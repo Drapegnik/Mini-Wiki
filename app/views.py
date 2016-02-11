@@ -69,6 +69,8 @@ def get_publications(request):
     range_first = request.GET.get("first")
     range_last = request.GET.get("last")
     tags = request.GET.get("tag")
+    range_first = int(request.GET.get("range_first"))
+    range_last = int(request.GET.get("range_last"))
 
     pub_filter = lambda xz: Publication.objects.filter(**xz).order_by(sort_by)[range_first:range_last]
     if category_id:
@@ -139,7 +141,27 @@ class GetTags(View):
             response.append(dict(name=tag.name, count=tag.count))
         return JsonResponse(dict(tags=response))
 
-class GetData(View):
+
+class MakePublication(View):
     @staticmethod
     def post(request, *args, **kwargs):
-        print(request.POST)
+        username = request.user.id
+        header = request.POST.get('header')
+        category = request.POST.get('category')
+        description = request.POST.get('description')
+        body = request.POST.get('body')
+        errors = []
+        if not header:
+            errors.append("Header can't be blank")
+        if not description:
+            errors.append("Description can't be blank")
+        if not body:
+            errors.append("Body can't be blank")
+        try:
+            category = Category.objects.get(name=category)
+        except Category.DoesNotExist:
+            errors.append("Category can't be blank")
+        if errors:
+            return JsonResponse(dict(errors=errors))
+        Publication.objects.create(username=username, header=header, description=description, body=body)
+
