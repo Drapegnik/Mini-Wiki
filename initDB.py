@@ -11,6 +11,8 @@ templates = {"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v145
              "Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105454/Template2.png",
              "Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105501/template3.png"}
 
+
+
 for category in categories:
     Category.objects.create(name=category)
 
