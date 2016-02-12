@@ -84,35 +84,32 @@ class PublicationController {
     private http:HttpHandlerService;
 
     public setFilter(categoryId:number = 0, username:string = "", tags = "", sortBy:string = "-rate") {
-        console.log("setFilter")
         this.http.handlerUrl = "publications/";
         this.viewProfile = username != "";
         if (username) {
             this.userProfile.getProfile(username);
         }
         this.currentFilter = {
-            "categoryId": categoryId == 0 ? "":categoryId,
+            "categoryId": categoryId == 0 ? "" : categoryId,
             "username": username,
             "sort_by": sortBy
         };
         this.publications = [];
-        this.getPublications(0,4);
+        this.getPublications(0, 4);
     }
 
-    public addTag(tag:string){
+    public addTag(tag:string) {
         var tags = this.currentFilter.tags;
         tags.push(tag);
-        this.setFilter(0,"",tags,this.currentFilter.sort_by);
+        this.setFilter(0, "", tags, this.currentFilter.sort_by);
     }
 
-    public loadMore()
-    {
+    public loadMore() {
         this.busy = true;
-        this.getPublications(this.publications.length,this.publications.length+4);
+        this.getPublications(this.publications.length, this.publications.length + 4);
     }
 
-    public init(){
-        console.log("init")
+    public init() {
         this.setFilter()
     }
 
@@ -124,8 +121,7 @@ class PublicationController {
         this.busy = false;
     }
 
-    private getPublications(range_first:number,range_last:number){
-        console.log("getPublications")
+    private getPublications(range_first:number, range_last:number) {
         var parameters:any = this.currentFilter;
         parameters.range_first = range_first;
         parameters.range_last = range_last;
@@ -148,13 +144,14 @@ class DragAndDrop {
 
     dropzone:ng.IAugmentedJQuery;
     destination:ng.IAugmentedJQuery;
+    fileInput:ng.IAugmentedJQuery;
     scope:ng.IScope;
     file:File;
     maxFileSize:number;
-    fileReader:FileReader;
     prevPhoto:string;
     changed:boolean;
     inLoading:boolean;
+    fileReader:FileReader;
 
     public init(dropzoneId:string, targetId:string) {
         this.dropzone = angular.element(dropzoneId);
@@ -268,16 +265,20 @@ class TagController {
 
 }
 
-class PreviewController {
+class PreviewController extends DragAndDrop {
 
-    constructor($scope:ng.IScope, $sce:ng.ISCEService) {
+    constructor($scope:ng.IScope, $sce:ng.ISCEService, $http:ng.IHttpService) {
+
         this.$scope = $scope;
+        super($scope);
         this.$sce = $sce;
-        this.header = "Sample Header";
-        this.description = "Sample Description";
-        this.tags = "tags";
-        this.category = "Sample Category";
+        this.header = "";
+        this.description = "";
+        this.tags = "";
+        this.category = "";
+        this.http = new HttpHandlerService($http);
     }
+
     $scope:ng.IScope;
     $sce:ng.ISCEService;
     header:string;
@@ -285,22 +286,44 @@ class PreviewController {
     category:string;
     tags:string;
     htmlcontent:ng.IAugmentedJQuery;
+    http:HttpHandlerService;
 
 
-    public init(htmlcontentId:string) {
+    public initPreview(htmlcontentId:string, dropzone:string, target:string) {
         this.htmlcontent = angular.element(htmlcontentId);
+        this.init(dropzone, target);
     }
 
-    public ShowPublication(){
+    public ShowPublication() {
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     }
 
+    public fillFileFromInput() {
+        this.fileReader.readAsDataURL(this.file);
+    }
+
+    public submit() {
+        var body = CKEDITOR.instances.editor.getData();
+        console.log(body)
+        var data = $.param({
+            header: this.header,
+            description: this.description,
+            category: this.category,
+            tags: this.tags,
+            body: body
+        });
+        this.http.handlerUrl = "makepublication/";
+        var response = this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
+    }
+    public checkResponse(data:any){
+        console.log(data)
+    }
 
 }
 
 
 var app = angular
-    .module("app", ['ngTagsInput','infinite-scroll'])
+    .module("app", ['ngTagsInput', 'infinite-scroll'])
     .config(function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -309,7 +332,7 @@ var app = angular
     .controller("DragAndDrop", ["$scope", DragAndDrop])
     .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
     .controller("TagController", ["$scope", "$http", TagController])
-    .controller("PreviewController", ["$scope", "$sce", PreviewController]);
+    .controller("PreviewController", ["$scope", "$sce", "$http", PreviewController]);
 
 
 app.directive('onReadFile', function ($parse) {
