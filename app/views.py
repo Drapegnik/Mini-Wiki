@@ -113,6 +113,7 @@ class AddPublication(View):
     @staticmethod
     def get(request, template_id, *args, **kwargs):
         if request.user.is_authenticated():
+            swap_language(request)
             context_dict = {
                 'template': Template.objects.filter(id=template_id)[0].name + '.html',
                 'catlist': Category.objects.all().values('name')

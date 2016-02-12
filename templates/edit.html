@@ -74,7 +74,9 @@
                 <textarea name="editor" id="editor" rows="10" cols="80">
                     {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}
                 </textarea>
-                <script>CKEDITOR.replace('editor');</script>
+                <script>
+                    CKEDITOR.replace('editor', {language: '{{ user.language.code }}' });
+                </script>
                 <div class="editbuttongroup">
                     <a href="#" class="btn btn-danger">Cansel</a>
                     <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
