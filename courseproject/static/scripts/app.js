@@ -215,6 +215,7 @@ var TagController = (function () {
 var PreviewController = (function (_super) {
     __extends(PreviewController, _super);
     function PreviewController($scope, $sce, $http) {
+        this.isBlank = [true, true, true];
         this.$scope = $scope;
         _super.call(this, $scope);
         this.$sce = $sce;
@@ -223,6 +224,7 @@ var PreviewController = (function (_super) {
         this.tags = "";
         this.category = "";
         this.http = new HttpHandlerService($http);
+        this.errors = [];
     }
     PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target) {
         this.htmlcontent = angular.element(htmlcontentId);
@@ -235,21 +237,33 @@ var PreviewController = (function (_super) {
         this.fileReader.readAsDataURL(this.file);
     };
     PreviewController.prototype.submit = function () {
-        var _this = this;
-        var body = CKEDITOR.instances.editor.getData();
-        console.log(body);
-        var data = $.param({
-            header: this.header,
-            description: this.description,
-            category: this.category,
-            tags: this.tags,
-            body: body
-        });
-        this.http.handlerUrl = "makepublication/";
-        var response = this.http.usePostHandler(data).then(function (data) { return _this.checkResponse(data); });
+        if (!(this.isBlank[0] && this.isBlank[1] && this.isBlank[2])) {
+            var body = CKEDITOR.instances.editor.getData();
+            console.log(body);
+            var data = $.param({
+                header: this.header,
+                description: this.description,
+                category: this.category,
+                tags: this.tags,
+                body: body
+            });
+            console.log(data);
+            this.http.handlerUrl = "makepublication/";
+        }
     };
-    PreviewController.prototype.checkResponse = function (data) {
-        console.log(data);
+    //public checkResponse(data:any) {
+    //    this.errors = data.errors
+    //}
+    PreviewController.prototype.inputChange = function (id, index) {
+        this.input = angular.element(id);
+        if (!this.input.val()) {
+            var mes = this.input.attr("name");
+            this.input.attr("placeholder", mes + " can't be blank");
+            this.input.addClass("holdcol");
+            this.isBlank[index] = true;
+        }
+        else
+            this.isBlank[index] = false;
     };
     return PreviewController;
 })(DragAndDrop);

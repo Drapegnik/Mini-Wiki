@@ -11,7 +11,7 @@ class Publication(models.Model):
     rate = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
-    body = models.CharField(max_length=5000,null=True)
+    body = models.CharField(max_length=5000, null=True)
     tag = TagField()
 
     def __str__(self):

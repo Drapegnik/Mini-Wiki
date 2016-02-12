@@ -1,3 +1,7 @@
+.holdcol::-webkit-input-placeholder {
+    color: #c0392b;
+}
+
 #dropview {
     height: 200px;
 }
@@ -5,6 +9,7 @@
 .article {
     padding: 30px;
 }
+
 .editbuttongroup {
     padding-top: 10px;
 }

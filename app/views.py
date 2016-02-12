@@ -146,9 +146,11 @@ class GetTags(View):
 class MakePublication(View):
     @staticmethod
     def post(request, *args, **kwargs):
-        username = request.user.id
+        print(request.POST)
+        username = request.user
         header = request.POST.get('header')
         category = request.POST.get('category')
+        print(category)
         description = request.POST.get('description')
         body = request.POST.get('body')
         errors = []
@@ -164,5 +166,5 @@ class MakePublication(View):
             errors.append("Category can't be blank")
         if errors:
             return JsonResponse(dict(errors=errors))
-        Publication.objects.create(username=username, header=header, description=description, body=body)
-
+        Publication.objects.create(username=username, header=header, description=description, body=body,
+                                   category=category)
