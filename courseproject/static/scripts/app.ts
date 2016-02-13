@@ -190,7 +190,7 @@ class DragAndDrop {
         }
     }
 
-    private getPrevPhoto() {
+    private getPzrevPhoto() {
         this.prevPhoto = this.destination.attr('src');
     }
 
@@ -234,7 +234,7 @@ class TagController {
     constructor($scope:ng.IScope, $http:ng.IHttpService) {
         this.tags = [];
         this.http = new HttpHandlerService($http);
-        this.http.handlerUrl = "getTags/"
+        this.http.handlerUrl = "getTags/";
         this.fontMax = 3;
         this.fontMin = 1;
     }
@@ -306,30 +306,31 @@ class PreviewController extends DragAndDrop {
         this.fileReader.readAsDataURL(this.file);
     }
 
-    public submit() {
-        if (!(this.isBlank[0] && this.isBlank[1] && this.isBlank[2])) {
+    public submit(template_id) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2])) {
             var body = CKEDITOR.instances.editor.getData();
-            console.log(body);
             var data = $.param({
                 header: this.header,
                 description: this.description,
                 category: this.category,
                 tags: this.tags,
-                body: body
+                body: body,
+                template_id: template_id,
             });
             console.log(data);
             this.http.handlerUrl = "makepublication/";
-           // var response = this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
+            var response = this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
         }
     }
 
-    //public checkResponse(data:any) {
-    //    this.errors = data.errors
-    //}
+    public checkResponse(data:any) {
+        this.errors = data.errors
+    }
 
     public inputChange(id:string, index:number) {
         this.input = angular.element(id);
-        if (!this.input.val()) {
+        if ($.trim(this.input.val()).length == 0) {
+            this.input.val("");
             var mes = this.input.attr("name");
             this.input.attr("placeholder", mes + " can't be blank");
             this.input.addClass("holdcol");

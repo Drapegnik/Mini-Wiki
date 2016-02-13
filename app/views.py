@@ -117,19 +117,25 @@ class AddPublication(View):
         if request.user.is_authenticated():
             swap_language(request)
             context_dict = {
-                'template': Template.objects.filter(id=template_id)[0].name + '.html',
-                'catlist': Category.objects.all().values('name')
+                'template_id': template_id,
+                'template': Template.objects.get(id=template_id).name + '.html',
+                'catlist': Category.objects.all().values('name'),
             }
             return render(request, 'edit.html', context_dict)
         else:
             return redirect(reverse('login'))
 
 
-# class PublicationView(View):
-#     @staticmethod
-#     def get(request, *args, **kwargs):
-#         context_dict = {}
-#         return render(request, 'Template1.html', context_dict)
+class ShowPublication(View):
+    @staticmethod
+    def get(request, publication_id, *args, **kwargs):
+        publication = Publication.objects.get(id=publication_id)
+        context_dict = {
+            'template': publication.template.name + '.html',
+            'publication': publication,
+        }
+        return render(request, 'article.html', context_dict)
+
 
 class GetTags(View):
     @staticmethod
@@ -146,25 +152,12 @@ class GetTags(View):
 class MakePublication(View):
     @staticmethod
     def post(request, *args, **kwargs):
-        print(request.POST)
         username = request.user
-        header = request.POST.get('header')
-        category = request.POST.get('category')
-        print(category)
-        description = request.POST.get('description')
-        body = request.POST.get('body')
-        errors = []
-        if not header:
-            errors.append("Header can't be blank")
-        if not description:
-            errors.append("Description can't be blank")
-        if not body:
-            errors.append("Body can't be blank")
-        try:
-            category = Category.objects.get(name=category)
-        except Category.DoesNotExist:
-            errors.append("Category can't be blank")
-        if errors:
-            return JsonResponse(dict(errors=errors))
-        Publication.objects.create(username=username, header=header, description=description, body=body,
-                                   category=category)
+        data = dict(request.POST)
+        category = Category.objects.get(name=data['category'][0])
+        template = Template.objects.get(id=data['template_id'][0])
+        obj = Publication.objects.create(username=username, header=data['header'][0],
+                                         description=data['description'][0],
+                                         body=data['body'][0], category=category, template=template)
+
+        return redirect(reverse('show', args=(obj.id,)))

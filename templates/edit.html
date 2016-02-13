@@ -82,7 +82,7 @@
 {#                {% endverbatim %}#}
 {#            </div>#}
             <div class="col-md-12" id="editzona">
-                <textarea name="editor" id="editor" rows="10" cols="80">
+                <textarea ng-trim="false" name="editor" id="editor" rows="10" cols="80">
                     {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}
                 </textarea>
                 <script>
@@ -92,7 +92,7 @@
                     <a href="#" class="btn btn-danger">{% trans 'Cansel' %}</a>
                     <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
                        data-target="#previewzona" class="btn btn-warning">{% trans 'Preview' %}</a>
-                    <a class="btn btn-success" ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2]" ng-click="ctrl.submit()">{% trans 'Publish' %}</a>
+                    <a class="btn btn-success" ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2]" ng-click="ctrl.submit({{ template_id }})">{% trans 'Publish' %}</a>
                 </div>
             </div>
         </form>

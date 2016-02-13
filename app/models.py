@@ -1,7 +1,7 @@
 from django.db import models
 from courseproject import settings
 from tagging.fields import TagField
-from courseproject.models import Category
+from courseproject.models import Category, Template
 
 class Publication(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -13,6 +13,7 @@ class Publication(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
     body = models.CharField(max_length=5000, null=True)
     tag = TagField()
+    template = models.ForeignKey(Template)
 
     def __str__(self):
         return self.header + u'. Author: %s' % self.username
