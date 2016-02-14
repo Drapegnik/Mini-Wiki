@@ -1,25 +1,25 @@
-{#{% extends parent %}#}
-{#{% block content %}#}
+{% load i18n %}
 
-
-    {% load i18n %}
-    <div class="article">
-        <div class="col-md-6 pull-left">
-            <img id = "target" class="img-responsive img-thumbnail" src="http://placehold.it/600x500" >
-        </div>
-        <div class="col-md-6 pull-right">
-            <ul class="breadcrumb">
-                <li>{% verbatim %}{{ ctrl.category }}{% endverbatim %}</li>
-                <li><span class="label label-success"><a href="#">{{ user.username }}</a></span></li>
-{#                <li class="active">Feb 8, 2016 5:03:47 PM</li>#}
-{#                <li><span class="badge"><span#}
-{#                        ng-show="publication.rate > 0">+</span>24</span></li>#}
-            </ul>
-        </div>
-
-        <div class="content text-left">
-            <h1 class="text-center">{% verbatim %}{{ ctrl.header }}{% endverbatim %}</h1>
-            <div id="content" ng-bind-html = "ctrl.htmlcontent"></div>
-        </div>
+<div class="article">
+    <div class="col-md-6 pull-left">
+        <img id="target" class="img-responsive img-thumbnail" src="http://placehold.it/600x500">
     </div>
-{#{% endblock %}#}
+    <div class="col-md-6 pull-right">
+        <ul class="breadcrumb">
+            <li>{% verbatim %}{{ ctrl.category }}{% endverbatim %} {% trans publication.category.name %}</li>
+            <li><span class="label label-success"><a href="#">{{ user.username }}</a></span></li>
+            <li class="active">{% verbatim %}{{ ctrl.data | date:'medium' }}{% endverbatim%}
+                {{ publication.created_at }}</li>
+            <li><span class="badge">
+                <span ng-show="publication.rate > 0">+</span>
+                {% verbatim %}{{ 0 }}{% endverbatim%}{{ publication.rate }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content text-left">
+        <h1 class="text-center">{% verbatim %}{{ ctrl.header }}{% endverbatim %}{{ publication.header }}</h1>
+        <div id="content" ng-bind-html="ctrl.htmlcontent"></div>
+        {{ publication.body | safe }}
+    </div>
+</div>

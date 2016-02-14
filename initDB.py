@@ -7,8 +7,8 @@ themes = {"Light": "https://bootswatch.com/flatly/bootstrap.min.css",
 
 languages = {"English": "en-us", "Russian": "ru"}
 
-templates = {"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105446/Template1.png",
-             "Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105454/Template2.png",
+templates = {"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457177/Template1.png",
+             "Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457214/Template2.png",
              "Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105501/template3.png"}
 
 

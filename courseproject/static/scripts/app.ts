@@ -278,6 +278,7 @@ class PreviewController extends DragAndDrop {
         this.category = "";
         this.http = new HttpHandlerService($http);
         this.errors = [];
+        this.data = new Date();
     }
 
     $scope:ng.IScope;
@@ -291,6 +292,7 @@ class PreviewController extends DragAndDrop {
     errors:any;
     input:ng.IAugmentedJQuery;
     isBlank:Array<boolean> = [true, true, true];
+    data:Date;
 
 
     public initPreview(htmlcontentId:string, dropzone:string, target:string) {
@@ -299,6 +301,7 @@ class PreviewController extends DragAndDrop {
     }
 
     public ShowPublication() {
+        this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     }
 

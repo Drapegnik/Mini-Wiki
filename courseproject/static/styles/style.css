@@ -80,6 +80,12 @@
     border: 1px solid #666;
 }
 
+#temp2pic {
+    position: relative;
+    float: left;
+    height: 240px;
+}
+
 .imgRect {
     display: block;
     padding-bottom: 100%;

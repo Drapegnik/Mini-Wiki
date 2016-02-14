@@ -6,7 +6,7 @@ from app.models import *
 # Register your models here.
 
 class PublicationAdmin(admin.ModelAdmin):
-    list_display = ('username', 'category', 'header', 'rate', 'created_at', 'updated_at', 'id')
+    list_display = ('username', 'category', 'header', 'rate', 'created_at', 'updated_at', 'template', 'id')
     list_filter = ['rate']
 
 

@@ -67,12 +67,12 @@
         </div>
         <div infinite-scroll='ctrl.loadMore()' infinite-scroll-disabled='ctrl.busy' infinite-scroll-distance='1'>
             <div class="col-md-9 pull-right" ng-repeat="publication in ctrl.publications track by $index">
-                {% verbatim %}
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><a href="#$">{{ publication.header }}</a></h3>
+                        <h3 class="panel-title"><a href="{% url 'show' publication_id=30  %}">{% verbatim %}{{ publication.header }}{% endverbatim %}</a></h3>
                     </div>
 
+                    {% verbatim %}
                     <div class="panel-body">
                         <div class="well">
                             {{ publication.description }}

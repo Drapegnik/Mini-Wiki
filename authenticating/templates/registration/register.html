@@ -9,7 +9,7 @@
                 <label for="id_username" class="col-lg-4 control-label">{% trans 'User' %}:</label>
                 <div class="col-lg-8">
                     <input type="text" class="form-control" id="id_username" maxlength="254" name="username"
-                           placeholder="{% trans 'User' %}"/>
+                           placeholder="{% trans 'User' %}" value="{{ form.cleaned_data.username }}"/>
                 </div>
             </div>
 
@@ -17,7 +17,7 @@
                 <label for="id_email" class="col-lg-4 control-label">Email:</label>
                 <div class="col-lg-8">
                     <input class="form-control" id="id_email" maxlength="254" name="email" type="email"
-                           placeholder="Email"/>
+                           placeholder="Email" value="{{ form.cleaned_data.email }}"/>
                 </div>
             </div>
 
@@ -26,6 +26,14 @@
                 <div class="col-lg-8">
                     <input type="password" class="form-control" name="password" id="id_password"
                            placeholder="{% trans 'Password' %}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password_again" class="col-lg-4 control-label">{% trans 'Password again' %}:</label>
+                <div class="col-lg-8">
+                    <input type="password" class="form-control" name="password_again" id="id_password_again"
+                           placeholder="{% trans 'Password again' %}"/>
                 </div>
             </div>
 

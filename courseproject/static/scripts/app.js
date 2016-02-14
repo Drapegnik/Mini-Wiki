@@ -225,12 +225,14 @@ var PreviewController = (function (_super) {
         this.category = "";
         this.http = new HttpHandlerService($http);
         this.errors = [];
+        this.data = new Date();
     }
     PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target) {
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
     };
     PreviewController.prototype.ShowPublication = function () {
+        this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     };
     PreviewController.prototype.fillFileFromInput = function () {

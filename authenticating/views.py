@@ -19,9 +19,10 @@ def registration(request):
             if form.is_valid():
                 Account.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'],
                                             form.cleaned_data['password'])
-                obj = Account.objects.filter(username=form.cleaned_data['username'])[0]
+                obj = Account.objects.get(username=form.cleaned_data['username'])
                 obj.photo = \
-                cloudinary.uploader.upload(settings.STATIC_ROOT + '/static/icons/userpic.png', public_id=obj.id)['url']
+                    cloudinary.uploader.upload(settings.STATIC_ROOT + '/static/icons/userpic.png', public_id=obj.id)[
+                        'url']
                 obj.save()
                 return redirect(reverse('login'))
             else:

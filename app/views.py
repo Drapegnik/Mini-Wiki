@@ -2,8 +2,8 @@ import itertools
 
 from cloudinary import uploader
 from django.core.urlresolvers import reverse
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, render_to_response
 from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag
@@ -159,5 +159,5 @@ class MakePublication(View):
         obj = Publication.objects.create(username=username, header=data['header'][0],
                                          description=data['description'][0],
                                          body=data['body'][0], category=category, template=template)
-
-        return redirect(reverse('show', args=(obj.id,)))
+        # return render_to_response('article.html') #??????
+        return HttpResponseRedirect(reverse('show', args=[obj.id]))
