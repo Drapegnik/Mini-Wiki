@@ -2,8 +2,8 @@ import itertools
 
 from cloudinary import uploader
 from django.core.urlresolvers import reverse
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect, render_to_response
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response, render, redirect
 from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag
@@ -82,7 +82,7 @@ def get_publications(request):
     else:
         publications = pub_filter({'rate__gte': -100})
 
-    publications_values = list(publications.values('username', 'category', 'header', 'description', 'rate',
+    publications_values = list(publications.values('id', 'username', 'category', 'header', 'description', 'rate',
                                                    'created_at', 'tag'))
     for i in range(len(publications_values)): normalize_publication(publications_values[i])
     response = JsonResponse(dict(publications=publications_values))
@@ -132,6 +132,7 @@ class ShowPublication(View):
         publication = Publication.objects.get(id=publication_id)
         context_dict = {
             'template': publication.template.name + '.html',
+            'image': publication.image,
             'publication': publication,
         }
         return render(request, 'article.html', context_dict)
@@ -158,6 +159,8 @@ class MakePublication(View):
         template = Template.objects.get(id=data['template_id'][0])
         obj = Publication.objects.create(username=username, header=data['header'][0],
                                          description=data['description'][0],
-                                         body=data['body'][0], category=category, template=template)
-        # return render_to_response('article.html') #??????
-        return HttpResponseRedirect(reverse('show', args=[obj.id]))
+                                         body=data['body'][0], category=category, template=template,
+                                         tag=data['tags'][0])
+        obj.image = uploader.upload(data['image'][0], invalidate=True)['url']
+        obj.save()
+        return redirect('show',obj.id)

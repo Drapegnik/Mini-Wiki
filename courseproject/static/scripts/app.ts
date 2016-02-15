@@ -190,7 +190,7 @@ class DragAndDrop {
         }
     }
 
-    private getPzrevPhoto() {
+    private getPrevPhoto() {
         this.prevPhoto = this.destination.attr('src');
     }
 
@@ -269,8 +269,8 @@ class PreviewController extends DragAndDrop {
 
     constructor($scope:ng.IScope, $sce:ng.ISCEService, $http:ng.IHttpService) {
 
-        this.$scope = $scope;
         super($scope);
+        this.$scope = $scope;
         this.$sce = $sce;
         this.header = "";
         this.description = "";
@@ -319,6 +319,7 @@ class PreviewController extends DragAndDrop {
                 tags: this.tags,
                 body: body,
                 template_id: template_id,
+                image: this.destination.attr('src')
             });
             console.log(data);
             this.http.handlerUrl = "makepublication/";

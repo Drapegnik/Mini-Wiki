@@ -150,7 +150,7 @@ var DragAndDrop = (function () {
             thisObj.destination.attr('src', event.target.result);
         };
     };
-    DragAndDrop.prototype.getPzrevPhoto = function () {
+    DragAndDrop.prototype.getPrevPhoto = function () {
         this.prevPhoto = this.destination.attr('src');
     };
     DragAndDrop.prototype.inverseParameterChanged = function () {
@@ -215,9 +215,9 @@ var TagController = (function () {
 var PreviewController = (function (_super) {
     __extends(PreviewController, _super);
     function PreviewController($scope, $sce, $http) {
+        _super.call(this, $scope);
         this.isBlank = [true, true, true];
         this.$scope = $scope;
-        _super.call(this, $scope);
         this.$sce = $sce;
         this.header = "";
         this.description = "";
@@ -248,7 +248,8 @@ var PreviewController = (function (_super) {
                 category: this.category,
                 tags: this.tags,
                 body: body,
-                template_id: template_id
+                template_id: template_id,
+                image: this.destination.attr('src')
             });
             console.log(data);
             this.http.handlerUrl = "makepublication/";

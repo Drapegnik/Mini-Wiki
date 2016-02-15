@@ -69,7 +69,10 @@
             <div class="col-md-9 pull-right" ng-repeat="publication in ctrl.publications track by $index">
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><a href="{% url 'show' publication_id=30  %}">{% verbatim %}{{ publication.header }}{% endverbatim %}</a></h3>
+                        {% verbatim %}
+                        <h3 class="panel-title"><a href="/articles/{{ publication.id }}">{{ publication.header }}</a>
+                        </h3>
+                        {% endverbatim %}
                     </div>
 
                     {% verbatim %}
