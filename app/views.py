@@ -2,13 +2,13 @@ import itertools
 
 from cloudinary import uploader
 from django.core.urlresolvers import reverse
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render, redirect
 from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag
 
-from app.models import Publication
+from app.models import Publication, Comment
 from authenticating.models import Account
 from courseproject.models import *
 
@@ -163,4 +163,28 @@ class MakePublication(View):
                                          tag=data['tags'][0])
         obj.image = uploader.upload(data['image'][0], invalidate=True)['url']
         obj.save()
-        return redirect('show',obj.id)
+        #return redirect(reverse('show', args=[obj.id]))
+        return HttpResponse(200)
+
+
+class GetComments(View):
+    @staticmethod
+    def get(request, *args, **kwargs):
+        publication_id = request.GET.get('publication_id')
+        comments = Comment.objects.all().filter(publication=publication_id)
+        response = []
+        for comment in comments:
+            response.append(dict(author=comment.username.username, text=comment.text, rate=comment.rate,
+                                 pic=comment.username.photo, created_at=comment.created_at))
+        return JsonResponse(dict(comments=response))
+
+
+class CreateComment(View):
+    @staticmethod
+    def post(request, *args, **kwargs):
+        print(request.POST)
+        data = dict(request.POST)
+        publication = Publication.objects.get(id=data['publication_id'][0])
+        obj = Comment.objects.create(username=request.user, publication=publication, text=data['text'][0])
+        obj.save()
+        return redirect(reverse('show', args=[publication.id]))

@@ -273,6 +273,56 @@ var PreviewController = (function (_super) {
     };
     return PreviewController;
 })(DragAndDrop);
+var CommentsController = (function () {
+    function CommentsController($scope, $http, $interval) {
+        var _this = this;
+        this.http = new HttpHandlerService($http);
+        this.scope = $scope;
+        this.comments = [];
+        this.isBlank = true;
+        this.text = "";
+        this.interval = $interval;
+        this.interval(function () {
+            _this.getComments();
+        }, 1500);
+    }
+    CommentsController.prototype.getComments = function () {
+        var _this = this;
+        var data = {
+            publication_id: this.publication_id
+        };
+        this.http.handlerUrl = "comments/";
+        this.http.useGetHandler(data).then(function (data) { return _this.comments = data.comments; });
+    };
+    CommentsController.prototype.init = function (id) {
+        this.publication_id = id;
+        this.getComments();
+        this.timeout(this.getComments, 50);
+    };
+    CommentsController.prototype.submit = function (publication_id) {
+        var _this = this;
+        if (!this.isBlank) {
+            var data = $.param({
+                publication_id: publication_id,
+                text: this.text
+            });
+            this.http.handlerUrl = "createcomment/";
+            this.http.usePostHandler(data).then(function (data) { return _this.getComments(); });
+        }
+    };
+    CommentsController.prototype.inputChange = function (id) {
+        this.input = angular.element(id);
+        if ($.trim(this.input.val()).length == 0) {
+            this.input.val("");
+            this.input.attr("placeholder", "Comment can't be empty");
+            this.input.addClass("holdcol");
+            this.isBlank = true;
+        }
+        else
+            this.isBlank = false;
+    };
+    return CommentsController;
+})();
 var app = angular
     .module("app", ['ngTagsInput', 'infinite-scroll'])
     .config(function ($httpProvider) {
@@ -283,6 +333,7 @@ var app = angular
     .controller("DragAndDrop", ["$scope", DragAndDrop])
     .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
     .controller("TagController", ["$scope", "$http", TagController])
+    .controller("CommentsController", ["$scope", "$http", "$interval", CommentsController])
     .controller("PreviewController", ["$scope", "$sce", "$http", PreviewController]);
 app.directive('onReadFile', function ($parse) {
     return {

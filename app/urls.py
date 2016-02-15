@@ -11,5 +11,7 @@ urlpatterns = [
     url(r'^createpublication/(?P<template_id>\d+)/$', AddPublication.as_view(), name='create-publication'),
     url(r'getTags/', GetTags.as_view()),
     url(r'makepublication/', MakePublication.as_view(), name='edit'),
-    url(r'articles/(?P<publication_id>\d+)/$', ShowPublication.as_view(), name='show')
+    url(r'createcomment/', CreateComment.as_view(), name='create-comment'),
+    url(r'articles/(?P<publication_id>\d+)/$', ShowPublication.as_view(), name='show'),
+    url(r'comments/', GetComments.as_view(), name='comments')
 ]

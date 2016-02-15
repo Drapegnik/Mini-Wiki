@@ -2,4 +2,49 @@
 {% load i18n %}
 {% block content %}
     {% include template %}
+    <div id="commentsblock">
+        <div class="col-md-8 col-md-offset-2" ng-controller="CommentsController as ctrl"
+             ng-init="ctrl.init('{{ publication.id }}')">
+            <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
+                {% verbatim %}
+                <div class="panel-body">
+                    <p>{{ comment.text }}</p>
+                </div>
+                <div class="panel-footer">
+                    <ul class="breadcrumb">
+                        <li>
+                        <span id="userpicnavbar">
+                            <span class="imgRect" style="background-image: url({{ comment.pic }})"></span>
+                        </span>
+                            <span class="label label-success"><a href="#">{{ comment.author}}</a></span>
+                        </li>
+                        <li class="active"><span>{{ comment.created_at | date:'medium'}}</span></li>
+                        <li><span class="badge"><span ng-show="comment.rate > 0">+</span>{{ comment.rate }}</span></li>
+                    </ul>
+                </div>
+                {% endverbatim %}
+            </div>
+            <form class="form-horizontal" method="post" action="{% url 'create-comment' %}">
+                {% csrf_token %}
+                <div class="comment panel panel-default">
+                    <div class="panel-body">
+                        <input id="text" ng-model="ctrl.text" ng-change="ctrl.inputChange('#text')" type="text" class="form-control" maxlength="500" name="text"
+                               placeholder="{% trans 'say something' %}"/>
+{#                        <input type="hidden" class="form-control" name="publication_id" value="{{ publication.id }}">#}
+                    </div>
+                    <div class="panel-footer">
+                        <ul class="breadcrumb">
+                            <li>
+                        <span id="userpicnavbar">
+                            <span class="imgRect" style="background-image: url({{ user.photo }})"></span>
+                        </span>
+                                <span class="label label-success"><a href="#">{{ user.username }}</a></span>
+                            </li>
+                            <a ng-disabled="ctrl.isBlank" ng-click="ctrl.submit('{{ publication.id }}')" class="btn btn-danger pull-right">{% trans 'send' %}</a>
+{#                            type="submit"#}
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
 {% endblock %}
