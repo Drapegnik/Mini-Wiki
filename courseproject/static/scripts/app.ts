@@ -347,6 +347,67 @@ class PreviewController extends DragAndDrop {
 
 }
 
+class CommentsController {
+
+    constructor($scope:ng.IScope, $http:ng.IHttpService, $interval:ng.IIntervalService) {
+        this.http = new HttpHandlerService($http);
+        this.scope = $scope;
+        this.comments = [];
+        this.isBlank = true;
+        this.text = "";
+        this.interval = $interval;
+        this.interval(() => {
+            this.getComments();
+        }, 1500);
+    }
+
+    scope:ng.IScope;
+    interval:ng.IIntervalService;
+    comments:any;
+    publication_id:number;
+    text:string;
+    input:ng.IAugmentedJQuery;
+    isBlank:boolean;
+
+    private http:HttpHandlerService;
+
+    private getComments() {
+        var data = {
+            publication_id: this.publication_id
+        };
+        this.http.handlerUrl = "comments/";
+        this.http.useGetHandler(data).then((data) => this.comments = data.comments);
+    }
+
+    public init(id) {
+        this.publication_id = id;
+        this.getComments();
+        this.timeout(this.getComments, 50);
+    }
+
+    public submit(publication_id) {
+        if (!this.isBlank) {
+            var data = $.param({
+                publication_id: publication_id,
+                text: this.text
+            });
+            this.http.handlerUrl = "createcomment/";
+            this.http.usePostHandler(data).then((data) => this.getComments())
+        }
+    }
+
+    public inputChange(id:string) {
+        this.input = angular.element(id);
+        if ($.trim(this.input.val()).length == 0) {
+            this.input.val("");
+            this.input.attr("placeholder", "Comment can't be empty");
+            this.input.addClass("holdcol");
+            this.isBlank = true;
+        }
+        else
+            this.isBlank = false;
+    }
+}
 
 var app = angular
     .module("app", ['ngTagsInput', 'infinite-scroll'])
@@ -358,6 +419,7 @@ var app = angular
     .controller("DragAndDrop", ["$scope", DragAndDrop])
     .controller("PhotoUploader", ["$scope", "$http", PhotoUploader])
     .controller("TagController", ["$scope", "$http", TagController])
+    .controller("CommentsController", ["$scope", "$http", "$interval", CommentsController])
     .controller("PreviewController", ["$scope", "$sce", "$http", PreviewController]);
 
 
