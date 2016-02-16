@@ -105,6 +105,18 @@ var PublicationController = (function () {
         parameters.range_last = range_last;
         this.http.useGetHandler(parameters).then(function (data) { return _this.fillPublication(data); });
     };
+    PublicationController.prototype.vote = function (pub_id, like) {
+        var _this = this;
+        this.http.handlerUrl = "vote/";
+        this.http.usePostHandler($.param({ publication: pub_id, like: like })).then(function (data) { return _this.applyVote(data); });
+    };
+    PublicationController.prototype.applyVote = function (data) {
+        var publication = this.publications.filter(function (obj) {
+            return obj.id == data.target_id;
+        })[0];
+        console.log(data.like);
+        publication.like = data.like;
+    };
     return PublicationController;
 })();
 var DragAndDrop = (function () {

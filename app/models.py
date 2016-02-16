@@ -1,6 +1,7 @@
 from django.db import models
-from courseproject import settings
 from tagging.fields import TagField
+
+from courseproject import settings
 from courseproject.models import Category, Template
 
 
@@ -20,6 +21,10 @@ class Publication(models.Model):
     def __str__(self):
         return self.header + u'. Author: %s' % self.username
 
+    def calculate_rate(self):
+        return PublicationVote.objects.filter(target_id=self, like=True).count() - PublicationVote.objects.filter(
+            target_id=self, like=False).count()
+
 
 class Comment(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -31,3 +36,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return u'. Comment to: %s' % self.publication.header + u'. Author: %s' % self.username
+
+    def calculate_rate(self):
+        return CommentVote.objects.filter(target_id=self, like=True).count() - CommentVote.objects.filter(
+            target_id=self, like=False).count()
+
+
+class PublicationVote(models.Model):
+    like = models.BooleanField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    target_id = models.ForeignKey(Publication)
+
+
+class CommentVote(models.Model):
+    like = models.BooleanField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    target_id = models.ForeignKey(Comment)

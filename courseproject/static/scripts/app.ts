@@ -130,6 +130,19 @@ class PublicationController {
 
     }
 
+    public vote(pub_id:number,like:string){
+        this.http.handlerUrl = "vote/";
+        this.http.usePostHandler($.param({publication:pub_id,like:like})).then((data) => this.applyVote(data));
+    }
+
+    private applyVote(data){
+        var publication = this.publications.filter(function(obj){
+            return obj.id == data.target_id;
+        })[0];
+        console.log(data.like);
+        publication.like = data.like;
+    }
+
 }
 class DragAndDrop {
     constructor($scope:ng.IScope) {

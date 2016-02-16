@@ -1,14 +1,15 @@
 import itertools
+from ast import literal_eval
 
 from cloudinary import uploader
 from django.core.urlresolvers import reverse
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, render, redirect
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect
 from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag
 
-from app.models import Publication, Comment
+from app.models import Publication, Comment, PublicationVote, CommentVote
 from authenticating.models import Account
 from courseproject.models import *
 
@@ -57,9 +58,14 @@ def profile_settings(request, user_id):
         return redirect(reverse('home'))
 
 
-def normalize_publication(publication):
+def normalize_publication(publication, user):
     publication['category'] = Category.objects.get(id=publication['category']).name
     publication['username'] = Account.objects.get(id=publication['username']).username
+    try:
+        vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
+        publication['like'] = vote.like
+    except PublicationVote.DoesNotExist:
+        pass
 
 
 def get_publications(request):
@@ -84,7 +90,7 @@ def get_publications(request):
 
     publications_values = list(publications.values('id', 'username', 'category', 'header', 'description', 'rate',
                                                    'created_at', 'tag'))
-    for i in range(len(publications_values)): normalize_publication(publications_values[i])
+    for i in range(len(publications_values)): normalize_publication(publications_values[i], request.user)
     response = JsonResponse(dict(publications=publications_values))
     return response
 
@@ -197,3 +203,31 @@ class CreateComment(View):
         obj = Comment.objects.create(username=request.user, publication=publication, text=data['text'][0])
         obj.save()
         return redirect(reverse('show', args=[publication.id]))
+
+
+class VotesController(View):
+    @staticmethod
+    def post(request, *args, **kwargs):
+        like = literal_eval(request.POST.get('like'))
+        publication_id = request.POST.get('publication')
+        comment_id = request.POST.get('comment')
+        if publication_id:
+            model = PublicationVote
+            id = Publication.objects.get(id=publication_id)
+        elif comment_id:
+            model = CommentVote
+            id = Comment.objects.get(id=comment_id)
+        else:
+            return HttpResponse(500)
+        try:
+            obj = model.objects.get(user=request.user, target_id=id)
+            obj.like = like
+            obj.save()
+        except model.DoesNotExist:
+            model.objects.create(user=request.user, target_id=id, like=like)
+        id.rate = id.calculate_rate()
+        id.save()
+        return JsonResponse(dict(like=like, target_id=id.id))
+
+
+

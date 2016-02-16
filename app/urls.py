@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'makepublication/', MakePublication.as_view(), name='edit'),
     url(r'createcomment/', CreateComment.as_view(), name='create-comment'),
     url(r'articles/(?P<publication_id>\d+)/$', ShowPublication.as_view(), name='show'),
-    url(r'comments/', GetComments.as_view(), name='comments')
+    url(r'comments/', GetComments.as_view(), name='comments'),
+    url(r'vote/', VotesController.as_view(), name='vote')
 ]
