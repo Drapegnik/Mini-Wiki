@@ -10,7 +10,6 @@
         <div class="collapse" id="previewzona">
             {% include template %}
         </div>
-
         <form class="form-horizontal">
             {% csrf_token %}
             <div class="col-md-offset-1 col-md-12" id="formzona">
@@ -22,12 +21,11 @@
                         <div class="col-md-6">
                             <input ng-model="ctrl.header" ng-change="ctrl.inputChange('#id_header', 0)" ng-trim="false"
                                    type="text" class="form-control" id="id_header"
-                                   maxlength="254" name="header" placeholder="{% trans 'you header' %}"
-                            />
+                                   maxlength="254" name="header" placeholder="{% trans 'you header' %}"/>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div id="id_description_tab" class="form-group">
                         <div class="col-md-2">
                             <label for="id_description" class=" control-label">{% trans 'Description' %}:</label>
                         </div>
@@ -46,7 +44,8 @@
                             <select ng-model="ctrl.category" id="id_category" class="form-control col-md-6" size="1"
                                     name="category">
                                 {% for val in catlist %}
-                                    <option ng-init="ctrl.category = '{{ val.name }}'" value="{{ val.name }}">{% trans val.name %}</option>
+                                    <option ng-init="ctrl.category = '{{ val.name }}'"
+                                            value="{{ val.name }}">{% trans val.name %}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -57,12 +56,17 @@
                             <label for="id_tags" class=" control-label">{% trans 'Tags' %}:</label>
                         </div>
                         <div class="col-md-6">
-                            <input ng-change="ctrl.inputChange('#id_tags', 2)" ng-trim="false" ng-model="ctrl.tags"
-                                   type="text" class="form-control" id="id_tags" maxlength="254"
-                                   name="tags"
-                                   placeholder="{% trans 'you tags' %}"/>
+                            <tags-input ng-trim="false" ng-model="ctrl.tags"
+                                        type="text" id="id_tags" max-length="10"
+                                        name="tags"
+                                        min-tags = "3"
+                                        min-tags = "5"
+                                        placeholder="{% trans 'you tags, three at least' %}">
+                                <auto-complete source="ctrl.loadTags($query)"></auto-complete>
+                            </tags-input>
                         </div>
                     </div>
+
                 </div>
                 <span class="col-md-6">
                     <div id="dropview" class="dropzona col-md-8">
@@ -76,11 +80,11 @@
 
                 </span>
             </div>
-{#            <div ng-repeat="error in ctrl.errors">#}
-{#                {% verbatim %}#}
-{#                {{ error }}#}
-{#                {% endverbatim %}#}
-{#            </div>#}
+            {#            <div ng-repeat="error in ctrl.errors">#}
+            {#                {% verbatim %}#}
+            {#                {{ error }}#}
+            {#                {% endverbatim %}#}
+            {#            </div>#}
             <div class="col-md-12" id="editzona">
                 <textarea ng-trim="false" name="editor" id="editor" rows="10" cols="80">
                     {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}
@@ -92,7 +96,8 @@
                     <a href="#" class="btn btn-danger">{% trans 'Cansel' %}</a>
                     <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
                        data-target="#previewzona" class="btn btn-warning">{% trans 'Preview' %}</a>
-                    <a class="btn btn-success" ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2]" ng-click="ctrl.submit({{ template_id }})">{% trans 'Publish' %}</a>
+                    <a class="btn btn-success" ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2]"
+                       ng-click="ctrl.submit({{ template_id }})">{% trans 'Publish' %}</a>
                 </div>
             </div>
         </form>

@@ -1,4 +1,4 @@
-.tags {
+.tagslabel {
     margin: 0;
     padding: 0;
     position: absolute;
@@ -7,7 +7,7 @@
     list-style: none;
 }
 
-.tags li, .tags a {
+.tagslabel li, .tagslabel a {
     float: left;
     height: 24px;
     line-height: 24px;
@@ -15,7 +15,7 @@
     font-size: 11px;
 }
 
-.tags a {
+.tagslabel a {
     margin-left: 20px;
     padding: 0 10px 0 12px;
     background: #0089e0;
@@ -29,7 +29,7 @@
     border-top-right-radius: 4px;
 }
 
-.tags a:before {
+.tagslabel a:before {
     content: "";
     float: left;
     position: absolute;
@@ -42,7 +42,7 @@
     border-width: 12px 12px 12px 0;
 }
 
-.tags a:after {
+.tagslabel a:after {
     content: "";
     position: absolute;
     top: 10px;
@@ -59,11 +59,11 @@
     box-shadow: -1px -1px 2px #004977;
 }
 
-.tags a:hover {
+.tagslabel a:hover {
     background: #555;
 }
 
-.tags a:hover:before {
+.tagslabel a:hover:before {
     border-color: transparent #555 transparent transparent;
 }
 
