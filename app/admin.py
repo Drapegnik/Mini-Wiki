@@ -1,5 +1,6 @@
 from django.contrib import admin
 from tagging.registry import register
+
 from app.models import *
 
 
@@ -15,6 +16,16 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['rate']
 
 
+class PublicationVoteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'target_id', 'like')
+
+
+class CommentVoteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'target_id', 'like')
+
+
 register(Publication)
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(PublicationVote, PublicationVoteAdmin)
+admin.site.register(CommentVote,CommentVoteAdmin)

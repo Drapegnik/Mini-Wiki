@@ -90,13 +90,22 @@
                             <li><span class="badge"><span
                                     ng-show="publication.rate > 0">+</span>{{ publication.rate }}</span></li>
                         </ul>
+                         {% endverbatim %}
+                        {% if user.is_authenticated  %}
+                        <div>
+                            <a href="#" ng-click="ctrl.vote(publication.id,'True')" ng-cloak
+                               ng-hide="(publication.like == true)">+ </a>
+                            <a href="#" ng-click="ctrl.vote(publication.id,'False')" ng-cloak
+                               ng-hide="(publication.like == false)">- </a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
+            {% verbatim %}
                 <ul class="tags ">
                     <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
                 </ul>
-
-                {% endverbatim %}
+             {% endverbatim %}
             </div>
         </div>
         <div class="col-md-3 hidden-xs hidden-sm" ng-controller="TagController as ctrl" ng-init="ctrl.init()">

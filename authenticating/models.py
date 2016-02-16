@@ -39,7 +39,6 @@ class Account(AbstractBaseUser):
     photo = models.URLField(blank=True)
     theme = models.ForeignKey(Theme, default=1)
     language = models.ForeignKey(Language, default=1)
-
     is_admin = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(default=timezone.now, editable=False, blank=True)

@@ -119,7 +119,8 @@ class PublicationController {
             this.publications.push(data.publications[iterartor]);
         }
         if (data.publications.length != 0)
-        this.busy = false;
+            this.busy = false;
+        console.log(this.publications)
     }
 
     private getPublications(range_first:number, range_last:number) {
@@ -128,6 +129,19 @@ class PublicationController {
         parameters.range_last = range_last;
         this.http.useGetHandler(parameters).then((data) => this.fillPublication(data));
 
+    }
+
+    public vote(pub_id:number,like:string){
+        this.http.handlerUrl = "vote/";
+        this.http.usePostHandler($.param({publication:pub_id,like:like})).then((data) => this.applyVote(data));
+    }
+
+    private applyVote(data){
+        var publication = this.publications.filter(function(obj){
+            return obj.id == data.target_id;
+        })[0];
+        console.log(data.like);
+        publication.like = data.like;
     }
 
 }
