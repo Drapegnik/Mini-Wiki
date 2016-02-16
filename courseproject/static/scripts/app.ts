@@ -120,7 +120,6 @@ class PublicationController {
         }
         if (data.publications.length != 0)
             this.busy = false;
-        console.log(this.publications)
     }
 
     private getPublications(range_first:number, range_last:number) {
@@ -289,25 +288,28 @@ class PreviewController extends DragAndDrop {
         this.$sce = $sce;
         this.header = "";
         this.description = "";
-        this.tags = "";
+        this.tags = [];
+        this.autatags = [];
         this.category = "";
         this.http = new HttpHandlerService($http);
         this.errors = [];
         this.data = new Date();
     }
 
+
     $scope:ng.IScope;
     $sce:ng.ISCEService;
     header:string;
     description:string;
     category:string;
-    tags:string;
+    tags:any;
     htmlcontent:ng.IAugmentedJQuery;
     http:HttpHandlerService;
     errors:any;
     input:ng.IAugmentedJQuery;
     isBlank:Array<boolean> = [true, true, true];
     data:Date;
+    autatags:any;
 
 
     public initPreview(htmlcontentId:string, dropzone:string, target:string) {
@@ -357,6 +359,13 @@ class PreviewController extends DragAndDrop {
         }
         else
             this.isBlank[index] = false;
+    }
+
+    public loadTags($query) {
+        this.http.handlerUrl = "getTags/";
+        this.http.handlerUrl = "getTags/";
+        this.http.useGetHandler({substr: $query}).then((data) => this.autatags = data.tags);
+        return this.autatags;
     }
 
 }
@@ -416,6 +425,7 @@ class CommentsController {
             this.input.val("");
             this.input.attr("placeholder", "Comment can't be empty");
             this.input.addClass("holdcol");
+            //angular.element(id.concat('_tab')).addClass("has-error");
             this.isBlank = true;
         }
         else

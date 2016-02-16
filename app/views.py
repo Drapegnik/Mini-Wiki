@@ -147,13 +147,22 @@ class ShowPublication(View):
 class GetTags(View):
     @staticmethod
     def get(request, *args, **kwargs):
-        tags = Tag.objects.usage_for_model(Publication, counts=True)
-        tags.sort(key=lambda tag: tag.count, reverse=True)
-        tags = itertools.islice(tags, 0, 10)
-        response = []
-        for tag in tags:
-            response.append(dict(name=tag.name, count=tag.count))
-        return JsonResponse(dict(tags=response))
+        data = dict(request.GET)
+        if data.get('substr'):
+            tags = Tag.objects.filter(name__startswith=data.get('substr')[0])
+            response = []
+            for tag in tags:
+                response.append(dict(text=tag.name))
+            print(response)
+            return JsonResponse(dict(tags=response))
+        else:
+            tags = Tag.objects.usage_for_model(Publication, counts=True)
+            tags.sort(key=lambda tag: tag.count, reverse=True)
+            tags = itertools.islice(tags, 0, 10)
+            response = []
+            for tag in tags:
+                response.append(dict(name=tag.name, count=tag.count))
+            return JsonResponse(dict(tags=response))
 
 
 class MakePublication(View):

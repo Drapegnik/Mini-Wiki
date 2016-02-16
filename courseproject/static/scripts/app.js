@@ -97,7 +97,6 @@ var PublicationController = (function () {
         }
         if (data.publications.length != 0)
             this.busy = false;
-        console.log(this.publications);
     };
     PublicationController.prototype.getPublications = function (range_first, range_last) {
         var _this = this;
@@ -235,7 +234,8 @@ var PreviewController = (function (_super) {
         this.$sce = $sce;
         this.header = "";
         this.description = "";
-        this.tags = "";
+        this.tags = [];
+        this.autatags = [];
         this.category = "";
         this.http = new HttpHandlerService($http);
         this.errors = [];
@@ -285,6 +285,13 @@ var PreviewController = (function (_super) {
         else
             this.isBlank[index] = false;
     };
+    PreviewController.prototype.loadTags = function ($query) {
+        var _this = this;
+        this.http.handlerUrl = "getTags/";
+        this.http.handlerUrl = "getTags/";
+        this.http.useGetHandler({ substr: $query }).then(function (data) { return _this.autatags = data.tags; });
+        return this.autatags;
+    };
     return PreviewController;
 })(DragAndDrop);
 var CommentsController = (function () {
@@ -330,6 +337,7 @@ var CommentsController = (function () {
             this.input.val("");
             this.input.attr("placeholder", "Comment can't be empty");
             this.input.addClass("holdcol");
+            //angular.element(id.concat('_tab')).addClass("has-error");
             this.isBlank = true;
         }
         else

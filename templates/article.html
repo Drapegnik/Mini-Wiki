@@ -28,8 +28,9 @@
                 {% csrf_token %}
                 <div class="comment panel panel-default">
                     <div class="panel-body">
-                        <input id="text" ng-model="ctrl.text" ng-change="ctrl.inputChange('#text')" type="text" class="form-control" maxlength="500" name="text"
-                               placeholder="{% trans 'say something' %}"/>
+                        <textarea id="text" ng-model="ctrl.text" ng-change="ctrl.inputChange('#text')" type="text" class="form-control" maxlength="500" name="text"
+                               placeholder="{% trans 'say something' %}">
+                        </textarea>
 {#                        <input type="hidden" class="form-control" name="publication_id" value="{{ publication.id }}">#}
                     </div>
                     <div class="panel-footer">
