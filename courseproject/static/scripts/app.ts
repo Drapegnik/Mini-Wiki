@@ -294,7 +294,7 @@ class PreviewController extends DragAndDrop {
     http:HttpHandlerService;
     errors:any;
     input:ng.IAugmentedJQuery;
-    isBlank:Array<boolean> = [true, true, true];
+    isBlank:Array<boolean> = [true, true, false];
     data:Date;
     autatags:any;
 
@@ -327,12 +327,12 @@ class PreviewController extends DragAndDrop {
             });
             console.log(data);
             this.http.handlerUrl = "makepublication/";
-            var response = this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
+            this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
         }
     }
 
     public checkResponse(data:any) {
-        this.errors = data.errors
+        window.location = data.redirect;
     }
 
     public inputChange(id:string, index:number) {
@@ -402,7 +402,8 @@ class CommentsController {
                 text: this.text
             });
             this.http.handlerUrl = "createcomment/";
-            this.http.usePostHandler(data).then((data) => this.getComments())
+            this.http.usePostHandler(data).then((data) => this.getComments());
+            this.input.val("");
         }
     }
 

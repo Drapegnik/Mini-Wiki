@@ -168,12 +168,12 @@ class MakePublication(View):
         template = Template.objects.get(id=data['template_id'][0])
         obj = Publication.objects.create(username=username, header=data['header'][0],
                                          description=data['description'][0],
-                                         body=data['body'][0], category=category, template=template,
-                                         tag=data['tags'][0])
+                                         body=data['body'][0], category=category, template=template)
+        #  tag=data['tags'][0])
         obj.image = uploader.upload(data['image'][0], invalidate=True)['url']
         obj.save()
-        # return redirect(reverse('show', args=[obj.id]))
-        return HttpResponse(200)
+        return JsonResponse(dict(redirect=reverse('show', args=[obj.id])))
+        # return HttpResponse(200)
 
 
 class GetComments(View):
