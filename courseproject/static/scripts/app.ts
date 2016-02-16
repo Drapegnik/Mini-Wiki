@@ -118,6 +118,7 @@ class PublicationController {
             data.publications[iterartor].tag = data.publications[iterartor].tag.split(", ");
             this.publications.push(data.publications[iterartor]);
         }
+        if (data.publications.length != 0)
         this.busy = false;
     }
 

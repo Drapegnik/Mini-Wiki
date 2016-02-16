@@ -95,7 +95,8 @@ var PublicationController = (function () {
             data.publications[iterartor].tag = data.publications[iterartor].tag.split(", ");
             this.publications.push(data.publications[iterartor]);
         }
-        this.busy = false;
+        if (data.publications.length != 0)
+            this.busy = false;
     };
     PublicationController.prototype.getPublications = function (range_first, range_last) {
         var _this = this;
