@@ -384,9 +384,9 @@ class CommentsController {
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        /*this.interval(() => {
+        this.interval(() => {
             this.getComments();
-        }, 1500);*/
+        }, 1500);
     }
 
     scope:ng.IScope;
