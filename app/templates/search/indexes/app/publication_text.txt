@@ -1,0 +1,4 @@
+{{ object.header }}
+{{ object.description }}
+{{ object.author.username }}
+{{ object.body }}

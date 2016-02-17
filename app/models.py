@@ -20,7 +20,7 @@ class Publication(models.Model):
     image = models.URLField(blank=True)
 
     def __str__(self):
-        return self.header + u'. Author: %s' % self.username
+        return self.header + u'. Author: %s' % self.author
 
     def calculate_rate(self):
         return PublicationVote.objects.filter(target_id=self, like=True).count() - PublicationVote.objects.filter(

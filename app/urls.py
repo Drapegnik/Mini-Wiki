@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from django.conf.urls import url
+from django.conf.urls import url, include
 from app.views import *
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'createcomment/', CreateComment.as_view(), name='create-comment'),
     url(r'articles/(?P<publication_id>\d+)/$', ShowPublication.as_view(), name='show'),
     url(r'comments/', GetComments.as_view(), name='comments'),
-    url(r'vote/', VotesController.as_view(), name='vote')
+    url(r'vote/', VotesController.as_view(), name='vote'),
+    url(r'^search/', include('haystack.urls')),
 ]
