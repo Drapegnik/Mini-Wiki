@@ -245,12 +245,14 @@ var PreviewController = (function (_super) {
         this.http = new HttpHandlerService($http);
         this.errors = [];
         this.data = new Date();
+        this.tagstring = "";
     }
     PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target) {
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
     };
     PreviewController.prototype.ShowPublication = function () {
+        console.log(this.tags);
         this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     };
@@ -261,11 +263,13 @@ var PreviewController = (function (_super) {
         var _this = this;
         if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2])) {
             var body = CKEDITOR.instances.editor.getData();
+            for (var iter in this.tags)
+                this.tagstring += this.tags[iter].text + ", ";
             var data = $.param({
                 header: this.header,
                 description: this.description,
                 category: this.category,
-                tags: this.tags,
+                tagstring: this.tagstring,
                 body: body,
                 template_id: template_id,
                 image: this.destination.attr('src')

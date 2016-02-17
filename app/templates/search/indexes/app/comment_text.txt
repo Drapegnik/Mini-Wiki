@@ -1,0 +1,2 @@
+{{ object.text }}
+{{ obect.author.username }}

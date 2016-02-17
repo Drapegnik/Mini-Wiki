@@ -299,6 +299,7 @@ class PreviewController extends DragAndDrop {
         this.http = new HttpHandlerService($http);
         this.errors = [];
         this.data = new Date();
+        this.tagstring = ""
     }
 
 
@@ -315,6 +316,7 @@ class PreviewController extends DragAndDrop {
     isBlank:Array<boolean> = [true, true, false];
     data:Date;
     autatags:any;
+    tagstring:string;
 
 
     public initPreview(htmlcontentId:string, dropzone:string, target:string) {
@@ -323,6 +325,7 @@ class PreviewController extends DragAndDrop {
     }
 
     public ShowPublication() {
+        console.log(this.tags);
         this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     }
@@ -334,11 +337,13 @@ class PreviewController extends DragAndDrop {
     public submit(template_id) {
         if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2])) {
             var body = CKEDITOR.instances.editor.getData();
+             for (var iter in this.tags)
+               this.tagstring += this.tags[iter].text + ", ";
             var data = $.param({
                 header: this.header,
                 description: this.description,
                 category: this.category,
-                tags: this.tags,
+                tagstring: this.tagstring,
                 body: body,
                 template_id: template_id,
                 image: this.destination.attr('src')

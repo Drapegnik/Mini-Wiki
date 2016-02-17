@@ -1,3 +1,7 @@
+.publ {
+    margin-right: 70px;
+}
+
 .comment {
     border: 1px solid #222222;
 }
@@ -63,7 +67,7 @@
 
 #add {
     width: 17%;
-    max-width: 100px;
+    max-width: 80px;
     min-width: 30px;
     margin: 0;
     padding: 0;

@@ -153,7 +153,6 @@ class GetTags(View):
             response = []
             for tag in tags:
                 response.append(dict(text=tag.name))
-            print(response)
             return JsonResponse(dict(tags=response))
         else:
             tags = Tag.objects.usage_for_model(Publication, counts=True)
@@ -174,12 +173,11 @@ class MakePublication(View):
         template = Template.objects.get(id=data['template_id'][0])
         obj = Publication.objects.create(author=author, header=data['header'][0],
                                          description=data['description'][0],
-                                         body=data['body'][0], category=category, template=template)
-        #  tag=data['tags'][0])
+                                         body=data['body'][0], category=category, template=template,
+                                         tag=data['tagstring'][0][0:len(data['tagstring'][0]) - 2])
         obj.image = uploader.upload(data['image'][0], invalidate=True)['url']
         obj.save()
         return JsonResponse(dict(redirect=reverse('show', args=[obj.id])))
-        # return HttpResponse(200)
 
 
 class GetComments(View):
@@ -197,7 +195,6 @@ class GetComments(View):
 class CreateComment(View):
     @staticmethod
     def post(request, *args, **kwargs):
-        print(request.POST)
         data = dict(request.POST)
         publication = Publication.objects.get(id=data['publication_id'][0])
         obj = Comment.objects.create(author=request.user, publication=publication, text=data['text'][0])
