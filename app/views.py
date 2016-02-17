@@ -69,7 +69,7 @@ def normalize_publication(publication, user):
 
 
 def get_publications(request):
-    username = request.GET.get("username")
+    author = request.GET.get("author")
     category_id = request.GET.get("categoryId")
     sort_by = request.GET.get("sort_by")
     range_first = request.GET.get("first")
@@ -81,8 +81,8 @@ def get_publications(request):
     pub_filter = lambda xz: Publication.objects.filter(**xz).order_by(sort_by)[range_first:range_last]
     if category_id:
         publications = pub_filter({'category': category_id})
-    elif username:
-        publications = pub_filter({'username': Account.objects.get(username=username).id})
+    elif author:
+        publications = pub_filter({'author': Account.objects.get(username=author).id})
     elif tags:
         publications = pub_filter({'tag': tags})
     else:
@@ -113,7 +113,7 @@ class GetProfile(View):
         username = request.GET.get("username")
         profile = list(
                 Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
-                                                                 'photo'))
+                                                                 'photo', 'karma'))
         return JsonResponse(dict(profile=profile))
 
 
@@ -190,7 +190,7 @@ class GetComments(View):
         response = []
         for comment in comments:
             response.append(dict(author=comment.author.username, text=comment.text, rate=comment.rate,
-                                 pic=comment.author.photo, created_at=comment.created_at))
+                                 pic=comment.author.photo, created_at=comment.created_at, id=comment.id))
         return JsonResponse(dict(comments=response))
 
 
@@ -227,10 +227,7 @@ class VotesController(View):
             model.objects.create(user=request.user, target=id, like=like)
         id.rate = id.calculate_rate()
         id.save()
-        author = Account.objects.get(username = id.author)
+        author = Account.objects.get(username=id.author)
         author.karma = author.calculate_rate()
         author.save()
         return JsonResponse(dict(like=like, target=id.id))
-
-
-
