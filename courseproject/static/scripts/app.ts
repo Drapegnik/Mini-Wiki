@@ -38,13 +38,14 @@ class HttpHandlerService {
 class UserProfile {
     constructor($http:ng.IHttpService) {
         this.http = new HttpHandlerService($http);
-        this.testText = "(_!_)";
         this.profile = null;
+        this.achievements=[];
     }
 
     testText:string;
     private http:HttpHandlerService;
     profile:any;
+    achievements:any;
 
     public getProfile(username:string) {
         this.http.handlerUrl = "getProfile/";
@@ -55,6 +56,8 @@ class UserProfile {
 
     public fillUserProfile(data:any) {
         this.profile = data.profile[0];
+        this.achievements = data.achievements;
+        console.log(this.achievements)
     }
 
 }
@@ -348,7 +351,6 @@ class PreviewController extends DragAndDrop {
                 template_id: template_id,
                 image: this.destination.attr('src')
             });
-            console.log(data);
             this.http.handlerUrl = "makepublication/";
             this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
         }

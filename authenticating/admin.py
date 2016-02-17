@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from authenticating.models import Account
+from authenticating.models import Account, Ban
 
 
 # Register your models here.
@@ -16,4 +16,15 @@ class AccountAdmin(admin.ModelAdmin):
     ]
 
 
+class Ban_Admin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields': ['user']}),
+        (None, {'fields': ['reason']})]
+
+    list_display = ('user', 'reason')
+
+    search_fields = ['user', 'reason']
+
+
+admin.site.register(Ban, Ban_Admin)
 admin.site.register(Account, AccountAdmin)

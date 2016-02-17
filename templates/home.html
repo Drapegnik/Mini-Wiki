@@ -72,6 +72,11 @@
                         <label class="label label-info">{% trans 'karma' %}:</label>
                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.karma}}{% endverbatim %}</span>
                     </div>
+                    <div class="list-group-item" ng-repeat="achievement in ctrl.userProfile.achievements track by $index">
+                       {% verbatim %}
+                        <img src="{{achievement.picture}}" style="width: 80px;height: 80px">
+                        {% endverbatim %}
+                    </div>
                 </div>
             </div>
         </div>
