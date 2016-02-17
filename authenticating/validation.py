@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from social.apps.django_app.default.models import UserSocialAuth
 
 
 def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
@@ -11,3 +12,10 @@ def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
             details['email'] = userEmail
         else:
             return redirect('acquire_email')
+
+
+def check_for_achievement(username=None, user=None, is_new=False, storage=None, uid=None, backend=None, social=None,
+                          request=None, response=None, strategy=None, pipeline_index=None, new_association=None,
+                          details=None):
+    if UserSocialAuth.objects.filter(user=user).count() == 3:
+        user.set_achievement("social")
