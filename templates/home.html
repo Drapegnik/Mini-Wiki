@@ -62,6 +62,10 @@
                         <label class="label label-info">{% trans 'about' %}:</label>
                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.about}}{% endverbatim %}</span>
                     </div>
+                    <div class="list-group-item">
+                        <label class="label label-info">{% trans 'karma' %}:</label>
+                        <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.karma}}{% endverbatim %}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,8 +88,8 @@
                         <ul class="breadcrumb">
                             <li>{{publication.category }}</li>
                             <li><span class="label label-success"><a href="#"
-                                                                     ng-click="ctrl.setFilter(0,publication.username)">{{
-                                publication.username }}</a></span></li>
+                                                                     ng-click="ctrl.setFilter(0,publication.author)">{{
+                                publication.author }}</a></span></li>
                             <li class="active">{{publication.created_at | date:'medium'}}</li>
                             <li><span class="badge"><span
                                     ng-show="publication.rate > 0">+</span>{{ publication.rate }}</span></li>

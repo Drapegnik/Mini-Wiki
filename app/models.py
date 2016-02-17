@@ -46,10 +46,10 @@ class Comment(models.Model):
 class PublicationVote(models.Model):
     like = models.BooleanField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    target_id = models.ForeignKey(Publication)
+    target = models.ForeignKey(Publication)
 
 
 class CommentVote(models.Model):
     like = models.BooleanField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    target_id = models.ForeignKey(Comment)
+    target = models.ForeignKey(Comment)

@@ -22,6 +22,12 @@
                         <li><span class="badge"><span ng-show="comment.rate > 0">+</span>{{ comment.rate }}</span></li>
                     </ul>
                 </div>
+                <div>
+                    <a href="#" ng-click="ctrl.vote(comment.id,'True')" ng-cloak
+                       ng-hide="(comment.like == true)">+ </a>
+                    <a href="#" ng-click="ctrl.vote(comment.id,'False')" ng-cloak
+                       ng-hide="(comment.like == false)">- </a>
+                </div>
                 {% endverbatim %}
             </div>
             {% if user.is_authenticated %}

@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
 
+from app.models import PublicationVote, CommentVote, Publication, Comment
 from courseproject.models import Theme, Language
 
 
@@ -40,6 +41,7 @@ class Account(AbstractBaseUser):
     theme = models.ForeignKey(Theme, default=1)
     language = models.ForeignKey(Language, default=1)
     is_admin = models.BooleanField(default=False)
+    karma = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(default=timezone.now, editable=False, blank=True)
     updated_at = models.DateTimeField(default=timezone.now, editable=False, blank=True)
@@ -71,3 +73,10 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return self.is_admin
+
+    def calculate_rate(self):
+        rate = PublicationVote.objects.filter(like=True, target__author=self.id).count()
+        rate += CommentVote.objects.filter(like=True, target__author=self.id).count()
+        rate -= PublicationVote.objects.filter(like=False, target__author=self.id).count()
+        rate -= CommentVote.objects.filter(like=False, target__author=self.id).count()
+        return rate;

@@ -11,7 +11,7 @@ class AccountAdmin(admin.ModelAdmin):
         'id')
     fieldsets = [
         ('Basic', {'fields': ['username', 'email', 'password', 'is_admin']}),
-        ('User information', {'fields': ['location', 'gender', 'about', 'theme', 'language', 'photo']}),
+        ('User information', {'fields': ['location', 'gender', 'about', 'theme', 'language', 'photo', 'karma']}),
         ('Date information', {'fields': ['last_login']}),
     ]
 

@@ -91,7 +91,7 @@ class PublicationController {
         }
         this.currentFilter = {
             "categoryId": categoryId == 0 ? "" : categoryId,
-            "username": username,
+            "author": username,
             "sort_by": sortBy
         };
         this.publications = [];
@@ -130,16 +130,21 @@ class PublicationController {
 
     }
 
-    public vote(pub_id:number,like:string){
+    public vote(pub_id:number, like:string) {
         this.http.handlerUrl = "vote/";
-        this.http.usePostHandler($.param({publication:pub_id,like:like})).then((data) => this.applyVote(data));
+        this.http.usePostHandler($.param({publication: pub_id, like: like})).then((data) => this.applyVote(data));
     }
 
-    private applyVote(data){
-        var publication = this.publications.filter(function(obj){
-            return obj.id == data.target_id;
+    private applyVote(data) {
+        var publication = this.publications.filter(function (obj) {
+            return obj.id == data.target;
         })[0];
-        console.log(data.like);
+        if (publication.like == true)
+            publication.rate -= 2;
+        if (publication.like == false)
+            publication.rate += 2;
+        if (isNaN(publication.like))
+            publication.rate += data.like ? 1 : -1;
         publication.like = data.like;
     }
 
@@ -379,9 +384,9 @@ class CommentsController {
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        this.interval(() => {
+        /*this.interval(() => {
             this.getComments();
-        }, 1500);
+        }, 1500);*/
     }
 
     scope:ng.IScope;
@@ -405,7 +410,6 @@ class CommentsController {
     public init(id) {
         this.publication_id = id;
         this.getComments();
-        this.timeout(this.getComments, 50);
     }
 
     public submit(publication_id) {
@@ -431,6 +435,23 @@ class CommentsController {
         }
         else
             this.isBlank = false;
+    }
+    public vote(comment_id:number, like:string) {
+        this.http.handlerUrl = "vote/";
+        this.http.usePostHandler($.param({comment: comment_id, like: like})).then((data) => this.applyVote(data));
+    }
+
+    private applyVote(data) {
+        var comments = this.comments.filter(function (obj) {
+            return obj.id == data.target;
+        })[0];
+        if (comments.like == true)
+            comments.rate -= 2;
+        if (comments.like == false)
+            comments.rate += 2;
+        if (isNaN(comments.like))
+            comments.rate += data.like ? 1 : -1;
+        comments.like = data.like;
     }
 }
 

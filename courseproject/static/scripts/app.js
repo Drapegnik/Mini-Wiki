@@ -72,7 +72,7 @@ var PublicationController = (function () {
         }
         this.currentFilter = {
             "categoryId": categoryId == 0 ? "" : categoryId,
-            "username": username,
+            "author": username,
             "sort_by": sortBy
         };
         this.publications = [];
@@ -112,9 +112,14 @@ var PublicationController = (function () {
     };
     PublicationController.prototype.applyVote = function (data) {
         var publication = this.publications.filter(function (obj) {
-            return obj.id == data.target_id;
+            return obj.id == data.target;
         })[0];
-        console.log(data.like);
+        if (publication.like == true)
+            publication.rate -= 2;
+        if (publication.like == false)
+            publication.rate += 2;
+        if (isNaN(publication.like))
+            publication.rate += data.like ? 1 : -1;
         publication.like = data.like;
     };
     return PublicationController;
@@ -296,16 +301,15 @@ var PreviewController = (function (_super) {
 })(DragAndDrop);
 var CommentsController = (function () {
     function CommentsController($scope, $http, $interval) {
-        var _this = this;
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
         this.comments = [];
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        this.interval(function () {
-            _this.getComments();
-        }, 1500);
+        /*this.interval(() => {
+            this.getComments();
+        }, 1500);*/
     }
     CommentsController.prototype.getComments = function () {
         var _this = this;
@@ -318,7 +322,6 @@ var CommentsController = (function () {
     CommentsController.prototype.init = function (id) {
         this.publication_id = id;
         this.getComments();
-        this.timeout(this.getComments, 50);
     };
     CommentsController.prototype.submit = function (publication_id) {
         var _this = this;
@@ -343,6 +346,23 @@ var CommentsController = (function () {
         }
         else
             this.isBlank = false;
+    };
+    CommentsController.prototype.vote = function (comment_id, like) {
+        var _this = this;
+        this.http.handlerUrl = "vote/";
+        this.http.usePostHandler($.param({ comment: comment_id, like: like })).then(function (data) { return _this.applyVote(data); });
+    };
+    CommentsController.prototype.applyVote = function (data) {
+        var comments = this.comments.filter(function (obj) {
+            return obj.id == data.target;
+        })[0];
+        if (comments.like == true)
+            comments.rate -= 2;
+        if (comments.like == false)
+            comments.rate += 2;
+        if (isNaN(comments.like))
+            comments.rate += data.like ? 1 : -1;
+        comments.like = data.like;
     };
     return CommentsController;
 })();
