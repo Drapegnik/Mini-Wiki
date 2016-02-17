@@ -36,7 +36,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
 
     def __str__(self):
-        return u'. Comment to: %s' % self.publication.header + u'. Author: %s' % self.username
+        return u'. Comment to: %s' % self.publication.header + u'. Author: %s' % self.author
 
     def calculate_rate(self):
         return CommentVote.objects.filter(target_id=self, like=True).count() - CommentVote.objects.filter(
