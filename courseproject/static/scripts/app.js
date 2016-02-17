@@ -301,15 +301,16 @@ var PreviewController = (function (_super) {
 })(DragAndDrop);
 var CommentsController = (function () {
     function CommentsController($scope, $http, $interval) {
+        var _this = this;
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
         this.comments = [];
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        /*this.interval(() => {
-            this.getComments();
-        }, 1500);*/
+        this.interval(function () {
+            _this.getComments();
+        }, 1500);
     }
     CommentsController.prototype.getComments = function () {
         var _this = this;
