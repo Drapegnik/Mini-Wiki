@@ -224,10 +224,13 @@ class VotesController(View):
             obj.like = like
             obj.save()
         except model.DoesNotExist:
-            model.objects.create(user=request.user, target_id=id, like=like)
+            model.objects.create(user=request.user, target=id, like=like)
         id.rate = id.calculate_rate()
         id.save()
-        return JsonResponse(dict(like=like, target_id=id.id))
+        author = Account.objects.get(username = id.username)
+        author.karma = author.calculate_rate()
+        author.save()
+        return JsonResponse(dict(like=like, target=id.id))
 
 
 

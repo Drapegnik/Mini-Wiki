@@ -130,16 +130,21 @@ class PublicationController {
 
     }
 
-    public vote(pub_id:number,like:string){
+    public vote(pub_id:number, like:string) {
         this.http.handlerUrl = "vote/";
-        this.http.usePostHandler($.param({publication:pub_id,like:like})).then((data) => this.applyVote(data));
+        this.http.usePostHandler($.param({publication: pub_id, like: like})).then((data) => this.applyVote(data));
     }
 
-    private applyVote(data){
-        var publication = this.publications.filter(function(obj){
-            return obj.id == data.target_id;
+    private applyVote(data) {
+        var publication = this.publications.filter(function (obj) {
+            return obj.id == data.target;
         })[0];
-        console.log(data.like);
+        if (publication.like == true)
+            publication.rate -= 2;
+        if (publication.like == false)
+            publication.rate += 2;
+        if (isNaN(publication.like))
+            publication.rate += data.like ? 1 : -1;
         publication.like = data.like;
     }
 
