@@ -76,10 +76,10 @@ class Account(AbstractBaseUser):
 
     def calculate_rate(self):
         print(self.username)
-        rate = PublicationVote.objects.filter(like=True, target__username=self.id).count()
+        rate = PublicationVote.objects.filter(like=True, target__author=self.id).count()
         print(rate)
-        rate += CommentVote.objects.filter(like=True, target__username=self.id).count()
-        rate -= PublicationVote.objects.filter(like=False, target__username=self.id).count()
+        rate += CommentVote.objects.filter(like=True, target__author=self.id).count()
+        rate -= PublicationVote.objects.filter(like=False, target__author=self.id).count()
         print(rate)
-        rate -= CommentVote.objects.filter(like=False, target__username=self.id).count()
+        rate -= CommentVote.objects.filter(like=False, target__author=self.id).count()
         return rate;

@@ -234,7 +234,7 @@ var PreviewController = (function (_super) {
     __extends(PreviewController, _super);
     function PreviewController($scope, $sce, $http) {
         _super.call(this, $scope);
-        this.isBlank = [true, true, true];
+        this.isBlank = [true, true, false];
         this.$scope = $scope;
         this.$sce = $sce;
         this.header = "";
@@ -272,11 +272,11 @@ var PreviewController = (function (_super) {
             });
             console.log(data);
             this.http.handlerUrl = "makepublication/";
-            var response = this.http.usePostHandler(data).then(function (data) { return _this.checkResponse(data); });
+            this.http.usePostHandler(data).then(function (data) { return _this.checkResponse(data); });
         }
     };
     PreviewController.prototype.checkResponse = function (data) {
-        this.errors = data.errors;
+        window.location = data.redirect;
     };
     PreviewController.prototype.inputChange = function (id, index) {
         this.input = angular.element(id);
@@ -334,6 +334,7 @@ var CommentsController = (function () {
             });
             this.http.handlerUrl = "createcomment/";
             this.http.usePostHandler(data).then(function (data) { return _this.getComments(); });
+            this.input.val("");
         }
     };
     CommentsController.prototype.inputChange = function (id) {

@@ -24,28 +24,32 @@
                 </div>
                 {% endverbatim %}
             </div>
-            <form class="form-horizontal" method="post" action="{% url 'create-comment' %}">
-                {% csrf_token %}
-                <div class="comment panel panel-default">
-                    <div class="panel-body">
-                        <textarea id="text" ng-model="ctrl.text" ng-change="ctrl.inputChange('#text')" type="text" class="form-control" maxlength="500" name="text"
-                               placeholder="{% trans 'say something' %}">
+            {% if user.is_authenticated %}
+                <form class="form-horizontal" method="post" action="{% url 'create-comment' %}">
+                    {% csrf_token %}
+                    <div class="comment panel panel-default">
+                        <div class="panel-body">
+                        <textarea id="text" ng-model="ctrl.text" ng-change="ctrl.inputChange('#text')" type="text"
+                                  class="form-control" maxlength="500" name="text"
+                                  placeholder="{% trans 'say something' %}">
                         </textarea>
-{#                        <input type="hidden" class="form-control" name="publication_id" value="{{ publication.id }}">#}
-                    </div>
-                    <div class="panel-footer">
-                        <ul class="breadcrumb">
-                            <li>
+                            {#                        <input type="hidden" class="form-control" name="publication_id" value="{{ publication.id }}">#}
+                        </div>
+                        <div class="panel-footer">
+                            <ul class="breadcrumb">
+                                <li>
                         <span id="userpicnavbar">
                             <span class="imgRect" style="background-image: url({{ user.photo }})"></span>
                         </span>
-                                <span class="label label-success"><a href="#">{{ user.username }}</a></span>
-                            </li>
-                            <a ng-disabled="ctrl.isBlank" ng-click="ctrl.submit('{{ publication.id }}')" class="btn btn-danger pull-right">{% trans 'send' %}</a>
-{#                            type="submit"#}
-                        </ul>
+                                    <span class="label label-success"><a href="#">{{ user.username }}</a></span>
+                                </li>
+                                <a ng-disabled="ctrl.isBlank" ng-click="ctrl.submit('{{ publication.id }}')"
+                                   class="btn btn-danger pull-right">{% trans 'send' %}</a>
+                                {#                            type="submit"#}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            {% endif %}
         </div>
 {% endblock %}
