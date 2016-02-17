@@ -6,14 +6,15 @@ from courseproject.models import Category, Template
 
 
 class Publication(models.Model):
-    username = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     category = models.ForeignKey(Category)
     header = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
     rate = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
-    body = models.CharField(max_length=5000, null=True)
+    #body = models.CharField(max_length=5000, null=True)
+    body = models.TextField()
     tag = TagField()
     template = models.ForeignKey(Template)
     image = models.URLField(blank=True)
@@ -27,7 +28,7 @@ class Publication(models.Model):
 
 
 class Comment(models.Model):
-    username = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     publication = models.ForeignKey(Publication)
     text = models.CharField(max_length=500)
     rate = models.IntegerField(default=0)

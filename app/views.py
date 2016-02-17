@@ -60,7 +60,7 @@ def profile_settings(request, user_id):
 
 def normalize_publication(publication, user):
     publication['category'] = Category.objects.get(id=publication['category']).name
-    publication['username'] = Account.objects.get(id=publication['username']).username
+    publication['author'] = Account.objects.get(id=publication['author']).username
     try:
         vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
         publication['like'] = vote.like
@@ -88,7 +88,7 @@ def get_publications(request):
     else:
         publications = pub_filter({'rate__gte': -100})
 
-    publications_values = list(publications.values('id', 'username', 'category', 'header', 'description', 'rate',
+    publications_values = list(publications.values('id', 'author', 'category', 'header', 'description', 'rate',
                                                    'created_at', 'tag'))
     for i in range(len(publications_values)): normalize_publication(publications_values[i], request.user)
     response = JsonResponse(dict(publications=publications_values))
@@ -168,11 +168,11 @@ class GetTags(View):
 class MakePublication(View):
     @staticmethod
     def post(request, *args, **kwargs):
-        username = request.user
+        author = request.user
         data = dict(request.POST)
         category = Category.objects.get(name=data['category'][0])
         template = Template.objects.get(id=data['template_id'][0])
-        obj = Publication.objects.create(username=username, header=data['header'][0],
+        obj = Publication.objects.create(author=author, header=data['header'][0],
                                          description=data['description'][0],
                                          body=data['body'][0], category=category, template=template)
         #  tag=data['tags'][0])
@@ -189,8 +189,8 @@ class GetComments(View):
         comments = Comment.objects.all().filter(publication=publication_id)
         response = []
         for comment in comments:
-            response.append(dict(author=comment.username.username, text=comment.text, rate=comment.rate,
-                                 pic=comment.username.photo, created_at=comment.created_at))
+            response.append(dict(author=comment.author.username, text=comment.text, rate=comment.rate,
+                                 pic=comment.author.photo, created_at=comment.created_at))
         return JsonResponse(dict(comments=response))
 
 
@@ -200,7 +200,7 @@ class CreateComment(View):
         print(request.POST)
         data = dict(request.POST)
         publication = Publication.objects.get(id=data['publication_id'][0])
-        obj = Comment.objects.create(username=request.user, publication=publication, text=data['text'][0])
+        obj = Comment.objects.create(author=request.user, publication=publication, text=data['text'][0])
         obj.save()
         return redirect(reverse('show', args=[publication.id]))
 
