@@ -9,7 +9,7 @@ from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag
 
-from app.models import Publication, Comment, PublicationVote, CommentVote
+from app.models import Publication, Comment, PublicationVote, CommentVote, Achievement, UsersAchievement
 from authenticating.models import Account
 from courseproject.models import *
 
@@ -113,8 +113,14 @@ class GetProfile(View):
         username = request.GET.get("username")
         profile = list(
                 Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
-                                                                 'photo', 'karma'))
-        return JsonResponse(dict(profile=profile))
+                                                                 'photo', 'karma', 'id'))
+
+        achievements_id = UsersAchievement.objects.filter(user=profile[0]['id']).values('achievement')
+        achievements = []
+        for elem in achievements_id:
+            achievements.append(Achievement.objects.filter(id=elem['achievement']).values('description', 'picture')[0])
+        print(achievements)
+        return JsonResponse(dict(profile=profile, achievements=achievements))
 
 
 class AddPublication(View):
@@ -229,5 +235,7 @@ class VotesController(View):
         id.save()
         author = Account.objects.get(username=id.author)
         author.karma = author.calculate_rate()
+        if id.author == request.user and like:
+            author.set_achievement("selfLike")
         author.save()
         return JsonResponse(dict(like=like, target=id.id))

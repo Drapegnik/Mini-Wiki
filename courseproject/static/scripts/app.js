@@ -35,8 +35,8 @@ var HttpHandlerService = (function () {
 var UserProfile = (function () {
     function UserProfile($http) {
         this.http = new HttpHandlerService($http);
-        this.testText = "(_!_)";
         this.profile = null;
+        this.achievements = [];
     }
     UserProfile.prototype.getProfile = function (username) {
         var _this = this;
@@ -47,6 +47,8 @@ var UserProfile = (function () {
     };
     UserProfile.prototype.fillUserProfile = function (data) {
         this.profile = data.profile[0];
+        this.achievements = data.achievements;
+        console.log(this.achievements);
     };
     return UserProfile;
 })();
@@ -270,7 +272,6 @@ var PreviewController = (function (_super) {
                 template_id: template_id,
                 image: this.destination.attr('src')
             });
-            console.log(data);
             this.http.handlerUrl = "makepublication/";
             this.http.usePostHandler(data).then(function (data) { return _this.checkResponse(data); });
         }

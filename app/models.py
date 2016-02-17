@@ -13,7 +13,7 @@ class Publication(models.Model):
     rate = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False, blank=True)
-    #body = models.CharField(max_length=5000, null=True)
+    # body = models.CharField(max_length=5000, null=True)
     body = models.TextField()
     tag = TagField()
     template = models.ForeignKey(Template)
@@ -24,7 +24,7 @@ class Publication(models.Model):
 
     def calculate_rate(self):
         return PublicationVote.objects.filter(target_id=self, like=True).count() - PublicationVote.objects.filter(
-            target_id=self, like=False).count()
+                target_id=self, like=False).count()
 
 
 class Comment(models.Model):
@@ -40,7 +40,7 @@ class Comment(models.Model):
 
     def calculate_rate(self):
         return CommentVote.objects.filter(target_id=self, like=True).count() - CommentVote.objects.filter(
-            target_id=self, like=False).count()
+                target_id=self, like=False).count()
 
 
 class PublicationVote(models.Model):
@@ -53,3 +53,14 @@ class CommentVote(models.Model):
     like = models.BooleanField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     target = models.ForeignKey(Comment)
+
+
+class Achievement(models.Model):
+    name = models.CharField(max_length=15)
+    description = models.CharField(max_length=200,default="")
+    picture = models.URLField()
+
+
+class UsersAchievement(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    achievement = models.ForeignKey(Achievement)

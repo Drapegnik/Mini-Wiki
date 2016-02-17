@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
 
-from app.models import PublicationVote, CommentVote, Publication, Comment
+from app.models import PublicationVote, CommentVote, Publication, Comment, Achievement, UsersAchievement
 from courseproject.models import Theme, Language
 
 
@@ -80,3 +80,6 @@ class Account(AbstractBaseUser):
         rate -= PublicationVote.objects.filter(like=False, target__author=self.id).count()
         rate -= CommentVote.objects.filter(like=False, target__author=self.id).count()
         return rate;
+
+    def set_achievement(self, name):
+        return UsersAchievement.objects.get_or_create(user=self, achievement=Achievement.objects.get(name=name))
