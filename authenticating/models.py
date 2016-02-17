@@ -83,3 +83,8 @@ class Account(AbstractBaseUser):
 
     def set_achievement(self, name):
         return UsersAchievement.objects.get_or_create(user=self, achievement=Achievement.objects.get(name=name))
+
+
+class Ban(models.Model):
+    user = models.ForeignKey(Account)
+    reason = models.CharField(max_length = 300)
