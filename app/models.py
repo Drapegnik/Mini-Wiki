@@ -56,7 +56,7 @@ class CommentVote(models.Model):
 
 
 class Achievement(models.Model):
-    name = models.CharField(max_length=15)
+    name = models.CharField(max_length=15,unique=True)
     description = models.CharField(max_length=200,default="")
     picture = models.URLField()
 
