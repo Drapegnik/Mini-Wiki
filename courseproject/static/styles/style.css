@@ -1,3 +1,12 @@
+/*#date {*/
+    /*margin-left: 50%;*/
+/*}*/
+
+.sortbut {
+    color: white;
+    font-size: 30px;
+}
+
 .tagcloud {
     border: 2px dashed #18bc9c;
     border-radius: 6px;

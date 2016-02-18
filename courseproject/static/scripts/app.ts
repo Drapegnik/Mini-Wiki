@@ -302,7 +302,8 @@ class PreviewController extends DragAndDrop {
         this.http = new HttpHandlerService($http);
         this.errors = [];
         this.data = new Date();
-        this.tagstring = ""
+        this.tagstring = "";
+        this.sending = false;
     }
 
 
@@ -320,6 +321,7 @@ class PreviewController extends DragAndDrop {
     data:Date;
     autatags:any;
     tagstring:string;
+    sending:boolean;
 
 
     public initPreview(htmlcontentId:string, dropzone:string, target:string) {
@@ -337,7 +339,8 @@ class PreviewController extends DragAndDrop {
     }
 
     public submit(template_id) {
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2])) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending)) {
+            this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
              for (var iter in this.tags)
                this.tagstring += this.tags[iter].text + ", ";

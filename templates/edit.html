@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-6">
                 <textarea ng-change="ctrl.inputChange('#id_description', 1)" ng-trim="false" ng-model="ctrl.description"
-                          class="form-control" id="id_description" maxlength="500"
+                          class="form-control" id="id_description" type="text"
                           name="description" placeholder="{% trans 'you description' %}"></textarea>
                         </div>
                     </div>
@@ -56,12 +56,11 @@
                             <label for="id_tags" class=" control-label">{% trans 'Tags' %}:</label>
                         </div>
                         <div class="col-md-6">
-                            <tags-input ng-trim="false" ng-model="ctrl.tags"
-                                        type="text" id="id_tags" max-length="10"
-                                        name="tags"
-                                        min-tags = "3"
-                                        min-tags = "5"
-                                        placeholder="{% trans 'you tags, three at least' %}">
+                            <tags-input required name="tags" ng-model="ctrl.tags"
+                                        id="id_tags" max-length="15"
+                                        min-tags="3"
+                                        max-tags="5"
+                                        placeholder="{% trans 'three at least, five maximum' %}">
                                 <auto-complete source="ctrl.loadTags($query)"></auto-complete>
                             </tags-input>
                         </div>
@@ -96,7 +95,8 @@
                     <a href="#" class="btn btn-danger">{% trans 'Cansel' %}</a>
                     <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
                        data-target="#previewzona" class="btn btn-warning">{% trans 'Preview' %}</a>
-                    <a class="btn btn-success" ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2]"
+                    <a class="btn btn-success"
+                       ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2] || ctrl.sending"
                        ng-click="ctrl.submit({{ template_id }})">{% trans 'Publish' %}</a>
                 </div>
             </div>

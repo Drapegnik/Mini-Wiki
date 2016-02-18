@@ -248,6 +248,7 @@ var PreviewController = (function (_super) {
         this.errors = [];
         this.data = new Date();
         this.tagstring = "";
+        this.sending = false;
     }
     PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target) {
         this.htmlcontent = angular.element(htmlcontentId);
@@ -262,7 +263,8 @@ var PreviewController = (function (_super) {
     };
     PreviewController.prototype.submit = function (template_id) {
         var _this = this;
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2])) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending)) {
+            this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
             for (var iter in this.tags)
                 this.tagstring += this.tags[iter].text + ", ";

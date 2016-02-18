@@ -5,7 +5,6 @@
 {% block content %}
 
     <div ng-controller="PublicationController as ctrl" ng-init="ctrl.init()">
-
         <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add"
                                                                               src="{% static 'icons/add_red.png' %}"></a>
         <div id="templatetab" class="col-md-3 collapse">
@@ -89,6 +88,19 @@
             </div>
         </div>
         <div infinite-scroll='ctrl.loadMore()' infinite-scroll-disabled='ctrl.busy' infinite-scroll-distance='1'>
+            <div class="publ col-md-8 pull-right">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div id="date" class="sortbut pull-right"><a href=""
+                                                                     class="sortbut fa fa-chevron-circle-up"></a> Date
+                            <a href="" class="sortbut fa fa-chevron-circle-down"></a>
+                        </div>
+                        <div id="rate" class="sortbut"><a href="" class="sortbut fa fa-chevron-circle-up"></a> Rate
+                            <a href="" class="sortbut fa fa-chevron-circle-down"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="publ col-md-8 pull-right" ng-repeat="publication in ctrl.publications track by $index">
                 {% verbatim %}
                 <div class="panel panel-success">

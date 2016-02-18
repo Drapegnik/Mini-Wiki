@@ -16,12 +16,12 @@
     </div>
     <h1 class="text-center">{% verbatim %}{{ ctrl.header }}{% endverbatim %}{{ publication.header }}</h1>
     <div class="col-lg-12 col-md-12">
-        <span id="temp2pic">
+        <div id="temp2pic" class="text-center">
             <img ng-show="!'{{ publication.image }}'" id="target" style="max-height: 240px"
                  class="img-responsive img-thumbnail" src="http://placehold.it/1280x240">
             <img ng-show="{{ publication.image }}" style="max-height: 240px" class="img-responsive img-thumbnail"
                  src="{{ publication.image }}">
-        </span>
+        </div>
     </div>
 
     <div class="content text-left">
