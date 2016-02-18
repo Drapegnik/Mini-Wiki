@@ -10,7 +10,8 @@
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
                 <div class="panel-body">
-                    <p>{{ comment.text }}</p>
+                    <p ng-hide="ctrl.isEdit">{{ comment.text }}</p>
+                    <textarea ng-model="ctrl.editcomment" ng-show="ctrl.isEdit" id="edit" type="text" class="form-control" maxlength="500" name="edit">{{ comment.text }}</textarea>
                 </div>
                 <div class="panel-footer">
                     <ul class="breadcrumb">
@@ -26,17 +27,46 @@
                             <span ng-show="comment.rate == 0" class="badge nul">{{ comment.rate }}</span>
                             <span ng-show="comment.rate < 0" class="badge minus">{{ comment.rate }}</span>
                         </li>
+                        {% endverbatim %}
+
+                        {% if user.is_authenticated %}
+                            <li>
+                                {% verbatim %}
+                                <a href="" ng-click="ctrl.vote(comment.id,'True')" ng-cloak
+                                   ng-hide="(comment.like == true)"><i style="font-size: 18px; color: #18bc9c;"
+                                                                       class="fa fa-thumbs-up"></i></a>
+                                <a href="" ng-click="ctrl.vote(comment.id,'True')" ng-cloak
+                                   ng-show="(comment.like == true)"><i style="font-size: 25px; color: #e74c3c;"
+                                                                       class="fa fa-thumbs-up"></i></a>
+                                <a href="" ng-click="ctrl.vote(comment.id,'False')" ng-cloak
+                                   ng-hide="(comment.like == false)"><i style="font-size: 18px; color: #18bc9c;"
+                                                                        class="fa fa-thumbs-down"></i></a>
+                                <a href="" ng-click="ctrl.vote(comment.id,'False')" ng-cloak
+                                   ng-show="(comment.like == false)"><i style="font-size: 25px; color: #e74c3c;"
+                                                                        class="fa fa-thumbs-down"></i></a>
+                                {% endverbatim %}
+                            </li>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            {% verbatim %}
+                            <a ng-hide="ctrl.isEdit" ng-click="ctrl.edit(true, false, comment.text)" href=""><i style="font-size: 25px; color: #3498db;" class="fa fa-pencil pull-right"></i></a>
+                            <a ng-show="ctrl.isEdit"  ng-click="ctrl.edit(false, true)" href=""><i style="font-size: 25px; color: #18bc9c;" class="fa fa-check pull-right"></i></a>
+                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, false)" href=""><i style="font-size: 25px; color: #e74c3c;" class="fa fa-times pull-right"></i></a>
+                            {% endverbatim %}
+                        {% endif %}
                     </ul>
+
                 </div>
-                <div>
-                    <button ng-click="ctrl.vote(comment.id,'True')" ng-cloak
-                            ng-hide="(comment.like == true)">+
-                    </button>
-                    <button ng-click="ctrl.vote(comment.id,'False')" ng-cloak
-                            ng-hide="(comment.like == false)">-
-                    </button>
-                </div>
-                {% endverbatim %}
+                {#                <div>#}
+                {#                    <button ng-click="ctrl.vote(comment.id,'True')" ng-cloak#}
+                {#                            ng-hide="(comment.like == true)">+#}
+                {#                    </button>#}
+                {#                    <button ng-click="ctrl.vote(comment.id,'False')" ng-cloak#}
+                {#                            ng-hide="(comment.like == false)">-#}
+                {#                    </button>#}
+                {#                </div>#}
+
+
             </div>
             {% if user.is_authenticated %}
                 <form class="form-horizontal" method="post" action="{% url 'create-comment' %}">
@@ -47,7 +77,6 @@
                                   class="form-control" maxlength="500" name="text"
                                   placeholder="{% trans 'say something' %}">
                         </textarea>
-                            {#                        <input type="hidden" class="form-control" name="publication_id" value="{{ publication.id }}">#}
                         </div>
                         <div class="panel-footer">
                             <ul class="breadcrumb">

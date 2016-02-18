@@ -1,3 +1,0 @@
-{{ object.header }}
-{{ object.body }}
-{{ object.description }}

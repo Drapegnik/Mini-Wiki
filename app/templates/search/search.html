@@ -15,14 +15,19 @@
         </table>
 
         {% if query %}
-            <div class="col-md-offset-1">
+            <div>
                 <h3>Results</h3>
 
                 {% for result in page.object_list %}
-                    <p>
+                    <div>
                         <a href="/articles/{{ result.object.id }}">{{ result.object.header }}</a>
-                    <p>{{ result.object.description }}</p>
-                    </p>
+                        <p>description: {{ result.object.description }}</p>
+                    </div>
+                    {% if result.model_name == 'comment' %}
+                        <a href="/articles/{{ result.object.publication.id }}">{{ result.object.publication.header }}</a>
+                        <p>comment: {{ result.text }}</p>
+                    </div>
+                    {% endif %}
                 {% empty %}
                     <p>No results found.</p>
                 {% endfor %}
