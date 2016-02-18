@@ -81,6 +81,11 @@ var PublicationController = (function () {
         this.publications = [];
         this.getPublications(0, 4);
     };
+    PublicationController.prototype.setSort = function (sort_by) {
+        var filter = this.currentFilter;
+        filter.categoryId = filter.category == "" ? 0 : filter.categoryId;
+        this.setFilter(filter.categoryId, filter.username, filter.tag, sort_by);
+    };
     PublicationController.prototype.addTag = function (tag) {
         var tags = this.currentFilter.tags;
         tags.push(tag);
@@ -328,8 +333,8 @@ var CommentsController = (function () {
         this.text = "";
         this.interval = $interval;
         /*this.interval(() => {
-            this.getComments();
-        }, 1500);*/
+         this.getComments();
+         }, 1500);*/
         this.isEdit = false;
         this.editcomment = "";
     }
