@@ -39,7 +39,7 @@ class UserProfile {
     constructor($http:ng.IHttpService) {
         this.http = new HttpHandlerService($http);
         this.profile = null;
-        this.achievements=[];
+        this.achievements = [];
     }
 
     testText:string;
@@ -86,7 +86,7 @@ class PublicationController {
 
     private http:HttpHandlerService;
 
-    public setFilter(categoryId:number = 0, username:string = "", tags = "", sortBy:string = "-rate") {
+    public setFilter(categoryId:number = 0, username:string = "", tag = "", sortBy:string = "-rate") {
         this.http.handlerUrl = "publications/";
         this.viewProfile = username != "";
         if (username) {
@@ -95,6 +95,7 @@ class PublicationController {
         this.currentFilter = {
             "categoryId": categoryId == 0 ? "" : categoryId,
             "author": username,
+            "tag": tag,
             "sort_by": sortBy
         };
         this.publications = [];
@@ -142,13 +143,26 @@ class PublicationController {
         var publication = this.publications.filter(function (obj) {
             return obj.id == data.target;
         })[0];
-        if (publication.like == true)
-            publication.rate -= 2;
-        if (publication.like == false)
-            publication.rate += 2;
-        if (isNaN(publication.like))
+        if (!isNaN(publication.like)) {
+            if (publication.like == true)
+                if (publication.like == data.like) {
+                    publication.rate -= 1;
+                }
+                else {
+                    publication.rate -= 2;
+                }
+            else if (publication.like == data.like) {
+                publication.rate += 1;
+            }
+            else {
+                publication.rate += 2;
+            }
+            publication.like = publication.like == data.like ? NaN : data.like;
+        }
+        else {
             publication.rate += data.like ? 1 : -1;
-        publication.like = data.like;
+            publication.like = data.like;
+        }
     }
 
 }
@@ -342,8 +356,8 @@ class PreviewController extends DragAndDrop {
         if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending)) {
             this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
-             for (var iter in this.tags)
-               this.tagstring += this.tags[iter].text + ", ";
+            for (var iter in this.tags)
+                this.tagstring += this.tags[iter].text + ", ";
             var data = $.param({
                 header: this.header,
                 description: this.description,
@@ -393,9 +407,9 @@ class CommentsController {
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        this.interval(() => {
+        /*this.interval(() => {
             this.getComments();
-        }, 1500);
+        }, 1500);*/
         this.isEdit = false;
         this.editcomment = "";
     }
@@ -449,14 +463,15 @@ class CommentsController {
         else
             this.isBlank = false;
     }
+
     public vote(comment_id:number, like:string) {
         this.http.handlerUrl = "vote/";
         this.http.usePostHandler($.param({comment: comment_id, like: like})).then((data) => this.applyVote(data));
     }
 
-    public edit(value, isOk, text){
+    public edit(value, isOk, text) {
         this.editcomment = text;
-        if (isOk){
+        if (isOk) {
             alert("ok")
         }
         this.isEdit = value;
@@ -466,13 +481,26 @@ class CommentsController {
         var comments = this.comments.filter(function (obj) {
             return obj.id == data.target;
         })[0];
-        if (comments.like == true)
-            comments.rate -= 2;
-        if (comments.like == false)
-            comments.rate += 2;
-        if (isNaN(comments.like))
+        if (comments.like!==null) {
+            if (comments.like == true)
+                if (comments.like == data.like) {
+                    comments.rate -= 1;
+                }
+                else {
+                    comments.rate -= 2;
+                }
+            else if (comments.like == data.like) {
+                comments.rate += 1;
+            }
+            else {
+                comments.rate += 2;
+            }
+            comments.like = comments.like == data.like ? null : data.like;
+        }
+        else {
             comments.rate += data.like ? 1 : -1;
-        comments.like = data.like;
+            comments.like = data.like;
+        }
     }
 }
 

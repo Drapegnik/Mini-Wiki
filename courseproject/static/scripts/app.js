@@ -62,10 +62,10 @@ var PublicationController = (function () {
         this.currentFilter = {};
         this.busy = true;
     }
-    PublicationController.prototype.setFilter = function (categoryId, username, tags, sortBy) {
+    PublicationController.prototype.setFilter = function (categoryId, username, tag, sortBy) {
         if (categoryId === void 0) { categoryId = 0; }
         if (username === void 0) { username = ""; }
-        if (tags === void 0) { tags = ""; }
+        if (tag === void 0) { tag = ""; }
         if (sortBy === void 0) { sortBy = "-rate"; }
         this.http.handlerUrl = "publications/";
         this.viewProfile = username != "";
@@ -75,6 +75,7 @@ var PublicationController = (function () {
         this.currentFilter = {
             "categoryId": categoryId == 0 ? "" : categoryId,
             "author": username,
+            "tag": tag,
             "sort_by": sortBy
         };
         this.publications = [];
@@ -116,13 +117,26 @@ var PublicationController = (function () {
         var publication = this.publications.filter(function (obj) {
             return obj.id == data.target;
         })[0];
-        if (publication.like == true)
-            publication.rate -= 2;
-        if (publication.like == false)
-            publication.rate += 2;
-        if (isNaN(publication.like))
+        if (!isNaN(publication.like)) {
+            if (publication.like == true)
+                if (publication.like == data.like) {
+                    publication.rate -= 1;
+                }
+                else {
+                    publication.rate -= 2;
+                }
+            else if (publication.like == data.like) {
+                publication.rate += 1;
+            }
+            else {
+                publication.rate += 2;
+            }
+            publication.like = publication.like == data.like ? NaN : data.like;
+        }
+        else {
             publication.rate += data.like ? 1 : -1;
-        publication.like = data.like;
+            publication.like = data.like;
+        }
     };
     return PublicationController;
 })();
@@ -307,16 +321,15 @@ var PreviewController = (function (_super) {
 })(DragAndDrop);
 var CommentsController = (function () {
     function CommentsController($scope, $http, $interval) {
-        var _this = this;
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
         this.comments = [];
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        this.interval(function () {
-            _this.getComments();
-        }, 1500);
+        /*this.interval(() => {
+            this.getComments();
+        }, 1500);*/
         this.isEdit = false;
         this.editcomment = "";
     }
@@ -372,13 +385,26 @@ var CommentsController = (function () {
         var comments = this.comments.filter(function (obj) {
             return obj.id == data.target;
         })[0];
-        if (comments.like == true)
-            comments.rate -= 2;
-        if (comments.like == false)
-            comments.rate += 2;
-        if (isNaN(comments.like))
+        if (comments.like !== null) {
+            if (comments.like == true)
+                if (comments.like == data.like) {
+                    comments.rate -= 1;
+                }
+                else {
+                    comments.rate -= 2;
+                }
+            else if (comments.like == data.like) {
+                comments.rate += 1;
+            }
+            else {
+                comments.rate += 2;
+            }
+            comments.like = comments.like == data.like ? null : data.like;
+        }
+        else {
             comments.rate += data.like ? 1 : -1;
-        comments.like = data.like;
+            comments.like = data.like;
+        }
     };
     return CommentsController;
 })();
