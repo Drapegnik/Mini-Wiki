@@ -89,7 +89,7 @@ def get_publications(request):
         publications = pub_filter({'rate__gte': -100})
 
     publications_values = list(publications.values('id', 'author', 'category', 'header', 'description', 'rate',
-                                                   'created_at', 'tag'))
+                                                   'created_at', 'tag', 'image'))
     for i in range(len(publications_values)): normalize_publication(publications_values[i], request.user)
     response = JsonResponse(dict(publications=publications_values))
     return response
@@ -173,6 +173,7 @@ class GetTags(View):
 class MakePublication(View):
     @staticmethod
     def post(request, *args, **kwargs):
+        print(request.POST)
         author = request.user
         data = dict(request.POST)
         category = Category.objects.get(name=data['category'][0])
@@ -181,7 +182,9 @@ class MakePublication(View):
                                          description=data['description'][0],
                                          body=data['body'][0], category=category, template=template,
                                          tag=data['tagstring'][0][0:len(data['tagstring'][0]) - 2])
-        obj.image = uploader.upload(data['image'][0], invalidate=True)['url']
+        p_id = 'p' + str(obj.id)
+        uploader.destroy(p_id, invalidate=True)
+        obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
         obj.save()
         return JsonResponse(dict(redirect=reverse('show', args=[obj.id])))
 
@@ -201,6 +204,7 @@ class GetComments(View):
 class CreateComment(View):
     @staticmethod
     def post(request, *args, **kwargs):
+        print(request.POST)
         data = dict(request.POST)
         publication = Publication.objects.get(id=data['publication_id'][0])
         if not Comment.objects.filter(publication=publication).count():

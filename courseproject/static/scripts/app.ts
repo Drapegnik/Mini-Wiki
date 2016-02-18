@@ -328,7 +328,6 @@ class PreviewController extends DragAndDrop {
     }
 
     public ShowPublication() {
-        console.log(this.tags);
         this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     }

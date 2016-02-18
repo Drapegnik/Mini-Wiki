@@ -34,5 +34,7 @@ for lang, code in languages.items():
 for name, preview_link in templates.items():
     Template.objects.create(name=name, preview_link=preview_link)
 
-for name, ink in achievements.items():
-    Achievement.objects.create(name=name, preview_link=preview_link)
+for name, link in achievements.items():
+    Achievement.objects.create(name=name, picture=link)
+
+

@@ -79,7 +79,7 @@ class Account(AbstractBaseUser):
         rate += CommentVote.objects.filter(like=True, target__author=self.id).count()
         rate -= PublicationVote.objects.filter(like=False, target__author=self.id).count()
         rate -= CommentVote.objects.filter(like=False, target__author=self.id).count()
-        return rate;
+        return rate
 
     def set_achievement(self, name):
         return UsersAchievement.objects.get_or_create(user=self, achievement=Achievement.objects.get(name=name))
@@ -87,4 +87,4 @@ class Account(AbstractBaseUser):
 
 class Ban(models.Model):
     user = models.ForeignKey(Account)
-    reason = models.CharField(max_length = 300)
+    reason = models.CharField(max_length=300)
