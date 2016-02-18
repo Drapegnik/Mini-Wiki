@@ -315,6 +315,8 @@ var CommentsController = (function () {
         this.interval(function () {
             _this.getComments();
         }, 1500);
+        this.isEdit = false;
+        this.editcomment = "";
     }
     CommentsController.prototype.getComments = function () {
         var _this = this;
@@ -356,6 +358,13 @@ var CommentsController = (function () {
         var _this = this;
         this.http.handlerUrl = "vote/";
         this.http.usePostHandler($.param({ comment: comment_id, like: like })).then(function (data) { return _this.applyVote(data); });
+    };
+    CommentsController.prototype.edit = function (value, isOk, text) {
+        this.editcomment = text;
+        if (isOk) {
+            alert("ok");
+        }
+        this.isEdit = value;
     };
     CommentsController.prototype.applyVote = function (data) {
         var comments = this.comments.filter(function (obj) {

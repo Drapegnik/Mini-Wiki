@@ -2,3 +2,4 @@
 {{ object.description }}
 {{ object.author.username }}
 {{ object.body }}
+{{ object.tag }}

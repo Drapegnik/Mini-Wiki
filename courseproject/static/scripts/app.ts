@@ -393,6 +393,8 @@ class CommentsController {
         this.interval(() => {
             this.getComments();
         }, 1500);
+        this.isEdit = false;
+        this.editcomment = "";
     }
 
     scope:ng.IScope;
@@ -402,6 +404,8 @@ class CommentsController {
     text:string;
     input:ng.IAugmentedJQuery;
     isBlank:boolean;
+    isEdit:boolean;
+    editcomment:string;
 
     private http:HttpHandlerService;
 
@@ -445,6 +449,14 @@ class CommentsController {
     public vote(comment_id:number, like:string) {
         this.http.handlerUrl = "vote/";
         this.http.usePostHandler($.param({comment: comment_id, like: like})).then((data) => this.applyVote(data));
+    }
+
+    public edit(value, isOk, text){
+        this.editcomment = text;
+        if (isOk){
+            alert("ok")
+        }
+        this.isEdit = value;
     }
 
     private applyVote(data) {

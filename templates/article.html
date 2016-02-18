@@ -10,7 +10,8 @@
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
                 <div class="panel-body">
-                    <p>{{ comment.text }}</p>
+                    <p ng-hide="ctrl.isEdit">{{ comment.text }}</p>
+                    <textarea ng-model="ctrl.editcomment" ng-show="ctrl.isEdit" id="edit" type="text" class="form-control" maxlength="500" name="edit">{{ comment.text }}</textarea>
                 </div>
                 <div class="panel-footer">
                     <ul class="breadcrumb">
@@ -46,8 +47,15 @@
                                 {% endverbatim %}
                             </li>
                         {% endif %}
-
+                        {% if user.is_superuser %}
+                            {% verbatim %}
+                            <a ng-hide="ctrl.isEdit" ng-click="ctrl.edit(true, false, comment.text)" href=""><i style="font-size: 25px; color: #3498db;" class="fa fa-pencil pull-right"></i></a>
+                            <a ng-show="ctrl.isEdit"  ng-click="ctrl.edit(false, true)" href=""><i style="font-size: 25px; color: #18bc9c;" class="fa fa-check pull-right"></i></a>
+                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, false)" href=""><i style="font-size: 25px; color: #e74c3c;" class="fa fa-times pull-right"></i></a>
+                            {% endverbatim %}
+                        {% endif %}
                     </ul>
+
                 </div>
                 {#                <div>#}
                 {#                    <button ng-click="ctrl.vote(comment.id,'True')" ng-cloak#}
