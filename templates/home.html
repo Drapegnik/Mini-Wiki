@@ -39,7 +39,7 @@
                 <div ng-controller="TagController as ctrl2" ng-init="ctrl2.init()">
                     {% verbatim %}
                    <span ng-cloak ng-repeat="tag in ctrl2.tags" class="cloud_{{ tag.Weight }}">
-                       <a href="#{{tag.TagName}}">{{ tag.TagName }}</a>
+                       <a href="#{{tag.TagName}}"  ng-click="ctrl.setFilter(0,'',tag.TagName)" >{{ tag.TagName }}</a>
                    </span>
                     {% endverbatim %}
                 </div>
@@ -149,7 +149,7 @@
                 </div>
                 {% verbatim %}
                 <ul class="tagslabel">
-                    <li ng-repeat="tag in publication.tag"><a href="#{{ tag }}">{{ tag }}</a></li>
+                    <li ng-repeat="tag in publication.tag"><a ng-click="ctrl.setFilter(0,'',tag)" href="#{{ tag }}">{{ tag }}</a></li>
                 </ul>
                 {% endverbatim %}
             </div>

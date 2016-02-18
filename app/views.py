@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import translation
 from django.views.generic.base import View
-from tagging.models import Tag
+from tagging.models import Tag, TaggedItem
 
 from app.models import Publication, Comment, PublicationVote, CommentVote, Achievement, UsersAchievement
 from authenticating.models import Account
@@ -84,7 +84,9 @@ def get_publications(request):
     elif author:
         publications = pub_filter({'author': Account.objects.get(username=author).id})
     elif tags:
-        publications = pub_filter({'tag': tags})
+        tag_obj = Tag.objects.get(name=tags)
+        publications = TaggedItem.objects.get_union_by_model(Publication, tag_obj).order_by(sort_by)[
+                       range_first:range_last]
     else:
         publications = pub_filter({'rate__gte': -100})
 
@@ -196,8 +198,14 @@ class GetComments(View):
         comments = Comment.objects.all().filter(publication=publication_id)
         response = []
         for comment in comments:
+            like = None
+            try:
+                vote = CommentVote.objects.get(target_id=comment.id, user=request.user.id)
+                like = vote.like
+            except CommentVote.DoesNotExist:
+                pass
             response.append(dict(author=comment.author.username, text=comment.text, rate=comment.rate,
-                                 pic=comment.author.photo, created_at=comment.created_at, id=comment.id))
+                                 pic=comment.author.photo, created_at=comment.created_at, id=comment.id,like=like))
         return JsonResponse(dict(comments=response))
 
 
@@ -232,8 +240,11 @@ class VotesController(View):
             return HttpResponse(500)
         try:
             obj = model.objects.get(user=request.user, target_id=id)
-            obj.like = like
-            obj.save()
+            if obj.like != like:
+                obj.like = like
+                obj.save()
+            else:
+                obj.delete()
         except model.DoesNotExist:
             model.objects.create(user=request.user, target=id, like=like)
         id.rate = id.calculate_rate()
