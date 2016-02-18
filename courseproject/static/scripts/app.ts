@@ -102,6 +102,12 @@ class PublicationController {
         this.getPublications(0, 4);
     }
 
+    public setSort(sort_by:string) {
+        var filter = this.currentFilter;
+        filter.categoryId = filter.category == "" ? 0 : filter.categoryId
+        this.setFilter(filter.categoryId, filter.username, filter.tag, sort_by)
+    }
+
     public addTag(tag:string) {
         var tags = this.currentFilter.tags;
         tags.push(tag);
@@ -408,8 +414,8 @@ class CommentsController {
         this.text = "";
         this.interval = $interval;
         /*this.interval(() => {
-            this.getComments();
-        }, 1500);*/
+         this.getComments();
+         }, 1500);*/
         this.isEdit = false;
         this.editcomment = "";
     }
@@ -481,7 +487,7 @@ class CommentsController {
         var comments = this.comments.filter(function (obj) {
             return obj.id == data.target;
         })[0];
-        if (comments.like!==null) {
+        if (comments.like !== null) {
             if (comments.like == true)
                 if (comments.like == data.like) {
                     comments.rate -= 1;
