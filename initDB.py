@@ -14,11 +14,17 @@ templates = {"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v145
              "Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457214/Template2.png",
              "Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105501/template3.png"}
 
-achievements = {"hundred": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/badge_l_dhjrve.png",
-                "social": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/social-networking-business_bgyqeg.png",
-                "firstNah": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455719878/images_xhcnec.jpg",
-                "selfLike": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455720935/sam-sebe-postavil-layk_37517028_orig__mqvkmq.jpg",
-                "critic": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455730810/1422_vproiu.jpg"}
+achievements = {"hundred": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/badge_l_dhjrve.png",
+                            "get karma score 100."],
+                "social": [
+                    "http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/social-networking-business_bgyqeg.png",
+                    "integrate your account with all social networks."],
+                "firstNah": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455817302/gagarin.jpg",
+                             "left a first comment under publication."],
+                "selfLike": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455816559/slon.png",
+                             "like youself. you are so cool."],
+                "critic": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455730810/1422_vproiu.jpg",
+                           "left a first comment under publication."]}
 
 templates = collections.OrderedDict(templates)
 
@@ -34,7 +40,7 @@ for lang, code in languages.items():
 for name, preview_link in templates.items():
     Template.objects.create(name=name, preview_link=preview_link)
 
-for name, link in achievements.items():
-    Achievement.objects.create(name=name, picture=link)
+for name, data in achievements.items():
+    Achievement.objects.create(name=name, picture=data[0], description=data[1])
 
 

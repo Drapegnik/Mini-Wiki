@@ -59,6 +59,7 @@ class Achievement(models.Model):
     name = models.CharField(max_length=15,unique=True)
     description = models.CharField(max_length=200,default="")
     picture = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
 
 
 class UsersAchievement(models.Model):
