@@ -18,13 +18,13 @@ achievements = {"hundred": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1
                             "get karma score 100."],
                 "social": [
                     "http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/social-networking-business_bgyqeg.png",
-                    "integrate your account with all social networks."],
-                "firstNah": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455817302/gagarin.jpg",
-                             "left a first comment under publication."],
-                "selfLike": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455816559/slon.png",
-                             "like youself. you are so cool."],
+                    "be a social whore."],
+                "gagarin": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455817302/gagarin.jpg",
+                             "take a space under post first."],
+                "like_youself": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455816559/slon.png",
+                             "be like elephant."],
                 "critic": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455730810/1422_vproiu.jpg",
-                           "left a first comment under publication."]}
+                           "left 10 comments."]}
 
 templates = collections.OrderedDict(templates)
 

@@ -120,7 +120,9 @@ class GetProfile(View):
         achievements_id = UsersAchievement.objects.filter(user=profile[0]['id']).values('achievement')
         achievements = []
         for elem in achievements_id:
-            achievements.append(Achievement.objects.filter(id=elem['achievement']).values('description', 'picture', 'created_at')[0])
+            achievements.append(
+                    Achievement.objects.filter(id=elem['achievement']).values('name', 'description', 'picture',
+                                                                              'created_at')[0])
         print(achievements)
         return JsonResponse(dict(profile=profile, achievements=achievements))
 
@@ -143,6 +145,7 @@ class AddPublication(View):
 class ShowPublication(View):
     @staticmethod
     def get(request, publication_id, *args, **kwargs):
+        swap_language(request)
         publication = Publication.objects.get(id=publication_id)
         context_dict = {
             'template': publication.template.name + '.html',
@@ -205,7 +208,7 @@ class GetComments(View):
             except CommentVote.DoesNotExist:
                 pass
             response.append(dict(author=comment.author.username, text=comment.text, rate=comment.rate,
-                                 pic=comment.author.photo, created_at=comment.created_at, id=comment.id,like=like))
+                                 pic=comment.author.photo, created_at=comment.created_at, id=comment.id, like=like))
         return JsonResponse(dict(comments=response))
 
 
@@ -216,7 +219,7 @@ class CreateComment(View):
         data = dict(request.POST)
         publication = Publication.objects.get(id=data['publication_id'][0])
         if not Comment.objects.filter(publication=publication).count():
-            request.user.set_achievement("firstNah")
+            request.user.set_achievement("gagarin")
         if Comment.objects.filter(author=request.user).count() == 10:
             request.user.set_achievement("critic")
         obj = Comment.objects.create(author=request.user, publication=publication, text=data['text'][0])

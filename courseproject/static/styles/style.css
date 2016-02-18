@@ -1,6 +1,6 @@
-/*#date {*/
-    /*margin-left: 50%;*/
-/*}*/
+#img1templ {
+    margin-bottom: 15px;
+}
 
 .sortbut {
     color: white;
@@ -56,11 +56,27 @@
     height: 80%;
     top: 0px;
     background-color: inherit;
+    border: 4px solid #2c3e50;
+    border-top: 0px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin: 0px 20px 30px 40px;
+    z-index: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#searchzona {
+    position: absolute;
+    width: 60%;
+    height: 500px;
+    top: 60px;
+    /*margin: 0px 20px 30px 40px;*/
+    background-color: inherit;
     border: 3px solid #2c3e50;
     border-top: 0px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    margin: 0px 20px 30px 40px;
     z-index: 1;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -107,16 +123,17 @@
     border: 1px solid #666;
 }
 
-/*#temp2pic {*/
-    /*position: relative;*/
-    /*float: left;*/
-    /*height: 240px;*/
-/*}*/
-
 .imgRect {
     display: block;
     padding-bottom: 100%;
     background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+
+.imgRect2 {
+    display: block;
+    background-repeat: repeat-x;
     background-position: 50% 50%;
     background-size: cover;
 }

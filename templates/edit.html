@@ -68,22 +68,18 @@
 
                 </div>
                 <span class="col-md-6">
-                    <div id="dropview" class="dropzona col-md-8">
+                    <div id="dropview" class="dropzona col-md-8 btn btn-default btn-file">
                         <br>
                         <br>
                         <br>
+                        <span class="glyphicon glyphicon-camera"></span>
                         <span>{% trans 'drop your images here' %}</span>
                         <input id="id_photo" name="photo" type="file" accept="image/*"
                                on-read-file="ctrl.fillFileFromInput()">
                     </div>
-
                 </span>
             </div>
-            {#            <div ng-repeat="error in ctrl.errors">#}
-            {#                {% verbatim %}#}
-            {#                {{ error }}#}
-            {#                {% endverbatim %}#}
-            {#            </div>#}
+
             <div class="col-md-12" id="editzona">
                 <textarea ng-trim="false" name="editor" id="editor" rows="10" cols="80">
                     {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}

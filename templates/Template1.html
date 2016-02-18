@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div class="article">
-    <div class="col-md-6 pull-left">
+    <div id="img1templ" class="col-md-6 pull-left">
         <img ng-show="!'{{ publication.image }}'" id="target" style="max-height: 470px;" class="img-thumbnail"
              src="http://placehold.it/600x500">
         <img ng-show="{{ publication.image }}" style="max-height: 470px;" class="img-thumbnail"

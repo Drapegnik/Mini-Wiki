@@ -4,6 +4,9 @@
 {% load staticfiles %}
 {% block content %}
 
+    {#     <img style="max-height: 100px;" class="img-responsive img-thumbnail"#}
+    {#                                     src="{{ publication.image }}"> #}
+
     <div ng-controller="PublicationController as ctrl" ng-init="ctrl.init()">
         <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add"
                                                                               src="{% static 'icons/add_red.png' %}"></a>
@@ -82,7 +85,7 @@
                          ng-repeat="achievement in ctrl.userProfile.achievements track by $index">
                         {% verbatim %}
 
-                        <img class="img-thumbnail" src="{{ achievement.picture }}" style="width: 80px; height: 80px">
+                        <img class="img-thumbnail" src="{{ achievement.picture }}" style="width: 80px; height: 80px"><span style="font-size: 24px; color: #3498db;" class="pull-right">#{{ achievement.name }}</span>
                         <p>{{ achievement.description }}</p>
 
                         <p>(@{{ achievement.created_at | date:'medium' }})</p>
@@ -118,13 +121,13 @@
                     </div>
                     <div class="panel-body">
                         <a href="/articles/{{ publication.id }}">
-                            <div class="col-md-4 text-center">
-                                <img style="max-height: 100px;" class="img-responsive img-thumbnail"
-                                     src="{{ publication.image }}">
+                            <div class="col-md-6 text-center">
+                                <span class="imgRect2 img-thumbnail" style="background-image: url({{ publication.image }}); height: 200px; max-width: 350px"></span>
+                            </span>
                             </div>
                         </a>
 
-                        <div class="well col-md-8">
+                        <div class="well col-md-6">
                             {{ publication.description }}
                         </div>
 
