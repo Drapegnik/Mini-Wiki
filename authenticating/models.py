@@ -41,6 +41,7 @@ class Account(AbstractBaseUser):
     theme = models.ForeignKey(Theme, default=1)
     language = models.ForeignKey(Language, default=1)
     is_admin = models.BooleanField(default=False)
+    is_banned = models.BooleanField(default=False)
     karma = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(default=timezone.now, editable=False, blank=True)
@@ -68,6 +69,10 @@ class Account(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
+    @property
+    def is_active(self):
+        return not self.is_banned
+
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
@@ -83,8 +88,3 @@ class Account(AbstractBaseUser):
 
     def set_achievement(self, name):
         return UsersAchievement.objects.get_or_create(user=self, achievement=Achievement.objects.get(name=name))
-
-
-class Ban(models.Model):
-    user = models.ForeignKey(Account)
-    reason = models.CharField(max_length=300)
