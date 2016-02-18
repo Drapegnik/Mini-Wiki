@@ -1,3 +1,13 @@
+.tagcloud {
+    border: 2px dashed #18bc9c;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+#title {
+    color: white;
+}
+
 .publ {
     margin-right: 70px;
 }
@@ -88,11 +98,11 @@
     border: 1px solid #666;
 }
 
-#temp2pic {
-    position: relative;
-    float: left;
-    height: 240px;
-}
+/*#temp2pic {*/
+    /*position: relative;*/
+    /*float: left;*/
+    /*height: 240px;*/
+/*}*/
 
 .imgRect {
     display: block;
@@ -112,9 +122,17 @@
     border: 1px solid #18bc9c;
 }
 
-.badge {
+.plus {
     background-color: #f39c12;
     color: #2c3e50;
+}
+
+.nul {
+    background-color: darkgray;
+}
+
+.minus {
+    background-color: #e74c3c;
 }
 
 .breadcrumb {

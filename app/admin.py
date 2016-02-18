@@ -24,8 +24,13 @@ class CommentVoteAdmin(admin.ModelAdmin):
     list_display = ('user', 'target_id', 'like')
 
 
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('name', 'picture')
+
+
 register(Publication)
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(PublicationVote, PublicationVoteAdmin)
-admin.site.register(CommentVote,CommentVoteAdmin)
+admin.site.register(CommentVote, CommentVoteAdmin)
+admin.site.register(Achievement, AchievementAdmin)

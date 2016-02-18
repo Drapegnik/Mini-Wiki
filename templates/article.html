@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-    {% include template %}
+    <div class="row">
+        {% include template %}
+    </div>
     <div id="commentsblock">
         <div class="col-md-8 col-md-offset-2" ng-controller="CommentsController as ctrl"
              ng-init="ctrl.init('{{ publication.id }}')">
@@ -19,14 +21,20 @@
                             <span class="label label-success"><a href="#">{{ comment.author}}</a></span>
                         </li>
                         <li class="active"><span>{{ comment.created_at | date:'medium'}}</span></li>
-                        <li><span class="badge"><span ng-show="comment.rate > 0">+</span>{{ comment.rate }}</span></li>
+                        <li>
+                            <span ng-show="comment.rate > 0" class="badge plus">+{{ comment.rate }}</span>
+                            <span ng-show="comment.rate == 0" class="badge nul">{{ comment.rate }}</span>
+                            <span ng-show="comment.rate < 0" class="badge minus">{{ comment.rate }}</span>
+                        </li>
                     </ul>
                 </div>
                 <div>
-                    <button  ng-click="ctrl.vote(comment.id,'True')" ng-cloak
-                       ng-hide="(comment.like == true)">+ </button>
-                    <button  ng-click="ctrl.vote(comment.id,'False')" ng-cloak
-                       ng-hide="(comment.like == false)">- </button>
+                    <button ng-click="ctrl.vote(comment.id,'True')" ng-cloak
+                            ng-hide="(comment.like == true)">+
+                    </button>
+                    <button ng-click="ctrl.vote(comment.id,'False')" ng-cloak
+                            ng-hide="(comment.like == false)">-
+                    </button>
                 </div>
                 {% endverbatim %}
             </div>

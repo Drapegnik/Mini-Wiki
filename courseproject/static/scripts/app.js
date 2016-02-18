@@ -254,7 +254,6 @@ var PreviewController = (function (_super) {
         this.init(dropzone, target);
     };
     PreviewController.prototype.ShowPublication = function () {
-        console.log(this.tags);
         this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     };
