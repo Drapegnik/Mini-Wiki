@@ -81,7 +81,11 @@
                     <div class="list-group-item"
                          ng-repeat="achievement in ctrl.userProfile.achievements track by $index">
                         {% verbatim %}
+
                         <img class="img-thumbnail" src="{{ achievement.picture }}" style="width: 80px; height: 80px">
+                        <p>{{ achievement.description }}</p>
+
+                        <p>(@{{ achievement.created_at | date:'medium' }})</p>
                         {% endverbatim %}
                     </div>
                 </div>

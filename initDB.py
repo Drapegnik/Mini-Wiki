@@ -42,3 +42,5 @@ for name, preview_link in templates.items():
 
 for name, data in achievements.items():
     Achievement.objects.create(name=name, picture=data[0], description=data[1])
+
+

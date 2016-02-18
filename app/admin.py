@@ -25,7 +25,7 @@ class CommentVoteAdmin(admin.ModelAdmin):
 
 
 class AchievementAdmin(admin.ModelAdmin):
-    list_display = ('name', 'picture')
+    list_display = ('name', 'picture', 'created_at')
 
 
 register(Publication)
