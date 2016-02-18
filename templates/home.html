@@ -35,11 +35,12 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="tagcloud ">
-                <div class="hidden-xs hidden-sm" ng-controller="TagController as ctrl2" ng-init="ctrl2.init()">
+            <div class="tagcloud hidden-xs hidden-sm">
+                <div ng-controller="TagController as ctrl2" ng-init="ctrl2.init()">
                     {% verbatim %}
-                   <span ng-cloak ng-repeat="tag in ctrl2.tags"
-                         class="cloud_{{ tag.Weight }}"><a>{{ tag.TagName }}</a>  </span>
+                   <span ng-cloak ng-repeat="tag in ctrl2.tags" class="cloud_{{ tag.Weight }}">
+                       <a href="#{{tag.TagName}}">{{ tag.TagName }}</a>
+                   </span>
                     {% endverbatim %}
                 </div>
             </div>
@@ -59,44 +60,48 @@
                     </div>
                     {% endverbatim %}
                     <div class="list-group-item">
-                        <label class="label label-info">{% trans 'gender' %}:</label>
+                        <label class="label label-info">{% trans 'Gender' %}:</label>
                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.gender }}{% endverbatim %}</span>
                     </div>
                     <div class="list-group-item">
-                        <label class="label label-info">{% trans 'location' %}:</label>
+                        <label class="label label-info">{% trans 'Location' %}:</label>
                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.location }}{% endverbatim %}</span>
                     </div>
                     <div class="list-group-item">
-                        <label class="label label-info">{% trans 'about' %}:</label>
+                        <label class="label label-info">{% trans 'About' %}:</label>
                         <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.about}}{% endverbatim %}</span>
                     </div>
                     <div class="list-group-item">
-                        <label class="label label-info">{% trans 'karma' %}:</label>
-                        <span class="pull-right">{% verbatim %}{{ ctrl.userProfile.profile.karma}}{% endverbatim %}</span>
+                        <label class="label label-info">{% trans 'Karma' %}:</label>
+                        {% verbatim %}
+                        <span ng-show="ctrl.userProfile.profile.karma > 0" class="badge plus pull-right">+{{ ctrl.userProfile.profile.karma }}</span>
+                        <span ng-show="ctrl.userProfile.profile.karma == 0" class="badge nul pull-right">{{ ctrl.userProfile.profile.karma }}</span>
+                        <span ng-show="ctrl.userProfile.profile.karma < 0" class="badge minus pull-right">{{ ctrl.userProfile.profile.karma }}</span>
+                        {% endverbatim %}
                     </div>
                     <div class="list-group-item"
                          ng-repeat="achievement in ctrl.userProfile.achievements track by $index">
                         {% verbatim %}
-                        <img src="{{achievement.picture}}" style="width: 80px;height: 80px">
+                        <img class="img-thumbnail" src="{{ achievement.picture }}" style="width: 80px; height: 80px">
                         {% endverbatim %}
                     </div>
                 </div>
             </div>
         </div>
         <div infinite-scroll='ctrl.loadMore()' infinite-scroll-disabled='ctrl.busy' infinite-scroll-distance='1'>
-            <div class="publ col-md-8 pull-right" ng-repeat="publication in ctrl.publications track by $index">
+            <div class="publ col-md-8 pull-right" ng-repeat="publication in ctrl.publ ications track by $index">
                 {% verbatim %}
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <a href="/articles/{{ publication.id }}">
-                            <span id="title" class="panel-title">{{ publication.header }}</span>
+                            <h3 id="title" class="panel-title">{{ publication.header }}</h3>
                         </a>
                     </div>
                     <div class="panel-body">
                         <a href="/articles/{{ publication.id }}">
-                            <div class="col-md-4">
-                                <img style="max-height: 150px;" class="img-responsive img-thumbnail"
-                                     src="{{publication.image}}">
+                            <div class="col-md-4 text-center">
+                                <img style="max-height: 100px;" class="img-responsive img-thumbnail"
+                                     src="{{ publication.image }}">
                             </div>
                         </a>
 
@@ -104,11 +109,13 @@
                             {{ publication.description }}
                         </div>
 
-                        <ul class="breadcrumb col-md-8">
+                        <ul class="breadcrumb col-md-12">
                             <li>{{publication.category }}</li>
-                            <li><span class="label label-success"><a href="#"
-                                                                     ng-click="ctrl.setFilter(0,publication.author)">{{
-                                publication.author }}</a></span></li>
+                            <li><span class="label label-success">
+                                <a href="#{{publication.author }}" ng-click="ctrl.setFilter(0,publication.author)">{{publication.author
+                                    }}</a>
+                            </span>
+                            </li>
                             <li class="active">{{publication.created_at | date:'medium'}}</li>
                             <li><span ng-show="publication.rate > 0" class="badge plus">+{{ publication.rate }}</span>
                                 <span ng-show="publication.rate == 0" class="badge nul">{{ publication.rate }}</span>
@@ -117,18 +124,32 @@
                             {% endverbatim %}
                             {% if user.is_authenticated %}
                                 <li>
-                                    <a href="#" ng-click="ctrl.vote(publication.id,'True')" ng-cloak
-                                       ng-hide="(publication.like == true)">+ </a>
-                                    <a href="#" ng-click="ctrl.vote(publication.id,'False')" ng-cloak
-                                       ng-hide="(publication.like == false)">- </a>
+                                    <a href="" ng-click="ctrl.vote(publication.id,'True')" ng-cloak
+                                       ng-hide="(publication.like == true)"><i style="font-size: 18px; color: #18bc9c;"
+                                                                               class="fa fa-thumbs-up"></i></a>
+                                    <a href="" ng-click="ctrl.vote(publication.id,'True')" ng-cloak
+                                       ng-show="(publication.like == true)"><i style="font-size: 25px; color: #e74c3c;"
+                                                                               class="fa fa-thumbs-up"></i></a>
+                                    <a href="" ng-click="ctrl.vote(publication.id,'False')" ng-cloak
+                                       ng-hide="(publication.like == false)"><i style="font-size: 18px; color: #18bc9c;"
+                                                                                class="fa fa-thumbs-down"></i></a>
+                                    <a href="" ng-click="ctrl.vote(publication.id,'False')" ng-cloak
+                                       ng-show="(publication.like == false)"><i style="font-size: 25px; color: #e74c3c;"
+                                                                                class="fa fa-thumbs-down"></i></a>
                                 </li>
                             {% endif %}
+                            <li>
+                                {% verbatim %}
+                                <a href="/articles/{{ publication.id }}/#commentsblock">
+                                    <i style="font-size: 15px; color: #18bc9c;" class="fa fa-comments">5</i></a>
+                                {% endverbatim %}
+                            </li>
                         </ul>
                     </div>
                 </div>
                 {% verbatim %}
                 <ul class="tagslabel">
-                    <li ng-repeat="tag in publication.tag"><a href="#">{{ tag }}</a></li>
+                    <li ng-repeat="tag in publication.tag"><a href="#{{ tag }}">{{ tag }}</a></li>
                 </ul>
                 {% endverbatim %}
             </div>

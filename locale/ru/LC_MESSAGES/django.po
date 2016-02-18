@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-08 21:27+0300\n"
+"POT-Creation-Date: 2016-02-18 13:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,27 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: app/templates/profile_settings.html:13
+#: app/templates/profile_settings.html:116
+#: authenticating/templates/registration/emailrequest.html:19
+#: authenticating/templates/registration/login.html:40
+#: authenticating/templates/registration/register.html:44
+msgid "Cancel"
+msgstr "Отмена"
+
+#: app/templates/profile_settings.html:14
+msgid "Apply"
+msgstr "Применить"
+
+#: app/templates/profile_settings.html:17
+msgid "loading "
+msgstr "загрузка "
+
+#: app/templates/profile_settings.html:25
 msgid "cliсk or drop image here"
 msgstr "кликни или перетяни фото сюда"
 
-#: app/templates/profile_settings.html:26
-#: app/templates/profile_settings.html:30
+#: app/templates/profile_settings.html:39
+#: app/templates/profile_settings.html:43
 #: authenticating/templates/registration/login.html:22
 #: authenticating/templates/registration/login.html:25
 #: authenticating/templates/registration/register.html:9
@@ -33,34 +49,39 @@ msgstr "кликни или перетяни фото сюда"
 msgid "User"
 msgstr ""
 
-#: app/templates/profile_settings.html:43
+#: app/templates/profile_settings.html:56 templates/home.html.py:63
 msgid "Gender"
 msgstr "Пол"
 
-#: app/templates/profile_settings.html:59
-#: app/templates/profile_settings.html:62
+#: app/templates/profile_settings.html:72
+#: app/templates/profile_settings.html:75 templates/home.html.py:67
 msgid "Location"
 msgstr "Местоположение"
 
-#: app/templates/profile_settings.html:67
-#: app/templates/profile_settings.html:70
+#: app/templates/profile_settings.html:80
+#: app/templates/profile_settings.html:83 templates/home.html.py:71
 msgid "About"
 msgstr "О себе"
 
-#: app/templates/profile_settings.html:75
+#: app/templates/profile_settings.html:88
 msgid "Theme"
 msgstr "Тема"
 
-#: app/templates/profile_settings.html:88
+#: app/templates/profile_settings.html:101
 msgid "Language"
 msgstr "Язык"
 
-#: app/templates/profile_settings.html:103
-#: authenticating/templates/registration/emailrequest.html:19
-#: authenticating/templates/registration/login.html:40
-#: authenticating/templates/registration/register.html:35
-msgid "Cancel"
-msgstr "Отмена"
+#: authenticating/forms.py:21
+msgid "User with such username already exist"
+msgstr "Пользователь с таким именем уже существует"
+
+#: authenticating/forms.py:23
+msgid "User with such email already exist"
+msgstr "Пользователь с таким email'ом уже существует"
+
+#: authenticating/forms.py:28
+msgid "Password's didn't match"
+msgstr "Пароли не совпадают"
 
 #: authenticating/templates/registration/emailrequest.html:8
 msgid "Please, enter you email"
@@ -77,46 +98,123 @@ msgstr ""
 msgid "Lost password"
 msgstr "Забыли пароль"
 
-#: authenticating/templates/registration/login.html:42 templates/base.html:46
+#: authenticating/templates/registration/login.html:42 templates/base.html:51
 msgid "Log in"
 msgstr ""
 
 #: authenticating/templates/registration/login.html:51
 #: authenticating/templates/registration/login.html:54
 #: authenticating/templates/registration/login.html:57
-#: authenticating/templates/registration/register.html:45
-#: authenticating/templates/registration/register.html:48
-#: authenticating/templates/registration/register.html:51
+#: authenticating/templates/registration/register.html:54
+#: authenticating/templates/registration/register.html:57
+#: authenticating/templates/registration/register.html:60
 msgid "Sign in with"
 msgstr "Войти через"
 
-#: courseproject/settings.py:137
+#: authenticating/templates/registration/register.html:33
+#: authenticating/templates/registration/register.html:36
+msgid "Password again"
+msgstr "Пароль ещё раз"
+
+#: courseproject/settings.py:156
 msgid "Russian"
 msgstr "Русский"
 
-#: templates/base.html:47
+#: templates/article.html:48
+msgid "say something"
+msgstr "скажите что-нибудь"
+
+#: templates/article.html:61
+msgid "send"
+msgstr "отправить"
+
+#: templates/base.html:52
 msgid "Sign up"
 msgstr "Регистрация"
 
-#: templates/base.html:52 templates/base.html.py:54
+#: templates/base.html:57 templates/base.html.py:59
 msgid "Search"
 msgstr ""
 
-#: templates/base.html:68
+#: templates/base.html:73
 msgid "Profile"
 msgstr "Профиль"
 
-#: templates/base.html:69
+#: templates/base.html:74
 msgid "Profile settings"
 msgstr "Настройки профиля"
 
-#: templates/base.html:71
+#: templates/base.html:76
 msgid "Log out"
 msgstr ""
 
-#: templates/home.html:9
+#: templates/edit.html:19
+msgid "Header"
+msgstr "Заголовок"
+
+#: templates/edit.html:24
+msgid "you header"
+msgstr "ваш заголовок"
+
+#: templates/edit.html:30
+msgid "Description"
+msgstr "Описание"
+
+#: templates/edit.html:35
+msgid "you description"
+msgstr "ваше описание"
+
+#: templates/edit.html:41
+#, fuzzy
+#| msgid "Categories"
+msgid "Category"
+msgstr "Категории"
+
+#: templates/edit.html:56
+msgid "Tags"
+msgstr "Тэги"
+
+#: templates/edit.html:64
+msgid "you tags, three at least"
+msgstr "тэги, три минимум"
+
+#: templates/edit.html:76
+#, fuzzy
+#| msgid "cliсk or drop image here"
+msgid "drop your images here"
+msgstr "кликни или перетяни фото сюда"
+
+#: templates/edit.html:90
+msgid ""
+"Your text will de shown here. Just remove this one and start to type in "
+"editor"
+msgstr ""
+"Ваш текст будет отображаться тут. Просто удалите его, и напишите что-нибудь "
+"в редакторе"
+
+#: templates/edit.html:96
+msgid "Cansel"
+msgstr ""
+
+#: templates/edit.html:98
+msgid "Preview"
+msgstr "Превью"
+
+#: templates/edit.html:100
+msgid "Publish"
+msgstr "Опубликовать"
+
+#: templates/home.html:14
+msgid "Templates"
+msgstr "Шаблоны"
+
+#: templates/home.html:29
 msgid "Categories"
 msgstr "Категории"
+
+#: templates/home.html:75
+msgid "Karma"
+msgstr "Рейтинг"
 
 msgid "Programming"
 msgstr "Программирование"
@@ -144,4 +242,3 @@ msgstr "Мужской"
 
 msgid "Female"
 msgstr "Женский"
-

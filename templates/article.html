@@ -26,17 +26,39 @@
                             <span ng-show="comment.rate == 0" class="badge nul">{{ comment.rate }}</span>
                             <span ng-show="comment.rate < 0" class="badge minus">{{ comment.rate }}</span>
                         </li>
+                        {% endverbatim %}
+
+                        {% if user.is_authenticated %}
+                            <li>
+                                {% verbatim %}
+                                <a href="" ng-click="ctrl.vote(comment.id,'True')" ng-cloak
+                                   ng-hide="(comment.like == true)"><i style="font-size: 18px; color: #18bc9c;"
+                                                                       class="fa fa-thumbs-up"></i></a>
+                                <a href="" ng-click="ctrl.vote(comment.id,'True')" ng-cloak
+                                   ng-show="(comment.like == true)"><i style="font-size: 25px; color: #e74c3c;"
+                                                                       class="fa fa-thumbs-up"></i></a>
+                                <a href="" ng-click="ctrl.vote(comment.id,'False')" ng-cloak
+                                   ng-hide="(comment.like == false)"><i style="font-size: 18px; color: #18bc9c;"
+                                                                        class="fa fa-thumbs-down"></i></a>
+                                <a href="" ng-click="ctrl.vote(comment.id,'False')" ng-cloak
+                                   ng-show="(comment.like == false)"><i style="font-size: 25px; color: #e74c3c;"
+                                                                        class="fa fa-thumbs-down"></i></a>
+                                {% endverbatim %}
+                            </li>
+                        {% endif %}
+
                     </ul>
                 </div>
-                <div>
-                    <button ng-click="ctrl.vote(comment.id,'True')" ng-cloak
-                            ng-hide="(comment.like == true)">+
-                    </button>
-                    <button ng-click="ctrl.vote(comment.id,'False')" ng-cloak
-                            ng-hide="(comment.like == false)">-
-                    </button>
-                </div>
-                {% endverbatim %}
+                {#                <div>#}
+                {#                    <button ng-click="ctrl.vote(comment.id,'True')" ng-cloak#}
+                {#                            ng-hide="(comment.like == true)">+#}
+                {#                    </button>#}
+                {#                    <button ng-click="ctrl.vote(comment.id,'False')" ng-cloak#}
+                {#                            ng-hide="(comment.like == false)">-#}
+                {#                    </button>#}
+                {#                </div>#}
+
+
             </div>
             {% if user.is_authenticated %}
                 <form class="form-horizontal" method="post" action="{% url 'create-comment' %}">
@@ -47,7 +69,6 @@
                                   class="form-control" maxlength="500" name="text"
                                   placeholder="{% trans 'say something' %}">
                         </textarea>
-                            {#                        <input type="hidden" class="form-control" name="publication_id" value="{{ publication.id }}">#}
                         </div>
                         <div class="panel-footer">
                             <ul class="breadcrumb">
