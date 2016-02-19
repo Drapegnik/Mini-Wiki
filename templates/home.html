@@ -7,7 +7,7 @@
     {#     <img style="max-height: 100px;" class="img-responsive img-thumbnail"#}
     {#                                     src="{{ publication.image }}"> #}
 
-    <div ng-controller="PublicationController as ctrl" ng-init="ctrl.init()">
+    <div ng-controller="PublicationController as ctrl" ng-init="ctrl.init('{{ username }}')">
         <a data-toggle="collapse" data-target="#templatetab" href="#add"><img id="add"
                                                                               src="{% static 'icons/add_red.png' %}"></a>
         <div id="templatetab" class="col-md-3 collapse">

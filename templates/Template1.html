@@ -10,7 +10,7 @@
     <div class="col-md-6 pull-right">
         <ul class="breadcrumb">
             <li>{% verbatim %}{{ ctrl.category }}{% endverbatim %} {% trans publication.category.name %}</li>
-            <li><span class="label label-success"><a href="#">{{ user.username }}</a></span></li>
+            <li><span class="label label-success"><a href={% url 'user-profile' author_id %}>{{ publication.author }}</a></span></li>
             <li class="active">{% verbatim %}{{ ctrl.data | date:'medium' }}{% endverbatim%}
                 {{ publication.created_at }}</li>
             <li>
