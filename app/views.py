@@ -13,6 +13,7 @@ from authenticating.models import Account
 from courseproject.models import *
 from haystack.views import SearchView
 from haystack.query import SearchQuerySet
+import random
 
 
 # Create your views here.
@@ -189,7 +190,8 @@ class GetTags(View):
         else:
             tags = Tag.objects.usage_for_model(Publication, counts=True)
             tags.sort(key=lambda tag: tag.count, reverse=True)
-            tags = itertools.islice(tags, 0, 10)
+            tags = list(itertools.islice(tags, 0, 10))
+            random.shuffle(tags)
             response = []
             for tag in tags:
                 response.append(dict(name=tag.name, count=tag.count))
