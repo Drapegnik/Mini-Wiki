@@ -22,7 +22,7 @@ def swap_language(request):
         request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
 
 
-def home(request):
+def home(request, username=""):
     swap_language(request)
     context_dict = {'templates': Template.objects.all()}
     try:
@@ -33,11 +33,14 @@ def home(request):
     if request.user.is_authenticated():
         translation.activate(request.user.language.code)
         request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language.code
+    context_dict['username'] = username
     return render(request, 'home.html', context_dict)
 
 
 def user_profile(request, user_id):
-    return render(request, 'user_profile.html')
+    if isinstance(user_id, int):
+        return home(request, Account.objects.get(id=user_id).username)
+    return home(request, Account.objects.get(id=user_id).username)
 
 
 def profile_settings(request, user_id):
@@ -61,6 +64,7 @@ def profile_settings(request, user_id):
 def normalize_publication(publication, user):
     publication['category'] = Category.objects.get(id=publication['category']).name
     publication['author'] = Account.objects.get(id=publication['author']).username
+    publication['comments_count'] = Comment.objects.filter(publication = publication['id']).count()
     try:
         vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
         publication['like'] = vote.like
@@ -136,6 +140,7 @@ class AddPublication(View):
                 'template_id': template_id,
                 'template': Template.objects.get(id=template_id).name + '.html',
                 'catlist': Category.objects.all().values('name'),
+                'author_id':request.user.id
             }
             return render(request, 'edit.html', context_dict)
         else:
@@ -151,6 +156,7 @@ class ShowPublication(View):
             'template': publication.template.name + '.html',
             'image': publication.image,
             'publication': publication,
+            'author_id': Account.objects.get(username=publication.author).id
         }
         return render(request, 'article.html', context_dict)
 
@@ -207,8 +213,10 @@ class GetComments(View):
                 like = vote.like
             except CommentVote.DoesNotExist:
                 pass
-            response.append(dict(author=comment.author.username, text=comment.text, rate=comment.rate,
-                                 pic=comment.author.photo, created_at=comment.created_at, id=comment.id, like=like))
+            response.append(
+                dict(author=comment.author.username, author_id=Account.objects.get(username=comment.author.username).id,
+                     text=comment.text, rate=comment.rate,
+                     pic=comment.author.photo, created_at=comment.created_at, id=comment.id, like=like))
         return JsonResponse(dict(comments=response))
 
 

@@ -95,8 +95,10 @@ var PublicationController = (function () {
         this.busy = true;
         this.getPublications(this.publications.length, this.publications.length + 4);
     };
-    PublicationController.prototype.init = function () {
-        this.setFilter();
+    PublicationController.prototype.init = function (username) {
+        if (username === void 0) { username = ""; }
+        console.log(username);
+        this.setFilter(0, username);
     };
     PublicationController.prototype.fillPublication = function (data) {
         for (var iterartor in data.publications) {

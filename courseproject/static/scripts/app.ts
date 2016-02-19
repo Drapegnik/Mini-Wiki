@@ -119,8 +119,9 @@ class PublicationController {
         this.getPublications(this.publications.length, this.publications.length + 4);
     }
 
-    public init() {
-        this.setFilter()
+    public init(username:string = "") {
+        console.log(username)
+        this.setFilter(0,username)
     }
 
     private fillPublication(data:any) {

@@ -19,7 +19,7 @@
                         <span id="userpicnavbar">
                             <span class="imgRect" style="background-image: url({{ comment.pic }})"></span>
                         </span>
-                            <span class="label label-success"><a href="#">{{ comment.author}}</a></span>
+                            <span class="label label-success"><a href="/user/{{ comment.author_id }}/profile/">{{ comment.author}}</a></span>
                         </li>
                         <li class="active"><span>{{ comment.created_at | date:'medium'}}</span></li>
                         <li>
@@ -84,7 +84,7 @@
                         <span id="userpicnavbar">
                             <span class="imgRect" style="background-image: url({{ user.photo }})"></span>
                         </span>
-                                    <span class="label label-success"><a href="#">{{ user.username }}</a></span>
+                                    <span class="label label-success"><a href="/user/{{ user.id }}/profile/">{{ user.username }}</a></span>
                                 </li>
                                 <a ng-disabled="ctrl.isBlank" ng-click="ctrl.submit('{{ publication.id }}')"
                                    class="btn btn-danger pull-right">{% trans 'send' %}</a>
