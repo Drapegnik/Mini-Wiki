@@ -18,22 +18,25 @@
                         {% include 'search/publication.html' with publication=result.object %}
                     {% endif %}
                     {% if result.model_name == 'comment' %}
-                        {% include 'search/publication.html' with publication=result.object.publication %}
-                        <div class="col-md-4">
-                            <div class="panel panel-warning">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">{% trans 'Was found in comment' %}:</h3>
+                        <div class="col-md-12">
+                            {% include 'search/publication.html' with publication=result.object.publication %}
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">{% trans 'Was found in comment' %}:</h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="comment panel panel-default">
-                                <div class="panel-body">
-                                    <p>{{ result.object.text }}</p>
-                                </div>
-                                <div class="panel-footer">
-                                    <ul class="breadcrumb">
-                                        <li>
+                            <div class="col-md-8">
+                                <div class="comment panel panel-default">
+                                    <div class="panel-body">
+                                        <p>{{ result.object.text }}</p>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <ul class="breadcrumb">
+                                            <li>
                                     <span id="userpicnavbar">
                                         <span class="imgRect"
                                               style="background-image: url({{ result.object.pic }})"></span>
@@ -41,18 +44,19 @@
                                     <span class="label label-success"><a
                                             href="/user/{{ result.object.author_id }}/profile/">
                                         {{ result.object.author }}</a></span>
-                                        </li>
-                                        <li class="active"><span>{{ result.object.created_at }}</span></li>
-                                        <li>
+                                            </li>
+                                            <li class="active"><span>{{ result.object.created_at }}</span></li>
+                                            <li>
                                     <span ng-show="{{ result.object.rate }} > 0"
                                           class="badge plus">+{{ result.object.rate }}</span>
                                     <span ng-show="{{ result.object.rate }} == 0"
                                           class="badge nul">{{ result.object.rate }}</span>
                                     <span ng-show="{{ result.object.rate }} < 0"
                                           class="badge minus">{{ result.object.rate }}</span>
-                                        </li>
-                                    </ul>
+                                            </li>
+                                        </ul>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>

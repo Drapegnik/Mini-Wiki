@@ -134,15 +134,28 @@ class GetProfile(View):
 
 class AddPublication(View):
     @staticmethod
-    def get(request, template_id, *args, **kwargs):
+    def get(request, template_id, prev_id, *args, **kwargs):
+        if int(prev_id):
+            if Publication.objects.get(id=prev_id).author != request.user and not request.user.is_superuser:
+                return redirect(reverse('home'))
         if request.user.is_authenticated():
             swap_language(request)
             context_dict = {
                 'template_id': template_id,
                 'template': Template.objects.get(id=template_id).name + '.html',
                 'catlist': Category.objects.all().values('name'),
-                'author_id': request.user.id
+                'author_id': 0,
+                'prev_data': list(
+                        Publication.objects.filter(id=prev_id).values('category', 'header', 'tag', 'description',
+                                                                      'body',
+                                                                      'image', 'id'))
             }
+            if context_dict['prev_data']:
+                try:
+                    context_dict['prev_data'][0]['category'] = Category.objects.get(
+                            id=context_dict['prev_data'][0]['category']).name
+                except Category.DoesNotExist:
+                    pass
             return render(request, 'edit.html', context_dict)
         else:
             return redirect(reverse('login'))
@@ -157,7 +170,8 @@ class ShowPublication(View):
             'template': publication.template.name + '.html',
             'image': publication.image,
             'publication': publication,
-            'author_id': Account.objects.get(username=publication.author).id
+            'author_id': Account.objects.get(username=publication.author).id,
+            'is_super': request.user.is_superuser
         }
         return render(request, 'article.html', context_dict)
 
@@ -184,16 +198,34 @@ class GetTags(View):
 
 class MakePublication(View):
     @staticmethod
+    def create_publication(data, category, template, author):
+        return Publication.objects.create(author=author, header=data['header'][0],
+                                          description=data['description'][0],
+                                          body=data['body'][0], category=category, template=template,
+                                          tag=data['tagstring'][0][0:len(data['tagstring'][0]) - 2])
+
+    @staticmethod
+    def update_publication(save_as, data, category):
+        obj = Publication.objects.get(id=save_as)
+        obj.category = category
+        obj.tag = data['tagstring'][0][0:len(data['tagstring'][0]) - 2]
+        obj.description = data['description'][0]
+        obj.header = data['header'][0]
+        obj.body = data['body'][0]
+
+
+        return obj
+
+    @staticmethod
     def post(request, *args, **kwargs):
-        print(request.POST)
         author = request.user
         data = dict(request.POST)
         category = Category.objects.get(name=data['category'][0])
         template = Template.objects.get(id=data['template_id'][0])
-        obj = Publication.objects.create(author=author, header=data['header'][0],
-                                         description=data['description'][0],
-                                         body=data['body'][0], category=category, template=template,
-                                         tag=data['tagstring'][0][0:len(data['tagstring'][0]) - 2])
+        if data['save_as'][0]:
+            obj = MakePublication.create_publication(data, category, template, author)
+        else:
+            obj = MakePublication.update_publication(data['save_as'][0], category)
         p_id = 'p' + str(obj.id)
         uploader.destroy(p_id, invalidate=True)
         obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']

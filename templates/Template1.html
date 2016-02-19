@@ -10,7 +10,8 @@
     <div class="col-md-6 pull-right">
         <ul class="breadcrumb">
             <li>{% verbatim %}{{ ctrl.category }}{% endverbatim %} {% trans publication.category.name %}</li>
-            <li><span class="label label-success"><a href={% url 'user-profile' author_id %}>{{ publication.author }}</a></span></li>
+            <li><span class="label label-success"><a
+                    href={% url 'user-profile' author_id %}>{{ publication.author }}</a></span></li>
             <li class="active">{% verbatim %}{{ ctrl.data | date:'medium' }}{% endverbatim%}
                 {{ publication.created_at }}</li>
             <li>
@@ -18,6 +19,13 @@
                 <span ng-show="{{ publication.rate }} == 0" class="badge nul">{{ publication.rate }}</span>
                 <span ng-show="{{ publication.rate }} < 0" class="badge minus">{{ publication.rate }}</span>
             </li>
+            <span class="pull-right" ng-show="{{ author_id }}== {{ request.user.id }} || '{{ is_super }}' == 'True' ">
+                {% if publication.id %}
+                    <a href="{% url 'create-publication' publication.template.id publication.id %}">
+                {% else %}
+                    <a href="">
+                {% endif %}
+                <i style="font-size: 25px; color: #3498db;" class="fa fa-pencil "></i></a></span>
         </ul>
     </div>
 
