@@ -8,6 +8,7 @@
 }
 
 .tagcloud {
+    font-size: 10px;
     border: 2px dashed #18bc9c;
     border-radius: 6px;
     padding: 10px;

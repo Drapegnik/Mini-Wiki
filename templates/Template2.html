@@ -24,11 +24,16 @@
     </div>
     <h1 class="text-center">{% verbatim %}{{ ctrl.header }}{% endverbatim %}{{ publication.header }}</h1>
     <div class="col-lg-12 col-md-12">
-        <div id="temp2pic" class="text-center">
-            <img ng-show="!'{{ publication.image }}'" id="target" style="max-height: 240px"
+        <div class="text-center">
+            {#            <img ng-show="!'{{ publication.image }}'" id="target" style="max-height: 240px"#}
+            {#                 class="img-responsive img-thumbnail" src="http://placehold.it/1280x240">#}
+            {#            <img ng-show="{{ publication.image }}" style="max-height: 240px" class="img-responsive img-thumbnail"#}
+            {#                 src="{{ publication.image }}">#}
+            <img id="target" ng-show="!'{{ publication.image }}'" style="max-height: 240px"
                  class="img-responsive img-thumbnail" src="http://placehold.it/1280x240">
-            <img ng-show="{{ publication.image }}" style="max-height: 240px" class="img-responsive img-thumbnail"
-                 src="{{ publication.image }}">
+            <span ng-show="{{ publication.image }}" class="imgRect2 img-thumbnail"
+                  style="background-image: url({{ publication.image }}); height: 240px; width: 1280px"></span>
+            </span>
         </div>
     </div>
 

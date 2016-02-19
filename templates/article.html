@@ -10,8 +10,9 @@
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
                 <div class="panel-body">
-                    <p ng-hide="ctrl.isEdit">{{ comment.text }}</p>
-                    <textarea ng-model="ctrl.editcomment" ng-show="ctrl.isEdit" id="edit" type="text" class="form-control" maxlength="500" name="edit">{{ comment.text }}</textarea>
+                    <p ng-hide="ctrl.isEdit && ctrl.editindex == $index">{{ comment.text }}</p>
+                    <textarea ng-model="ctrl.editcomment" ng-show="ctrl.isEdit && ctrl.editindex == $index" id="edit"
+                              type="text" class="form-control" maxlength="500" name="edit">{{ comment.text }}</textarea>
                 </div>
                 <div class="panel-footer">
                     <ul class="breadcrumb">
@@ -19,7 +20,8 @@
                         <span id="userpicnavbar">
                             <span class="imgRect" style="background-image: url({{ comment.pic }})"></span>
                         </span>
-                            <span class="label label-success"><a href="/user/{{ comment.author_id }}/profile/">{{ comment.author}}</a></span>
+                            <span class="label label-success"><a href="/user/{{ comment.author_id }}/profile/">{{
+                                comment.author}}</a></span>
                         </li>
                         <li class="active"><span>{{ comment.created_at | date:'medium'}}</span></li>
                         <li>
@@ -49,9 +51,12 @@
                         {% endif %}
                         {% if user.is_superuser %}
                             {% verbatim %}
-                            <a ng-hide="ctrl.isEdit" ng-click="ctrl.edit(true, false, comment.text)" href=""><i style="font-size: 25px; color: #3498db;" class="fa fa-pencil pull-right"></i></a>
-                            <a ng-show="ctrl.isEdit"  ng-click="ctrl.edit(false, true)" href=""><i style="font-size: 25px; color: #18bc9c;" class="fa fa-check pull-right"></i></a>
-                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, false)" href=""><i style="font-size: 25px; color: #e74c3c;" class="fa fa-times pull-right"></i></a>
+                            <a ng-hide="ctrl.isEdit" ng-click="ctrl.edit(true, false, comment.text, $index, comment.id)" href=""><i
+                                    style="font-size: 25px; color: #3498db;" class="fa fa-pencil pull-right"></i></a>
+                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, true, comment.text, $index, comment.id)" href=""><i
+                                    style="font-size: 25px; color: #18bc9c;" class="fa fa-check pull-right"></i></a>
+                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, false, comment.text, $index, comment.id)" href=""><i
+                                    style="font-size: 25px; color: #e74c3c;" class="fa fa-times pull-right"></i></a>
                             {% endverbatim %}
                         {% endif %}
                     </ul>
@@ -75,7 +80,8 @@
                         <span id="userpicnavbar">
                             <span class="imgRect" style="background-image: url({{ user.photo }})"></span>
                         </span>
-                                    <span class="label label-success"><a href="/user/{{ user.id }}/profile/">{{ user.username }}</a></span>
+                                    <span class="label label-success"><a
+                                            href="/user/{{ user.id }}/profile/">{{ user.username }}</a></span>
                                 </li>
                                 <a ng-disabled="ctrl.isBlank" ng-click="ctrl.submit('{{ publication.id }}')"
                                    class="btn btn-danger pull-right">{% trans 'send' %}</a>

@@ -215,7 +215,6 @@ class MakePublication(View):
         obj.header = data['header'][0]
         obj.body = data['body'][0]
 
-
         return obj
 
     @staticmethod

@@ -37,13 +37,16 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="tagcloud hidden-xs hidden-sm">
-                <div ng-controller="TagController as ctrl2" ng-init="ctrl2.init()">
-                    {% verbatim %}
+            <div class="hidden-xs hidden-sm">
+                <div class="text-center"><h3>Tags cloud</h3></div>
+                <div class="tagcloud">
+                    <div ng-controller="TagController as ctrl2" ng-init="ctrl2.init()">
+                        {% verbatim %}
                    <span ng-cloak ng-repeat="tag in ctrl2.tags" class="cloud_{{ tag.Weight }}">
                        <a href="#{{tag.TagName}}" ng-click="ctrl.setFilter(0,'',tag.TagName)">{{ tag.TagName }}</a>
                    </span>
-                    {% endverbatim %}
+                        {% endverbatim %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -167,7 +170,8 @@
                             <li>
                                 {% verbatim %}
                                 <a href="/articles/{{ publication.id }}/#commentsblock">
-                                    <i style="font-size: 15px; color: #18bc9c;" class="fa fa-comments">{{ publication.comments_count }}</i></a>
+                                    <i style="font-size: 15px; color: #18bc9c;" class="fa fa-comments">{{
+                                        publication.comments_count }}</i></a>
                                 {% endverbatim %}
                             </li>
                         </ul>

@@ -1,10 +1,10 @@
 {% load i18n %}
 
 <div class="article">
-    <div id="img1templ" class="col-md-6 pull-left">
-        <img ng-show="!'{{ publication.image }}'" id="target" style="max-height: 470px;" class="img-thumbnail"
-             src="http://placehold.it/600x500">
-        <img ng-show="{{ publication.image }}" style="max-height: 470px;" class="img-thumbnail"
+    <div id="img1templ" class="col-lg-6 col-md-6 pull-left">
+        <img ng-show="!'{{ publication.image }}'" id="target" style="max-height: 400px;" class="img-thumbnail"
+             src="http://placehold.it/600x400">
+        <img ng-show="{{ publication.image }}" style="max-height: 400px;" class="img-thumbnail"
              src="{{ publication.image }}">
     </div>
     <div class="col-md-6 pull-right">

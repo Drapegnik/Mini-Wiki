@@ -285,7 +285,8 @@ var PreviewController = (function (_super) {
         this.header = prev_data[0].header;
         this.description = prev_data[0].description;
         angular.element('#editor')[0].textContent = prev_data[0].body;
-        this.destination.attr('src', prev_data[0].image);
+        this.destination.attr('style', prev_data[0].image);
+        //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
         var tags = [];
         var tagsSpited = prev_data[0].tag.split(", ");
         for (var iter in tagsSpited)
@@ -359,6 +360,7 @@ var CommentsController = (function () {
         }, 1500);
         this.isEdit = false;
         this.editcomment = "";
+        this.editindex = -1;
     }
     CommentsController.prototype.getComments = function () {
         var _this = this;
@@ -401,10 +403,11 @@ var CommentsController = (function () {
         this.http.handlerUrl = "vote/";
         this.http.usePostHandler($.param({ comment: comment_id, like: like })).then(function (data) { return _this.applyVote(data); });
     };
-    CommentsController.prototype.edit = function (value, isOk, text) {
+    CommentsController.prototype.edit = function (value, isOk, text, index, id) {
         this.editcomment = text;
+        this.editindex = index;
         if (isOk) {
-            alert("ok");
+            this.http.handlerUrl = "vote/";
         }
         this.isEdit = value;
     };
