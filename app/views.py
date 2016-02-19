@@ -337,5 +337,7 @@ class DeletePublication(View):
     @staticmethod
     def get(request, publication_id, *args, **kwargs):
         if Publication.objects.get(id=publication_id).author == request.user or request.user.is_superuser:
+            p_id = 'p' + str(publication_id)
+            uploader.destroy(p_id, invalidate=True)
             Publication.objects.get(id=publication_id).delete()
         return redirect(reverse('home'))
