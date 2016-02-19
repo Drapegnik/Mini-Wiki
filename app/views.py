@@ -64,6 +64,7 @@ def profile_settings(request, user_id):
 def normalize_publication(publication, user):
     publication['category'] = Category.objects.get(id=publication['category']).name
     publication['author'] = Account.objects.get(id=publication['author']).username
+    publication['comments_count'] = Comment.objects.filter(publication = publication['id']).count()
     try:
         vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
         publication['like'] = vote.like
