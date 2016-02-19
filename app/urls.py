@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'vote/', VotesController.as_view(), name='vote'),
    # url(r'^search/', include('haystack.urls')),
     url(r'^search/', MySearchView(), name='haystack_search'),
+    url(r'delete/(?P<publication_id>\d+)/$', DeletePublication.as_view(), name='delete'),
 ]
