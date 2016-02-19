@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'publications/', get_publications, name='publications'),
     url(r'updatePhoto/', UpdatePhoto.as_view()),
     url(r'getProfile/', GetProfile.as_view()),
-    url(r'^createpublication/(?P<template_id>\d+)/$', AddPublication.as_view(), name='create-publication'),
+    url(r'^createpublication/(?P<template_id>\d+)/change/(?P<prev_id>\d+)/$', AddPublication.as_view(), name='create-publication'),
     url(r'getTags/', GetTags.as_view()),
     url(r'makepublication/', MakePublication.as_view(), name='edit'),
     url(r'createcomment/', CreateComment.as_view(), name='create-comment'),

@@ -5,7 +5,7 @@
     <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
 
     <div style="background-color: inherit" ng-controller="PreviewController as ctrl"
-         ng-init="ctrl.initPreview('#content','#dropview','#target')">
+         ng-init="ctrl.initPreview('#content','#dropview','#target',{{ prev_data }})">
 
         <div class="collapse" id="previewzona">
             {% include template %}
@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                 <textarea ng-change="ctrl.inputChange('#id_description', 1)" ng-trim="false" ng-model="ctrl.description"
                           class="form-control" id="id_description" type="text"
-                          name="description" placeholder="{% trans 'you description' %}"></textarea>
+                          name="description" placeholder="{% trans 'you description' %}" maxlength="300"></textarea>
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                             <select ng-model="ctrl.category" id="id_category" class="form-control col-md-6" size="1"
                                     name="category">
                                 {% for val in catlist %}
-                                    <option ng-init="ctrl.category = '{{ val.name }}'"
+                                    <option
                                             value="{{ val.name }}">{% trans val.name %}</option>
                                 {% endfor %}
                             </select>

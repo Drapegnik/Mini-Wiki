@@ -17,7 +17,7 @@
                 </div>
                 <div class="panel-body list-group" id="templatelist">
                     {% for template in templates %}
-                        <a href="{% url 'create-publication' template.id %}" class="list-group-item">
+                        <a href="{% url 'create-publication' template.id 0 %}" class="list-group-item">
                             <label>{{ template.name }}</label>
                             <img id="photo" class="img-thumbnail" src="{{ template.preview_link }}">
                         </a>

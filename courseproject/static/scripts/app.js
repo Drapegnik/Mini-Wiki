@@ -263,20 +263,38 @@ var PreviewController = (function (_super) {
         this.header = "";
         this.description = "";
         this.tags = [];
-        this.autatags = [];
+        this.autotags = [];
         this.category = "";
         this.http = new HttpHandlerService($http);
         this.errors = [];
-        this.data = new Date();
+        this.date = new Date();
         this.tagstring = "";
         this.sending = false;
+        this.save_as = 0;
     }
-    PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target) {
+    PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target, prev_data) {
+        if (prev_data === void 0) { prev_data = []; }
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
+        this.category = "Biology";
+        if (prev_data.length != 0) {
+            this.fillPrevData(prev_data);
+        }
+    };
+    PreviewController.prototype.fillPrevData = function (prev_data) {
+        this.header = prev_data[0].header;
+        this.description = prev_data[0].description;
+        angular.element('#editor')[0].textContent = prev_data[0].body;
+        this.destination.attr('src', prev_data[0].image);
+        var tags = [];
+        var tagsSpited = prev_data[0].tag.split(", ");
+        for (var iter in tagsSpited)
+            tags.push({ text: tagsSpited[iter] });
+        this.tags = tags;
+        this.category = prev_data[0].category;
+        this.save_as = prev_data[0].id;
     };
     PreviewController.prototype.ShowPublication = function () {
-        this.data = new Date();
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
     };
     PreviewController.prototype.fillFileFromInput = function () {
@@ -296,7 +314,8 @@ var PreviewController = (function (_super) {
                 tagstring: this.tagstring,
                 body: body,
                 template_id: template_id,
-                image: this.destination.attr('src')
+                image: this.destination.attr('src'),
+                save_as: this.save_as
             });
             this.http.handlerUrl = "makepublication/";
             this.http.usePostHandler(data).then(function (data) { return _this.checkResponse(data); });
@@ -321,8 +340,8 @@ var PreviewController = (function (_super) {
         var _this = this;
         this.http.handlerUrl = "getTags/";
         this.http.handlerUrl = "getTags/";
-        this.http.useGetHandler({ substr: $query }).then(function (data) { return _this.autatags = data.tags; });
-        return this.autatags;
+        this.http.useGetHandler({ substr: $query }).then(function (data) { return _this.autotags = data.tags; });
+        return this.autotags;
     };
     return PreviewController;
 })(DragAndDrop);
