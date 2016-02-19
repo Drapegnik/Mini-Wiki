@@ -140,6 +140,7 @@ class AddPublication(View):
                 'template_id': template_id,
                 'template': Template.objects.get(id=template_id).name + '.html',
                 'catlist': Category.objects.all().values('name'),
+                'author_id':request.user.id
             }
             return render(request, 'edit.html', context_dict)
         else:
