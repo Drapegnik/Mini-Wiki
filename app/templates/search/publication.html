@@ -1,0 +1,42 @@
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <a href="/articles/{{ publication.id }}">
+            <h3 id="title" class="panel-title">{{ publication.header }}</h3>
+        </a>
+    </div>
+    <div class="panel-body">
+        <a href="/articles/{{ publication.id }}">
+            <div class="col-md-6 text-center">
+                                <span class="imgRect2 img-thumbnail"
+                                      style="background-image: url({{ publication.image }}); height: 200px; max-width: 350px"></span>
+                </span>
+            </div>
+        </a>
+
+        <div class="well col-md-6">
+            {{ publication.description }}
+        </div>
+
+        <ul class="breadcrumb col-md-12">
+            <li>{{ publication.category }}</li>
+            <li><span class="label label-success">
+                                <a href="/user/{{ publication.author_id }}/profile/">
+                                        {{ publication.author }}</a>
+                            </span>
+            </li>
+            <li class="active">{{ publication.created_at }}</li>
+            <li><span ng-show="{{ publication.rate }} > 0"
+                      class="badge plus">+{{ publication.rate }}</span>
+                                    <span ng-show="{{ publication.rate }} == 0"
+                                          class="badge nul">{{ publication.rate }}</span>
+                                    <span ng-show="{{ publication.rate }} < 0"
+                                          class="badge minus">{{ publication.rate }}</span>
+            </li>
+            <li>
+                <a href="/articles/{{ publication.id }}/#commentsblock">
+                    <i style="font-size: 15px; color: #18bc9c;" class="fa fa-comments">
+                        {{ publication.comments_count }}</i></a>
+            </li>
+        </ul>
+    </div>
+</div>

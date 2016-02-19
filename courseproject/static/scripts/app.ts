@@ -121,7 +121,7 @@ class PublicationController {
 
     public init(username:string = "") {
         console.log(username)
-        this.setFilter(0,username)
+        this.setFilter(0, username)
     }
 
     private fillPublication(data:any) {
@@ -398,7 +398,6 @@ class PreviewController extends DragAndDrop {
 
     public loadTags($query) {
         this.http.handlerUrl = "getTags/";
-        this.http.handlerUrl = "getTags/";
         this.http.useGetHandler({substr: $query}).then((data) => this.autatags = data.tags);
         return this.autatags;
     }
@@ -414,9 +413,9 @@ class CommentsController {
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        /*this.interval(() => {
-         this.getComments();
-         }, 1500);*/
+        this.interval(() => {
+            this.getComments();
+        }, 1500);
         this.isEdit = false;
         this.editcomment = "";
     }

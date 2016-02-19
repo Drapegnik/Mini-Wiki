@@ -52,18 +52,12 @@
                     <li><a href="/register/">{% trans 'Sign up' %}</a></li>
                 {% endif %}
             </ul>
-           <!-- <form method="get" action="/search" class="navbar-form navbar-left" role="search">
+            <form method="get" action="/search/" class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <input id="id_q" name="q" type="search" class="form-control" placeholder="{% trans 'Search' %}">
                 </div>
-                <input data-toggle="collapse" data-target="#searchzona" type="submit"
-                       class="btn btn-default" value="{% trans 'Search' %}">
-
-                    <span class="" id="searchzona">
-                        {% include 'search/search1.html' %}
-                    </span>
-
-            </form>-->
+                <input type="submit" class="btn btn-default" value="{% trans 'Search' %}">
+            </form>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <li class="dropdown">

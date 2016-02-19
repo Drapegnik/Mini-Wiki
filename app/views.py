@@ -8,10 +8,11 @@ from django.shortcuts import render, redirect
 from django.utils import translation
 from django.views.generic.base import View
 from tagging.models import Tag, TaggedItem
-
-from app.models import Publication, Comment, PublicationVote, CommentVote, Achievement, UsersAchievement
+from app.models import *
 from authenticating.models import Account
 from courseproject.models import *
+from haystack.views import SearchView
+from haystack.query import SearchQuerySet
 
 
 # Create your views here.
@@ -64,7 +65,7 @@ def profile_settings(request, user_id):
 def normalize_publication(publication, user):
     publication['category'] = Category.objects.get(id=publication['category']).name
     publication['author'] = Account.objects.get(id=publication['author']).username
-    publication['comments_count'] = Comment.objects.filter(publication = publication['id']).count()
+    publication['comments_count'] = Comment.objects.filter(publication=publication['id']).count()
     try:
         vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
         publication['like'] = vote.like
@@ -140,7 +141,7 @@ class AddPublication(View):
                 'template_id': template_id,
                 'template': Template.objects.get(id=template_id).name + '.html',
                 'catlist': Category.objects.all().values('name'),
-                'author_id':request.user.id
+                'author_id': request.user.id
             }
             return render(request, 'edit.html', context_dict)
         else:
@@ -214,9 +215,10 @@ class GetComments(View):
             except CommentVote.DoesNotExist:
                 pass
             response.append(
-                dict(author=comment.author.username, author_id=Account.objects.get(username=comment.author.username).id,
-                     text=comment.text, rate=comment.rate,
-                     pic=comment.author.photo, created_at=comment.created_at, id=comment.id, like=like))
+                    dict(author=comment.author.username,
+                         author_id=Account.objects.get(username=comment.author.username).id,
+                         text=comment.text, rate=comment.rate,
+                         pic=comment.author.photo, created_at=comment.created_at, id=comment.id, like=like))
         return JsonResponse(dict(comments=response))
 
 
@@ -268,3 +270,30 @@ class VotesController(View):
             author.set_achievement("selfLike")
         author.save()
         return JsonResponse(dict(like=like, target=id.id))
+
+
+class MySearchView(SearchView):
+    """My custom search view."""
+
+    def __call__(self, request, *args, **kwargs):
+        swap_language(request)
+        return super(MySearchView, self).__call__(request)
+
+    def get_results(self):
+        results = super(MySearchView, self).get_results()
+        response_results = []
+        publications = []
+        comments = []
+        for res in results:
+            if (res.model == Publication):
+                response_results.append(res)
+                publications.append(res.object.id)
+            else:
+                comments.append(res)
+
+        for com in comments:
+            if com.object.publication.id not in publications:
+                publications.append(com.object.publication.id)
+                response_results.append(com)
+
+        return response_results

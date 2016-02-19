@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'articles/(?P<publication_id>\d+)/$', ShowPublication.as_view(), name='show'),
     url(r'comments/', GetComments.as_view(), name='comments'),
     url(r'vote/', VotesController.as_view(), name='vote'),
-    url(r'^search/', include('haystack.urls')),
+   # url(r'^search/', include('haystack.urls')),
+    url(r'^search/', MySearchView(), name='haystack_search'),
 ]

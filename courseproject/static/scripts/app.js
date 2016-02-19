@@ -320,7 +320,6 @@ var PreviewController = (function (_super) {
     PreviewController.prototype.loadTags = function ($query) {
         var _this = this;
         this.http.handlerUrl = "getTags/";
-        this.http.handlerUrl = "getTags/";
         this.http.useGetHandler({ substr: $query }).then(function (data) { return _this.autatags = data.tags; });
         return this.autatags;
     };
@@ -328,15 +327,16 @@ var PreviewController = (function (_super) {
 })(DragAndDrop);
 var CommentsController = (function () {
     function CommentsController($scope, $http, $interval) {
+        var _this = this;
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
         this.comments = [];
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        /*this.interval(() => {
-         this.getComments();
-         }, 1500);*/
+        this.interval(function () {
+            _this.getComments();
+        }, 1500);
         this.isEdit = false;
         this.editcomment = "";
     }
