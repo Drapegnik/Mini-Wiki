@@ -85,7 +85,9 @@
                          ng-repeat="achievement in ctrl.userProfile.achievements track by $index">
                         {% verbatim %}
 
-                        <img class="img-thumbnail" src="{{ achievement.picture }}" style="width: 80px; height: 80px"><span style="font-size: 24px; color: #3498db;" class="pull-right">#{{ achievement.name }}</span>
+                        <img class="img-thumbnail" src="{{ achievement.picture }}"
+                             style="width: 80px; height: 80px"><span style="font-size: 24px; color: #3498db;"
+                                                                     class="pull-right">#{{ achievement.name }}</span>
                         <p>{{ achievement.description }}</p>
 
                         <p>(@{{ achievement.created_at | date:'medium' }})</p>
@@ -100,13 +102,14 @@
                     <div class="panel-heading">
                         <div id="date" class="sortbut pull-right"><a href=""
                                                                      class="sortbut fa fa-chevron-circle-up"
-                                                                     ng-click="ctrl.setSort('-created_at')"></a> Date
-                            <a href="" class="sortbut fa fa-chevron-circle-down"
-                               ng-click="ctrl.setSort('created_at')"></a>
+                                                                     ng-click="ctrl.setSort('-created_at')"></a>
+                            {% trans 'Date' %}<a href="" class="sortbut fa fa-chevron-circle-down"
+                                                 ng-click="ctrl.setSort('created_at')"></a>
                         </div>
                         <div id="rate" class="sortbut"><a href="" class="sortbut fa fa-chevron-circle-up"
-                                                          ng-click="ctrl.setSort('-rate')"></a> Rate
-                            <a href="" class="sortbut fa fa-chevron-circle-down" ng-click="ctrl.setSort('rate')"></a>
+                                                          ng-click="ctrl.setSort('-rate')"></a>
+                            {% trans 'Rate' %}<a href="" class="sortbut fa fa-chevron-circle-down"
+                                                 ng-click="ctrl.setSort('rate')"></a>
                         </div>
                     </div>
                 </div>
@@ -122,8 +125,9 @@
                     <div class="panel-body">
                         <a href="/articles/{{ publication.id }}">
                             <div class="col-md-6 text-center">
-                                <span class="imgRect2 img-thumbnail" style="background-image: url({{ publication.image }}); height: 200px; max-width: 350px"></span>
-                            </span>
+                                <span class="imgRect2 img-thumbnail"
+                                      style="background-image: url({{ publication.image }}); height: 200px; max-width: 350px"></span>
+                                </span>
                             </div>
                         </a>
 
