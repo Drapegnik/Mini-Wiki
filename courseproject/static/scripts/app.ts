@@ -350,7 +350,7 @@ class PreviewController extends DragAndDrop {
     public initPreview(htmlcontentId:string, dropzone:string, target:string, prev_data:any = []) {
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
-        this.category = "Biology"
+        this.category = "Biology";
         if(prev_data.length != 0)
         {
             this.fillPrevData(prev_data)
@@ -362,7 +362,8 @@ class PreviewController extends DragAndDrop {
         this.header = prev_data[0].header;
         this.description = prev_data[0].description;
         angular.element('#editor')[0].textContent = prev_data[0].body;
-        this.destination.attr('src',prev_data[0].image);
+        this.destination.attr('style',prev_data[0].image);
+      //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
         var tags = [];
         var tagsSpited = prev_data[0].tag.split(", ");
         for (var iter in tagsSpited)
@@ -441,6 +442,7 @@ class CommentsController {
         }, 1500);
         this.isEdit = false;
         this.editcomment = "";
+        this.editindex = -1;
     }
 
     scope:ng.IScope;
@@ -452,6 +454,7 @@ class CommentsController {
     isBlank:boolean;
     isEdit:boolean;
     editcomment:string;
+    editindex:number;
 
     private http:HttpHandlerService;
 
@@ -498,10 +501,11 @@ class CommentsController {
         this.http.usePostHandler($.param({comment: comment_id, like: like})).then((data) => this.applyVote(data));
     }
 
-    public edit(value, isOk, text) {
+    public edit(value, isOk, text, index, id) {
         this.editcomment = text;
+        this.editindex = index;
         if (isOk) {
-            alert("ok")
+            this.http.handlerUrl = "vote/";
         }
         this.isEdit = value;
     }
