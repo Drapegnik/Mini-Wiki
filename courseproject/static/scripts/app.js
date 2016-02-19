@@ -294,6 +294,7 @@ var PreviewController = (function (_super) {
         this.tags = tags;
         this.category = prev_data[0].category;
         this.save_as = prev_data[0].id;
+        this.isBlank = [false, false, false];
     };
     PreviewController.prototype.ShowPublication = function () {
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());

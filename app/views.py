@@ -223,10 +223,10 @@ class MakePublication(View):
         data = dict(request.POST)
         category = Category.objects.get(name=data['category'][0])
         template = Template.objects.get(id=data['template_id'][0])
-        if data['save_as'][0]:
+        if not int(data['save_as'][0]):
             obj = MakePublication.create_publication(data, category, template, author)
         else:
-            obj = MakePublication.update_publication(data['save_as'][0], category)
+            obj = MakePublication.update_publication(data['save_as'][0], data, category)
         p_id = 'p' + str(obj.id)
         uploader.destroy(p_id, invalidate=True)
         obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
@@ -330,3 +330,11 @@ class MySearchView(SearchView):
                 response_results.append(com)
 
         return response_results
+
+
+class DeletePublication(View):
+    @staticmethod
+    def get(request, publication_id, *args, **kwargs):
+        if Publication.objects.get(id=publication_id).author == request.user or request.user.is_superuser:
+            Publication.objects.get(id=publication_id).delete()
+        return redirect(reverse('home'))

@@ -10,9 +10,9 @@ themes = {"Light": "https://bootswatch.com/flatly/bootstrap.min.css",
 
 languages = {"English": "en-us", "Russian": "ru"}
 
-templates = {"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457177/Template1.png",
-             "Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457214/Template2.png",
-             "Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105501/template3.png"}
+templates = [{"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457177/Template1.png"},
+             {"Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455457214/Template2.png"},
+             {"Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455105501/template3.png"}]
 
 achievements = {"hundred": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/badge_l_dhjrve.png",
                             "get karma score 100."],
@@ -26,8 +26,6 @@ achievements = {"hundred": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1
                 "critic": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455730810/1422_vproiu.jpg",
                            "left 10 comments."]}
 
-templates = collections.OrderedDict(templates)
-
 for category in categories:
     Category.objects.create(name=category)
 
@@ -37,8 +35,8 @@ for name, css_link in themes.items():
 for lang, code in languages.items():
     Language.objects.create(name=lang, code=code)
 
-for name, preview_link in templates.items():
-    Template.objects.create(name=name, preview_link=preview_link)
+for template in templates:
+    Template.objects.create(name=list(template.keys())[0], preview_link=list(template.values())[0])
 
 for name, data in achievements.items():
     Achievement.objects.create(name=name, picture=data[0], description=data[1])
