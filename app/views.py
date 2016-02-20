@@ -97,7 +97,7 @@ def get_publications(request):
         publications = pub_filter({'rate__gte': -100})
 
     publications_values = list(publications.values('id', 'author', 'category', 'header', 'description', 'rate',
-                                                   'created_at', 'tag', 'image'))
+                                                   'created_at', 'tag', 'image', 'template'))
     for i in range(len(publications_values)): normalize_publication(publications_values[i], request.user)
     response = JsonResponse(dict(publications=publications_values))
     return response
@@ -175,10 +175,10 @@ class ShowPublication(View):
             'is_super': request.user.is_superuser,
         }
         try:
-            like = PublicationVote.objects.get(target_id=publication_id).like
+            like = PublicationVote.objects.get(target_id=publication_id, user=request.user).like
         except PublicationVote.DoesNotExist:
             like = None
-        context_dict['like'] = like;
+        context_dict['like'] = like
         return render(request, 'article.html', context_dict)
 
 
@@ -224,6 +224,7 @@ class MakePublication(View):
 
     @staticmethod
     def post(request, *args, **kwargs):
+        print(request.POST)
         author = request.user
         data = dict(request.POST)
         category = Category.objects.get(name=data['category'][0])
@@ -233,8 +234,9 @@ class MakePublication(View):
         else:
             obj = MakePublication.update_publication(data['save_as'][0], data, category)
         p_id = 'p' + str(obj.id)
-        uploader.destroy(p_id, invalidate=True)
-        obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
+        if (data['image'][0]):
+            uploader.destroy(p_id, invalidate=True)
+            obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
         obj.save()
         return JsonResponse(dict(redirect=reverse('show', args=[obj.id])))
 
@@ -311,7 +313,7 @@ class VotesController(View):
         if author.karma >= 100:
             author.set_achievement("hundred")
         if id.author == request.user and like:
-            author.set_achievement("selfLike")
+            author.set_achievement("like_youself")
         author.save()
         return JsonResponse(dict(like=like, target=id.id))
 

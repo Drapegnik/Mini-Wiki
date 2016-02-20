@@ -334,6 +334,7 @@ class PreviewController extends DragAndDrop {
         this.tagstring = "";
         this.sending = false;
         this.save_as = 0;
+        this.author = "";
         this.tagIncorrect = true;
     }
 
@@ -348,19 +349,21 @@ class PreviewController extends DragAndDrop {
     http:HttpHandlerService;
     errors:any;
     input:ng.IAugmentedJQuery;
-    isBlank:Array<boolean> = [true, true, false];
+    isBlank:Array<boolean> = [true, true];
     tagIncorrect:boolean;
     date:Date;
     autotags:any;
     tagstring:string;
     sending:boolean;
     save_as:number;
+    author:string;
 
 
-    public initPreview(htmlcontentId:string, dropzone:string, target:string, prev_data:any = []) {
+    public initPreview(htmlcontentId:string, dropzone:string, target:string, prev_data:any = [], author:string) {
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
         this.category = "Biology";
+        this.author = author;
         if (prev_data.length != 0) {
             this.fillPrevData(prev_data)
         }
@@ -386,7 +389,7 @@ class PreviewController extends DragAndDrop {
         this.tags = tags;
         this.category = prev_data[0].category;
         this.save_as = prev_data[0].id;
-        this.isBlank = [false, false, false];
+        this.isBlank = [false, false];
         this.tagIncorrect = false;
     }
 
@@ -399,7 +402,7 @@ class PreviewController extends DragAndDrop {
     }
 
     public submit(template_id) {
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending || this.tagIncorrect)) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.sending || this.tagIncorrect)) {
             this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
             for (var iter in this.tags)
@@ -539,7 +542,7 @@ class CommentsController {
     }
 
     private applyPublicationVote(data) {
-        console.log(data)
+        console.log(data);
         if (this.like !== null) {
             if (this.like == true)
                 if (this.like == data.like) {

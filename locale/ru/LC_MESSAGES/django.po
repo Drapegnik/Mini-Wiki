@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-18 13:07+0300\n"
+"POT-Creation-Date: 2016-02-20 11:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "Отмена"
 msgid "Apply"
 msgstr "Применить"
 
-#: app/templates/profile_settings.html:17
+#: app/templates/profile_settings.html:17 templates/edit.html.py:106
 msgid "loading "
 msgstr "загрузка "
 
@@ -49,17 +49,17 @@ msgstr "кликни или перетяни фото сюда"
 msgid "User"
 msgstr ""
 
-#: app/templates/profile_settings.html:56 templates/home.html.py:63
+#: app/templates/profile_settings.html:56 templates/home.html.py:68
 msgid "Gender"
 msgstr "Пол"
 
 #: app/templates/profile_settings.html:72
-#: app/templates/profile_settings.html:75 templates/home.html.py:67
+#: app/templates/profile_settings.html:75 templates/home.html.py:72
 msgid "Location"
 msgstr "Местоположение"
 
 #: app/templates/profile_settings.html:80
-#: app/templates/profile_settings.html:83 templates/home.html.py:71
+#: app/templates/profile_settings.html:83 templates/home.html.py:76
 msgid "About"
 msgstr "О себе"
 
@@ -70,6 +70,18 @@ msgstr "Тема"
 #: app/templates/profile_settings.html:101
 msgid "Language"
 msgstr "Язык"
+
+#: app/templates/search/search.html:10
+msgid "Results"
+msgstr "Результаты"
+
+#: app/templates/search/search.html:28
+msgid "Was found in comment"
+msgstr "Было найдено в комментарии"
+
+#: app/templates/search/search.html:66
+msgid "No results found"
+msgstr "Ничего не найдено"
 
 #: authenticating/forms.py:21
 msgid "User with such username already exist"
@@ -120,11 +132,11 @@ msgstr "Пароль ещё раз"
 msgid "Russian"
 msgstr "Русский"
 
-#: templates/article.html:48
+#: templates/article.html:110
 msgid "say something"
 msgstr "скажите что-нибудь"
 
-#: templates/article.html:61
+#: templates/article.html:123
 msgid "send"
 msgstr "отправить"
 
@@ -164,27 +176,29 @@ msgstr "Описание"
 msgid "you description"
 msgstr "ваше описание"
 
-#: templates/edit.html:41
-#, fuzzy
-#| msgid "Categories"
-msgid "Category"
+#: templates/home.html:31
+msgid "Categories"
 msgstr "Категории"
+
+#: templates/edit.html:41
+msgid "Category"
+msgstr "Категория"
 
 #: templates/edit.html:56
 msgid "Tags"
 msgstr "Тэги"
 
-#: templates/edit.html:64
-msgid "you tags, three at least"
-msgstr "тэги, три минимум"
+#: templates/edit.html:63
+msgid "three at least, five maximum"
+msgstr "три минимум, пять максимум"
 
-#: templates/edit.html:76
+#: templates/edit.html:78
 #, fuzzy
 #| msgid "cliсk or drop image here"
 msgid "drop your images here"
 msgstr "кликни или перетяни фото сюда"
 
-#: templates/edit.html:90
+#: templates/edit.html:87
 msgid ""
 "Your text will de shown here. Just remove this one and start to type in "
 "editor"
@@ -193,28 +207,37 @@ msgstr ""
 "в редакторе"
 
 #: templates/edit.html:96
-msgid "Cansel"
-msgstr ""
-
-#: templates/edit.html:98
 msgid "Preview"
 msgstr "Превью"
 
-#: templates/edit.html:100
+#: templates/edit.html:99
 msgid "Publish"
 msgstr "Опубликовать"
 
-#: templates/home.html:14
+#: templates/home.html:16
 msgid "Templates"
 msgstr "Шаблоны"
 
-#: templates/home.html:29
-msgid "Categories"
-msgstr "Категории"
 
-#: templates/home.html:75
+#: templates/home.html:41
+msgid "Tags cloud"
+msgstr "Облако тегов"
+
+#: templates/home.html:80
 msgid "Karma"
 msgstr "Рейтинг"
+
+#: templates/home.html:109
+msgid "Date"
+msgstr "Дата"
+
+#: templates/home.html:114
+msgid "Rate"
+msgstr "Рейтинг"
+
+#: templates/home.html:121
+msgid "Sorry, still no post Here"
+msgstr "Извините, постов тут нет"
 
 msgid "Programming"
 msgstr "Программирование"

@@ -262,7 +262,7 @@ var PreviewController = (function (_super) {
     __extends(PreviewController, _super);
     function PreviewController($scope, $sce, $http) {
         _super.call(this, $scope);
-        this.isBlank = [true, true, false];
+        this.isBlank = [true, true];
         this.$scope = $scope;
         this.$sce = $sce;
         this.header = "";
@@ -276,13 +276,15 @@ var PreviewController = (function (_super) {
         this.tagstring = "";
         this.sending = false;
         this.save_as = 0;
+        this.author = "";
         this.tagIncorrect = true;
     }
-    PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target, prev_data) {
+    PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target, prev_data, author) {
         if (prev_data === void 0) { prev_data = []; }
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
         this.category = "Biology";
+        this.author = author;
         if (prev_data.length != 0) {
             this.fillPrevData(prev_data);
         }
@@ -306,7 +308,7 @@ var PreviewController = (function (_super) {
         this.tags = tags;
         this.category = prev_data[0].category;
         this.save_as = prev_data[0].id;
-        this.isBlank = [false, false, false];
+        this.isBlank = [false, false];
         this.tagIncorrect = false;
     };
     PreviewController.prototype.ShowPublication = function () {
@@ -317,7 +319,7 @@ var PreviewController = (function (_super) {
     };
     PreviewController.prototype.submit = function (template_id) {
         var _this = this;
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending || this.tagIncorrect)) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.sending || this.tagIncorrect)) {
             this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
             for (var iter in this.tags)

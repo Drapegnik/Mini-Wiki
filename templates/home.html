@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="hidden-xs hidden-sm">
-                <div class="text-center"><h3>Tags cloud</h3></div>
+                <div class="text-center"><h3>{% trans 'Tags cloud' %}</h3></div>
                 <div class="tagcloud">
                     <div ng-controller="TagController as ctrl2" ng-init="ctrl2.init()">
                         {% verbatim %}
@@ -61,7 +61,7 @@
                     <img id="photo" class="img-responsive img-thumbnail" src="{{ ctrl.userProfile.profile.photo }}">
                     <div class="list-group-item">
                         <label class="label label-info">email:</label>
-                        <span class="pull-right">{{ ctrl.userProfile.profile.email }}</span>
+                        <span class="pull-right" style="font-size: small">{{ ctrl.userProfile.profile.email }}</span>
                     </div>
                     {% endverbatim %}
                     <div class="list-group-item">
@@ -117,7 +117,9 @@
                     </div>
                 </div>
             </div>
-<h1 ng-cloak ng-show="ctrl.noPost" >{% trans 'Sorry, still no post Here' %} </h1>
+            <div class="publ col-md-8 pull-right">
+                <h1 ng-cloak ng-show="ctrl.noPost">{% trans 'Sorry, still no post Here' %} </h1>
+            </div>
             <div class="publ col-md-8 pull-right" ng-repeat="publication in ctrl.publications track by $index">
 
                 {% verbatim %}
@@ -129,7 +131,7 @@
                     </div>
                     <div class="panel-body">
                         <a href="/articles/{{ publication.id }}">
-                            <div class="col-md-6 text-center">
+                            <div ng-hide="{{ publication.template }}==3" class="col-md-6 text-center">
                                 <span class="imgRect2 img-thumbnail"
                                       style="background-image: url({{ publication.image }}); height: 200px; max-width: 350px"></span>
                                 </span>

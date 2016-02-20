@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-    <div class="row">
+    <div class="row col-md-12">
         {% include template %}
     </div>
-    <div id="commentsblock">
-        <div class="col-md-8 col-md-offset-2" ng-controller="CommentsController as ctrl"
-             ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}', {{ publication.rate }},{{ like }})">
+    <div ng-controller="CommentsController as ctrl"
+         ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}', {{ publication.rate }},{{ like }})"
+         class="col-md-12" id="commentsblock">
+        <div class="col-md-2 well well-sm text-center">
+            <span style="padding-right: 10px">
+                {% verbatim %}
+                <span ng-show="ctrl.rate > 0" class="badge plus">+{{ ctrl.rate }}</span>
+                <span ng-show="ctrl.rate == 0" class="badge nul">{{ ctrl.rate }}</span>
+                <span ng-show="ctrl.rate < 0" class="badge minus">{{ ctrl.rate }}</span>
+                {% endverbatim %}
+            </span>
             {% if user.is_authenticated %}
 
                 <a href="" ng-click="ctrl.vote(0,'True',ctrl.publication_id)" ng-cloak
-                   ng-hide="(ctrl.like == true)"><i style="font-size: 18px; color: #18bc9c;"
+                   ng-hide="(ctrl.like == true)"><i style="font-size: 18px; color: #18bc9c; padding-right: 3px"
                                                     class="fa fa-thumbs-up"></i></a>
                 <a href="" ng-click="ctrl.vote(0,'True',ctrl.publication_id)" ng-cloak
-                   ng-show="(ctrl.like == true)"><i style="font-size: 25px; color: #e74c3c;"
+                   ng-show="(ctrl.like == true)"><i style="font-size: 25px; color: #e74c3c; padding-right: 3px"
                                                     class="fa fa-thumbs-up"></i></a>
                 <a href="" ng-click="ctrl.vote(0,'False', ctrl.publication_id)" ng-cloak
                    ng-hide="(ctrl.like == false)"><i style="font-size: 18px; color: #18bc9c;"
@@ -23,12 +31,8 @@
                                                      class="fa fa-thumbs-down"></i></a>
 
             {% endif %}
-
-            {% verbatim %}
-            <span ng-show="ctrl.rate > 0" class="badge plus">+{{ ctrl.rate }}</span>
-            <span ng-show="ctrl.rate == 0" class="badge nul">{{ ctrl.rate }}</span>
-            <span ng-show="ctrl.rate < 0" class="badge minus">{{ ctrl.rate }}</span>
-            {% endverbatim %}
+        </div>
+        <div class="col-md-8">
 
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
@@ -76,7 +80,8 @@
                         <span class="pull-right"
                               ng-show="comment.author ==  ctrl.username  ||  ctrl.is_super  == 'True' ">
                             <a href="" ng-click="ctrl.deleteComment(comment.id)">
-                            <i style="font-size: 25px; color:#e74c3c;;" class="fa fa-ban "></i></a></span>
+                                <i style="font-size: 25px; color:#e74c3c; padding-left: 10px"
+                                   class="fa fa-ban "></i></a></span>
                         <span ng-show=" comment.author ==  ctrl.username  ||  ctrl.is_super  == 'True' ">
                             <a ng-hide="ctrl.isEdit && ctrl.editindex == $index"
                                ng-click="ctrl.edit(true, false, comment.text, $index, comment.id)" href=""><i
