@@ -14,6 +14,7 @@ from tagging.models import Tag, TaggedItem
 from app.models import *
 from authenticating.models import Account
 from courseproject.models import *
+from django.utils.translation import ugettext as _
 
 
 # Create your views here.
@@ -64,7 +65,7 @@ def profile_settings(request, user_id):
 
 
 def normalize_publication(publication, user):
-    publication['category'] = Category.objects.get(id=publication['category']).name
+    publication['category'] = _(Category.objects.get(id=publication['category']).name)
     publication['author'] = Account.objects.get(id=publication['author']).username
     publication['comments_count'] = Comment.objects.filter(publication=publication['id']).count()
     try:
@@ -75,6 +76,7 @@ def normalize_publication(publication, user):
 
 
 def get_publications(request):
+    swap_language(request)
     author = request.GET.get("author")
     category_id = request.GET.get("categoryId")
     sort_by = request.GET.get("sort_by")
@@ -118,6 +120,7 @@ class UpdatePhoto(View):
 class GetProfile(View):
     @staticmethod
     def get(request, *args, **kwargs):
+        swap_language(request)
         username = request.GET.get("username")
         profile = list(
                 Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
@@ -130,6 +133,8 @@ class GetProfile(View):
                     Achievement.objects.filter(id=elem['achievement']).values('name', 'description', 'picture',
                                                                               'created_at')[0])
         print(achievements)
+        for elem in achievements:
+            elem['description'] = _(elem['description'])
         return JsonResponse(dict(profile=profile, achievements=achievements))
 
 
@@ -310,7 +315,7 @@ class VotesController(View):
         id.save()
         author = Account.objects.get(username=id.author)
         author.karma = author.calculate_rate()
-        if author.karma >= 100:
+        if author.karma >= 10:
             author.set_achievement("hundred")
         if id.author == request.user and like:
             author.set_achievement("like_youself")

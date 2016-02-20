@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-20 11:46+0300\n"
+"POT-Creation-Date: 2016-02-20 13:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,7 @@ msgstr ""
 #: authenticating/templates/registration/emailrequest.html:19
 #: authenticating/templates/registration/login.html:40
 #: authenticating/templates/registration/register.html:44
+#: templates/edit.html:97
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -32,7 +33,7 @@ msgstr "Отмена"
 msgid "Apply"
 msgstr "Применить"
 
-#: app/templates/profile_settings.html:17 templates/edit.html.py:106
+#: app/templates/profile_settings.html:17 templates/edit.html.py:109
 msgid "loading "
 msgstr "загрузка "
 
@@ -176,10 +177,6 @@ msgstr "Описание"
 msgid "you description"
 msgstr "ваше описание"
 
-#: templates/home.html:31
-msgid "Categories"
-msgstr "Категории"
-
 #: templates/edit.html:41
 msgid "Category"
 msgstr "Категория"
@@ -192,13 +189,13 @@ msgstr "Тэги"
 msgid "three at least, five maximum"
 msgstr "три минимум, пять максимум"
 
-#: templates/edit.html:78
+#: templates/edit.html:79
 #, fuzzy
 #| msgid "cliсk or drop image here"
 msgid "drop your images here"
 msgstr "кликни или перетяни фото сюда"
 
-#: templates/edit.html:87
+#: templates/edit.html:88
 msgid ""
 "Your text will de shown here. Just remove this one and start to type in "
 "editor"
@@ -206,11 +203,11 @@ msgstr ""
 "Ваш текст будет отображаться тут. Просто удалите его, и напишите что-нибудь "
 "в редакторе"
 
-#: templates/edit.html:96
+#: templates/edit.html:99
 msgid "Preview"
 msgstr "Превью"
 
-#: templates/edit.html:99
+#: templates/edit.html:102
 msgid "Publish"
 msgstr "Опубликовать"
 
@@ -218,6 +215,9 @@ msgstr "Опубликовать"
 msgid "Templates"
 msgstr "Шаблоны"
 
+#: templates/home.html:31
+msgid "Categories"
+msgstr "Категории"
 
 #: templates/home.html:41
 msgid "Tags cloud"
@@ -265,3 +265,18 @@ msgstr "Мужской"
 
 msgid "Female"
 msgstr "Женский"
+
+msgid "take a space under post first."
+msgstr "оставь первый коммент."
+
+msgid "be like elephant."
+msgstr "будь как слоник."
+
+msgid "get karma score 100."
+msgstr "набей 100 кармы."
+
+msgid "connect all social networks."
+msgstr "подключил все соцсети."
+
+msgid "left 10 comments."
+msgstr "оставь 10 комментов."

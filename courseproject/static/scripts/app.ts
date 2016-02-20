@@ -122,7 +122,6 @@ class PublicationController {
     }
 
     public init(username:string = "") {
-        document.write(gettext('this is to be translated'));
         this.setFilter(0, username)
     }
 

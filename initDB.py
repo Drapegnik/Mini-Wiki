@@ -18,7 +18,7 @@ achievements = {"hundred": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1
                             "get karma score 100."],
                 "social": [
                     "http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/social-networking-business_bgyqeg.png",
-                    "be a social whore."],
+                    "connect all social networks."],
                 "gagarin": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455817302/gagarin.jpg",
                              "take a space under post first."],
                 "like_youself": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455816559/slon.png",
