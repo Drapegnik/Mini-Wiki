@@ -97,6 +97,7 @@ var PublicationController = (function () {
     };
     PublicationController.prototype.init = function (username) {
         if (username === void 0) { username = ""; }
+        document.write(gettext('this is to be translated'));
         this.setFilter(0, username);
     };
     PublicationController.prototype.fillPublication = function (data) {

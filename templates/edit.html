@@ -88,7 +88,9 @@
                     {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}
                 </textarea>
                 <script>
-                    CKEDITOR.replace('editor', {language: '{{ user.language.code }}'});
+                    CKEDITOR.replace('editor', {
+                        language: '{{ user.language.code }}'
+                    });
                 </script>
                 <div class="editbuttongroup col-md-12">
                     <div class="col-md-4">
