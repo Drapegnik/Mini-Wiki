@@ -386,7 +386,8 @@ var CommentsController = (function () {
         if (!this.isBlank) {
             var data = $.param({
                 publication_id: publication_id,
-                text: this.text
+                text: this.text,
+                edit: false
             });
             this.http.handlerUrl = "createcomment/";
             this.http.usePostHandler(data).then(function (data) { return _this.getComments(); });
@@ -444,11 +445,18 @@ var CommentsController = (function () {
         }
     };
     CommentsController.prototype.edit = function (value, isOk, text, index, id) {
-        this.editcomment = text;
+        var _this = this;
         this.editindex = index;
-        if (isOk) {
+        if (isOk && !($.trim(this.editcomment).length == 0)) {
             this.http.handlerUrl = "createcomment/";
-            this.http.usePostHandler($.param({ comment: id, text: text, edit: true }));
+            this.http.usePostHandler($.param({
+                comment: id,
+                text: this.editcomment,
+                edit: true
+            })).then(function (data) { return _this.getComments(); });
+        }
+        else {
+            this.editcomment = text;
         }
         this.isEdit = value;
     };
