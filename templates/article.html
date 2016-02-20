@@ -24,11 +24,11 @@
 
             {% endif %}
 
-        {% verbatim %}
+            {% verbatim %}
             <span ng-show="ctrl.rate > 0" class="badge plus">+{{ ctrl.rate }}</span>
             <span ng-show="ctrl.rate == 0" class="badge nul">{{ ctrl.rate }}</span>
             <span ng-show="ctrl.rate < 0" class="badge minus">{{ ctrl.rate }}</span>
-        {% endverbatim %}
+            {% endverbatim %}
 
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
@@ -73,6 +73,10 @@
                             </li>
                         {% endif %}
                         {% verbatim %}
+                        <span class="pull-right"
+                              ng-show="comment.author ==  ctrl.username  ||  ctrl.is_super  == 'True' ">
+                            <a href="" ng-click="ctrl.deleteComment(comment.id)">
+                            <i style="font-size: 25px; color:#e74c3c;;" class="fa fa-ban "></i></a></span>
                         <span ng-show=" comment.author ==  ctrl.username  ||  ctrl.is_super  == 'True' ">
                             <a ng-hide="ctrl.isEdit && ctrl.editindex == $index"
                                ng-click="ctrl.edit(true, false, comment.text, $index, comment.id)" href=""><i

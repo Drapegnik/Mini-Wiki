@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'comments/', GetComments.as_view(), name='comments'),
     url(r'vote/', VotesController.as_view(), name='vote'),
     url(r'search/', MySearchView(), name='search'),
-    url(r'delete/(?P<publication_id>\d+)/$', DeletePublication.as_view(), name='delete'),
+    url(r'deletePublication/(?P<publication_id>\d+)/$', DeletePublication.as_view(), name='delete'),
+    url(r'deleteComment/(?P<comment_id>\d+)/$', DeleteComment.as_view()),
 ]

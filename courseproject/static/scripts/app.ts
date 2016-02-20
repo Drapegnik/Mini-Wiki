@@ -486,7 +486,7 @@ class CommentsController {
             var data = $.param({
                 publication_id: publication_id,
                 text: this.text,
-                edit: false
+                edit: 'False'
             });
             this.http.handlerUrl = "createcomment/";
             this.http.usePostHandler(data).then((data) => this.getComments());
@@ -552,13 +552,18 @@ class CommentsController {
             this.http.usePostHandler($.param({
                 comment: id,
                 text: this.editcomment,
-                edit: true
+                edit: 'True'
             })).then((data) => this.getComments());
         }
         else {
             this.editcomment = text;
         }
         this.isEdit = value;
+    }
+
+    public deleteComment(id:string) {
+        this.http.handlerUrl = "/deleteComment/" + id+'/'
+        this.http.usePostHandler({}).then(()=>this.getComments());
     }
 
     private applyCommentVote(data) {

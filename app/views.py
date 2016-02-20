@@ -1,4 +1,5 @@
 import itertools
+import random
 from ast import literal_eval
 
 from cloudinary import uploader
@@ -7,13 +8,12 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import translation
 from django.views.generic.base import View
+from haystack.views import SearchView
 from tagging.models import Tag, TaggedItem
+
 from app.models import *
 from authenticating.models import Account
 from courseproject.models import *
-from haystack.views import SearchView
-from haystack.query import SearchQuerySet
-import random
 
 
 # Create your views here.
@@ -181,6 +181,7 @@ class ShowPublication(View):
         context_dict['like'] = like;
         return render(request, 'article.html', context_dict)
 
+
 class GetTags(View):
     @staticmethod
     def get(request, *args, **kwargs):
@@ -264,7 +265,7 @@ class CreateComment(View):
     def post(request, *args, **kwargs):
         print(request.POST)
         data = dict(request.POST)
-        if data['edit'][0]:
+        if literal_eval(data['edit'][0]):
             obj = Comment.objects.get(id=data['comment'][0])
             obj.text = data['text'][0]
             obj.save()
@@ -349,4 +350,12 @@ class DeletePublication(View):
             p_id = 'p' + str(publication_id)
             uploader.destroy(p_id, invalidate=True)
             Publication.objects.get(id=publication_id).delete()
+        return redirect(reverse('home'))
+
+
+class DeleteComment(View):
+    @staticmethod
+    def post(request, comment_id, *args, **kwargs):
+        if Comment.objects.get(id=comment_id).author == request.user or request.user.is_superuser:
+            Comment.objects.get(id=comment_id).delete()
         return redirect(reverse('home'))

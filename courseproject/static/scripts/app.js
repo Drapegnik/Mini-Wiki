@@ -387,7 +387,7 @@ var CommentsController = (function () {
             var data = $.param({
                 publication_id: publication_id,
                 text: this.text,
-                edit: false
+                edit: 'False'
             });
             this.http.handlerUrl = "createcomment/";
             this.http.usePostHandler(data).then(function (data) { return _this.getComments(); });
@@ -452,13 +452,18 @@ var CommentsController = (function () {
             this.http.usePostHandler($.param({
                 comment: id,
                 text: this.editcomment,
-                edit: true
+                edit: 'True'
             })).then(function (data) { return _this.getComments(); });
         }
         else {
             this.editcomment = text;
         }
         this.isEdit = value;
+    };
+    CommentsController.prototype.deleteComment = function (id) {
+        var _this = this;
+        this.http.handlerUrl = "/deleteComment/" + id + '/';
+        this.http.usePostHandler({}).then(function () { return _this.getComments(); });
     };
     CommentsController.prototype.applyCommentVote = function (data) {
         var comments = this.comments.filter(function (obj) {
