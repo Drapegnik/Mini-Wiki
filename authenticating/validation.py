@@ -1,5 +1,8 @@
+import cloudinary
 from django.shortcuts import redirect
 from social.apps.django_app.default.models import UserSocialAuth
+
+from courseproject import settings
 
 
 def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
@@ -17,5 +20,10 @@ def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
 def check_for_achievement(username=None, user=None, is_new=False, storage=None, uid=None, backend=None, social=None,
                           request=None, response=None, strategy=None, pipeline_index=None, new_association=None,
                           details=None):
+    if not user.photo:
+        user.photo = \
+            cloudinary.uploader.upload(settings.STATIC_ROOT + '/static/icons/userpic.png', public_id=user.id)[
+                'url']
+    user.save()
     if UserSocialAuth.objects.filter(user=user).count() == 3:
         user.set_achievement("social")
