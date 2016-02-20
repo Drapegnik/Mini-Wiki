@@ -444,6 +444,8 @@ class CommentsController {
         this.isEdit = false;
         this.editcomment = "";
         this.editindex = -1;
+        this.is_super = false;
+        this.username = ""
     }
 
     scope:ng.IScope;
@@ -456,6 +458,8 @@ class CommentsController {
     isEdit:boolean;
     editcomment:string;
     editindex:number;
+    is_super:boolean;
+    username:string;
 
     private http:HttpHandlerService;
 
@@ -467,8 +471,10 @@ class CommentsController {
         this.http.useGetHandler(data).then((data) => this.comments = data.comments);
     }
 
-    public init(id) {
+    public init(id, username, is_super) {
         this.publication_id = id;
+        this.username = username;
+        this.is_super = is_super;
         this.getComments();
     }
 
@@ -506,7 +512,9 @@ class CommentsController {
         this.editcomment = text;
         this.editindex = index;
         if (isOk) {
-            this.http.handlerUrl = "vote/";
+            this.http.handlerUrl = "createcomment/";
+            this.http.usePostHandler($.param({comment: id, text: text, edit: true}));
+            //.then((data) => this.applyVote(data));
         }
         this.isEdit = value;
     }
