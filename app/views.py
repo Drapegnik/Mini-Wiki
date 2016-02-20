@@ -130,11 +130,11 @@ class GetProfile(View):
         achievements = []
         for elem in achievements_id:
             achievements.append(
-                    Achievement.objects.filter(id=elem['achievement']).values('name', 'description', 'picture',
-                                                                              'created_at')[0])
+                    Achievement.objects.filter(id=elem['achievement']).values('name', 'description', 'picture','id')[0])
         print(achievements)
         for elem in achievements:
             elem['description'] = _(elem['description'])
+            elem['created_at'] = UsersAchievement.objects.get(user=profile[0]['id'],achievement=elem['id']).created_at
         return JsonResponse(dict(profile=profile, achievements=achievements))
 
 

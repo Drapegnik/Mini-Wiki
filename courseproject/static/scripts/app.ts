@@ -378,7 +378,7 @@ class PreviewController extends DragAndDrop {
         this.header = prev_data[0].header;
         this.description = prev_data[0].description;
         angular.element('#editor')[0].textContent = prev_data[0].body;
-        this.destination.attr('style', prev_data[0].image);
+        this.destination.attr('src', prev_data[0].image);
         //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
         var tags = [];
         var tagsSpited = prev_data[0].tag.split(", ");
