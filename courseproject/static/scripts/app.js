@@ -361,15 +361,16 @@ var PreviewController = (function (_super) {
 })(DragAndDrop);
 var CommentsController = (function () {
     function CommentsController($scope, $http, $interval) {
+        var _this = this;
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
         this.comments = [];
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        /* this.interval(() => {
-             this.getComments();
-         }, 1500);*/
+        this.interval(function () {
+            _this.getComments();
+        }, 1500);
         this.isEdit = false;
         this.editcomment = "";
         this.editindex = -1;
@@ -391,7 +392,7 @@ var CommentsController = (function () {
         this.username = username;
         this.is_super = is_super;
         this.rate = rate;
-        if (like != null)
+        if (like != 'None')
             this.like = like == 'True' ? true : false;
         else
             this.like = null;

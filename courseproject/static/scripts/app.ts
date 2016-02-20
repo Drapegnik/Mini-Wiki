@@ -454,9 +454,9 @@ class CommentsController {
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-       /* this.interval(() => {
+        this.interval(() => {
             this.getComments();
-        }, 1500);*/
+        }, 1500);
         this.isEdit = false;
         this.editcomment = "";
         this.editindex = -1;
@@ -496,7 +496,7 @@ class CommentsController {
         this.username = username;
         this.is_super = is_super;
         this.rate = rate;
-        if(like != null)
+        if(like != 'None')
             this.like = like == 'True' ? true : false;
         else
             this.like = null;
