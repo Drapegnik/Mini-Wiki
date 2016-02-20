@@ -361,16 +361,15 @@ var PreviewController = (function (_super) {
 })(DragAndDrop);
 var CommentsController = (function () {
     function CommentsController($scope, $http, $interval) {
-        var _this = this;
         this.http = new HttpHandlerService($http);
         this.scope = $scope;
         this.comments = [];
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-        this.interval(function () {
-            _this.getComments();
-        }, 1500);
+        /* this.interval(() => {
+             this.getComments();
+         }, 1500);*/
         this.isEdit = false;
         this.editcomment = "";
         this.editindex = -1;
@@ -387,11 +386,15 @@ var CommentsController = (function () {
         this.http.handlerUrl = "comments/";
         this.http.useGetHandler(data).then(function (data) { return _this.comments = data.comments; });
     };
-    CommentsController.prototype.init = function (id, username, is_super, rate) {
+    CommentsController.prototype.init = function (id, username, is_super, rate, like) {
         this.publication_id = id;
         this.username = username;
         this.is_super = is_super;
         this.rate = rate;
+        if (like != null)
+            this.like = like == 'True' ? true : false;
+        else
+            this.like = null;
         this.getComments();
     };
     CommentsController.prototype.submit = function (publication_id) {
@@ -435,26 +438,33 @@ var CommentsController = (function () {
             })).then(function (data) { return _this.applyPublicationVote(data); });
     };
     CommentsController.prototype.applyPublicationVote = function (data) {
+        console.log(data.like);
         if (this.like !== null) {
             if (this.like == true)
                 if (this.like == data.like) {
+                    console.log('1');
                     this.rate -= 1;
                 }
                 else {
+                    console.log('2');
                     this.rate -= 2;
                 }
             else if (this.like == data.like) {
+                console.log('3');
                 this.rate += 1;
             }
             else {
+                console.log('4');
                 this.rate += 2;
             }
             this.like = this.like == data.like ? null : data.like;
         }
         else {
+            console.log('5');
             this.rate += data.like ? 1 : -1;
             this.like = data.like;
         }
+        console.log(this.like);
     };
     CommentsController.prototype.edit = function (value, isOk, text, index, id) {
         var _this = this;

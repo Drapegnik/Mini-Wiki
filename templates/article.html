@@ -5,7 +5,7 @@
         {% include template %}
     </div>
     <div ng-controller="CommentsController as ctrl"
-         ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}', {{ publication.rate }},{{ like }})"
+         ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}', {{ publication.rate }},'{{ like }}')"
          class="col-md-12" id="commentsblock">
         <div class="col-md-2 well well-sm text-center">
             <span style="padding-right: 10px">
