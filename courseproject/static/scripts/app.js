@@ -361,6 +361,8 @@ var CommentsController = (function () {
         this.isEdit = false;
         this.editcomment = "";
         this.editindex = -1;
+        this.is_super = false;
+        this.username = "";
     }
     CommentsController.prototype.getComments = function () {
         var _this = this;
@@ -370,8 +372,10 @@ var CommentsController = (function () {
         this.http.handlerUrl = "comments/";
         this.http.useGetHandler(data).then(function (data) { return _this.comments = data.comments; });
     };
-    CommentsController.prototype.init = function (id) {
+    CommentsController.prototype.init = function (id, username, is_super) {
         this.publication_id = id;
+        this.username = username;
+        this.is_super = is_super;
         this.getComments();
     };
     CommentsController.prototype.submit = function (publication_id) {
@@ -407,7 +411,8 @@ var CommentsController = (function () {
         this.editcomment = text;
         this.editindex = index;
         if (isOk) {
-            this.http.handlerUrl = "vote/";
+            this.http.handlerUrl = "createcomment/";
+            this.http.usePostHandler($.param({ comment: id, text: text, edit: true }));
         }
         this.isEdit = value;
     };

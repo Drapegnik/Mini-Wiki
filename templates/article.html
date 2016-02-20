@@ -6,7 +6,7 @@
     </div>
     <div id="commentsblock">
         <div class="col-md-8 col-md-offset-2" ng-controller="CommentsController as ctrl"
-             ng-init="ctrl.init('{{ publication.id }}')">
+             ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}')">
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
                 <div class="panel-body">
@@ -49,16 +49,20 @@
                                 {% endverbatim %}
                             </li>
                         {% endif %}
-                        {% if user.is_superuser %}
-                            {% verbatim %}
-                            <a ng-hide="ctrl.isEdit" ng-click="ctrl.edit(true, false, comment.text, $index, comment.id)" href=""><i
+                        {% verbatim %}
+                        <span ng-show=" comment.author ==  ctrl.username  ||  ctrl.is_super  == 'True' ">
+                            <a ng-hide="ctrl.isEdit && ctrl.editindex == $index"
+                               ng-click="ctrl.edit(true, false, comment.text, $index, comment.id)" href=""><i
                                     style="font-size: 25px; color: #3498db;" class="fa fa-pencil pull-right"></i></a>
-                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, true, comment.text, $index, comment.id)" href=""><i
+                            <a ng-show="ctrl.isEdit && ctrl.editindex == $index"
+                               ng-click="ctrl.edit(false, true, comment.text, $index, comment.id)" href=""><i
                                     style="font-size: 25px; color: #18bc9c;" class="fa fa-check pull-right"></i></a>
-                            <a ng-show="ctrl.isEdit" ng-click="ctrl.edit(false, false, comment.text, $index, comment.id)" href=""><i
+                            <a ng-show="ctrl.isEdit && ctrl.editindex == $index"
+                               ng-click="ctrl.edit(false, false, comment.text, $index, comment.id)" href=""><i
                                     style="font-size: 25px; color: #e74c3c;" class="fa fa-times pull-right"></i></a>
-                            {% endverbatim %}
-                        {% endif %}
+
+                        </span>
+                        {% endverbatim %}
                     </ul>
 
                 </div>
