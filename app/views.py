@@ -311,7 +311,7 @@ class VotesController(View):
         if author.karma >= 100:
             author.set_achievement("hundred")
         if id.author == request.user and like:
-            author.set_achievement("selfLike")
+            author.set_achievement("like_youself")
         author.save()
         return JsonResponse(dict(like=like, target=id.id))
 
