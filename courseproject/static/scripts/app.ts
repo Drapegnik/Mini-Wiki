@@ -325,7 +325,7 @@ class PreviewController extends DragAndDrop {
         this.date = new Date();
         this.tagstring = "";
         this.sending = false;
-        this.save_as=0;
+        this.save_as = 0;
     }
 
 
@@ -351,27 +351,25 @@ class PreviewController extends DragAndDrop {
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
         this.category = "Biology";
-        if(prev_data.length != 0)
-        {
+        if (prev_data.length != 0) {
             this.fillPrevData(prev_data)
         }
     }
 
-    fillPrevData(prev_data:any)
-    {
+    fillPrevData(prev_data:any) {
         this.header = prev_data[0].header;
         this.description = prev_data[0].description;
         angular.element('#editor')[0].textContent = prev_data[0].body;
-        this.destination.attr('style',prev_data[0].image);
-      //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
+        this.destination.attr('style', prev_data[0].image);
+        //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
         var tags = [];
         var tagsSpited = prev_data[0].tag.split(", ");
         for (var iter in tagsSpited)
-                tags.push({text:tagsSpited[iter]})
+            tags.push({text: tagsSpited[iter]})
         this.tags = tags;
         this.category = prev_data[0].category;
-        this.save_as= prev_data[0].id;
-        this.isBlank = [false,false,false]
+        this.save_as = prev_data[0].id;
+        this.isBlank = [false, false, false]
     }
 
     public ShowPublication() {
@@ -396,7 +394,7 @@ class PreviewController extends DragAndDrop {
                 body: body,
                 template_id: template_id,
                 image: this.destination.attr('src'),
-                save_as:this.save_as
+                save_as: this.save_as
             });
             this.http.handlerUrl = "makepublication/";
             this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
@@ -482,7 +480,8 @@ class CommentsController {
         if (!this.isBlank) {
             var data = $.param({
                 publication_id: publication_id,
-                text: this.text
+                text: this.text,
+                edit: false
             });
             this.http.handlerUrl = "createcomment/";
             this.http.usePostHandler(data).then((data) => this.getComments());
@@ -509,12 +508,17 @@ class CommentsController {
     }
 
     public edit(value, isOk, text, index, id) {
-        this.editcomment = text;
         this.editindex = index;
-        if (isOk) {
+        if (isOk && !($.trim(this.editcomment).length == 0)) {
             this.http.handlerUrl = "createcomment/";
-            this.http.usePostHandler($.param({comment: id, text: text, edit: true}));
-            //.then((data) => this.applyVote(data));
+            this.http.usePostHandler($.param({
+                comment: id,
+                text: this.editcomment,
+                edit: true
+            })).then((data) => this.getComments());
+        }
+        else {
+            this.editcomment = text;
         }
         this.isEdit = value;
     }
