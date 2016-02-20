@@ -6,7 +6,30 @@
     </div>
     <div id="commentsblock">
         <div class="col-md-8 col-md-offset-2" ng-controller="CommentsController as ctrl"
-             ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}')">
+             ng-init="ctrl.init('{{ publication.id }}', '{{ request.user.username }}', '{{ is_super }}', {{ publication.rate }},{{ like }})">
+            {% if user.is_authenticated %}
+
+                <a href="" ng-click="ctrl.vote(0,'True',ctrl.publication_id)" ng-cloak
+                   ng-hide="(ctrl.like == true)"><i style="font-size: 18px; color: #18bc9c;"
+                                                    class="fa fa-thumbs-up"></i></a>
+                <a href="" ng-click="ctrl.vote(0,'True',ctrl.publication_id)" ng-cloak
+                   ng-show="(ctrl.like == true)"><i style="font-size: 25px; color: #e74c3c;"
+                                                    class="fa fa-thumbs-up"></i></a>
+                <a href="" ng-click="ctrl.vote(0,'False', ctrl.publication_id)" ng-cloak
+                   ng-hide="(ctrl.like == false)"><i style="font-size: 18px; color: #18bc9c;"
+                                                     class="fa fa-thumbs-down"></i></a>
+                <a href="" ng-click="ctrl.vote(0,'False',ctrl.publication_id)" ng-cloak
+                   ng-show="(ctrl.like == false)"><i style="font-size: 25px; color: #e74c3c;"
+                                                     class="fa fa-thumbs-down"></i></a>
+
+            {% endif %}
+
+        {% verbatim %}
+            <span ng-show="ctrl.rate > 0" class="badge plus">+{{ ctrl.rate }}</span>
+            <span ng-show="ctrl.rate == 0" class="badge nul">{{ ctrl.rate }}</span>
+            <span ng-show="ctrl.rate < 0" class="badge minus">{{ ctrl.rate }}</span>
+        {% endverbatim %}
+
             <div ng-repeat="comment in ctrl.comments track by $index" class="comment panel panel-default">
                 {% verbatim %}
                 <div class="panel-body">

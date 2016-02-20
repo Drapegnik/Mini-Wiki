@@ -172,10 +172,14 @@ class ShowPublication(View):
             'image': publication.image,
             'publication': publication,
             'author_id': Account.objects.get(username=publication.author).id,
-            'is_super': request.user.is_superuser
+            'is_super': request.user.is_superuser,
         }
+        try:
+            like = PublicationVote.objects.get(target_id=publication_id).like
+        except PublicationVote.DoesNotExist:
+            like = None
+        context_dict['like'] = like;
         return render(request, 'article.html', context_dict)
-
 
 class GetTags(View):
     @staticmethod

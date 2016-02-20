@@ -325,7 +325,7 @@ class PreviewController extends DragAndDrop {
         this.date = new Date();
         this.tagstring = "";
         this.sending = false;
-        this.save_as=0;
+        this.save_as = 0;
     }
 
 
@@ -351,27 +351,25 @@ class PreviewController extends DragAndDrop {
         this.htmlcontent = angular.element(htmlcontentId);
         this.init(dropzone, target);
         this.category = "Biology";
-        if(prev_data.length != 0)
-        {
+        if (prev_data.length != 0) {
             this.fillPrevData(prev_data)
         }
     }
 
-    fillPrevData(prev_data:any)
-    {
+    fillPrevData(prev_data:any) {
         this.header = prev_data[0].header;
         this.description = prev_data[0].description;
         angular.element('#editor')[0].textContent = prev_data[0].body;
-        this.destination.attr('style',prev_data[0].image);
-      //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
+        this.destination.attr('style', prev_data[0].image);
+        //  this.destination.attr('style', 'background-image: url('+prev_data[0].image+');');
         var tags = [];
         var tagsSpited = prev_data[0].tag.split(", ");
         for (var iter in tagsSpited)
-                tags.push({text:tagsSpited[iter]})
+            tags.push({text: tagsSpited[iter]})
         this.tags = tags;
         this.category = prev_data[0].category;
-        this.save_as= prev_data[0].id;
-        this.isBlank = [false,false,false]
+        this.save_as = prev_data[0].id;
+        this.isBlank = [false, false, false]
     }
 
     public ShowPublication() {
@@ -396,7 +394,7 @@ class PreviewController extends DragAndDrop {
                 body: body,
                 template_id: template_id,
                 image: this.destination.attr('src'),
-                save_as:this.save_as
+                save_as: this.save_as
             });
             this.http.handlerUrl = "makepublication/";
             this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
@@ -445,7 +443,9 @@ class CommentsController {
         this.editcomment = "";
         this.editindex = -1;
         this.is_super = false;
-        this.username = ""
+        this.username = "";
+        this.rate = 0;
+        this.like = null;
     }
 
     scope:ng.IScope;
@@ -460,6 +460,8 @@ class CommentsController {
     editindex:number;
     is_super:boolean;
     username:string;
+    rate:number;
+    like:boolean;
 
     private http:HttpHandlerService;
 
@@ -471,10 +473,11 @@ class CommentsController {
         this.http.useGetHandler(data).then((data) => this.comments = data.comments);
     }
 
-    public init(id, username, is_super) {
+    public init(id, username, is_super, rate) {
         this.publication_id = id;
         this.username = username;
         this.is_super = is_super;
+        this.rate = rate;
         this.getComments();
     }
 
@@ -503,9 +506,42 @@ class CommentsController {
             this.isBlank = false;
     }
 
-    public vote(comment_id:number, like:string) {
+    public vote(comment_id:number, like:string, publication_id:number = 0) {
         this.http.handlerUrl = "vote/";
-        this.http.usePostHandler($.param({comment: comment_id, like: like})).then((data) => this.applyVote(data));
+        if (comment_id)
+            this.http.usePostHandler($.param({
+                comment: comment_id,
+                like: like
+            })).then((data) => this.applyCommentVote(data));
+        else
+            this.http.usePostHandler($.param({
+                publication: publication_id,
+                like: like
+            })).then((data) => this.applyPublicationVote(data));
+    }
+
+    private applyPublicationVote(data) {
+        console.log(data)
+        if (this.like !== null) {
+            if (this.like == true)
+                if (this.like == data.like) {
+                    this.rate -= 1;
+                }
+                else {
+                    this.rate -= 2;
+                }
+            else if (this.like == data.like) {
+                this.rate += 1;
+            }
+            else {
+                this.rate += 2;
+            }
+            this.like = this.like == data.like ? null : data.like;
+        }
+        else {
+            this.rate += data.like ? 1 : -1;
+            this.like = data.like;
+        }
     }
 
     public edit(value, isOk, text, index, id) {
@@ -519,7 +555,7 @@ class CommentsController {
         this.isEdit = value;
     }
 
-    private applyVote(data) {
+    private applyCommentVote(data) {
         var comments = this.comments.filter(function (obj) {
             return obj.id == data.target;
         })[0];
