@@ -271,6 +271,7 @@ var PreviewController = (function (_super) {
         this.tagstring = "";
         this.sending = false;
         this.save_as = 0;
+        this.tagIncorrect = true;
     }
     PreviewController.prototype.initPreview = function (htmlcontentId, dropzone, target, prev_data) {
         if (prev_data === void 0) { prev_data = []; }
@@ -280,6 +281,12 @@ var PreviewController = (function (_super) {
         if (prev_data.length != 0) {
             this.fillPrevData(prev_data);
         }
+    };
+    PreviewController.prototype.checkTags = function () {
+        if (this.tags.length < 3 || this.tags.length > 5)
+            this.tagIncorrect = true;
+        else
+            this.tagIncorrect = false;
     };
     PreviewController.prototype.fillPrevData = function (prev_data) {
         this.header = prev_data[0].header;
@@ -295,6 +302,7 @@ var PreviewController = (function (_super) {
         this.category = prev_data[0].category;
         this.save_as = prev_data[0].id;
         this.isBlank = [false, false, false];
+        this.tagIncorrect = false;
     };
     PreviewController.prototype.ShowPublication = function () {
         this.htmlcontent = this.$sce.trustAsHtml(CKEDITOR.instances.editor.getData());
@@ -304,7 +312,7 @@ var PreviewController = (function (_super) {
     };
     PreviewController.prototype.submit = function (template_id) {
         var _this = this;
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending)) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending || this.tagIncorrect)) {
             this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
             for (var iter in this.tags)

@@ -326,6 +326,7 @@ class PreviewController extends DragAndDrop {
         this.tagstring = "";
         this.sending = false;
         this.save_as = 0;
+        this.tagIncorrect = true;
     }
 
 
@@ -340,6 +341,7 @@ class PreviewController extends DragAndDrop {
     errors:any;
     input:ng.IAugmentedJQuery;
     isBlank:Array<boolean> = [true, true, false];
+    tagIncorrect:boolean;
     date:Date;
     autotags:any;
     tagstring:string;
@@ -356,6 +358,13 @@ class PreviewController extends DragAndDrop {
         }
     }
 
+    private checkTags(){
+        if( this.tags.length < 3|| this.tags.length>5)
+            this.tagIncorrect = true;
+        else
+            this.tagIncorrect = false;
+    }
+
     fillPrevData(prev_data:any) {
         this.header = prev_data[0].header;
         this.description = prev_data[0].description;
@@ -369,7 +378,8 @@ class PreviewController extends DragAndDrop {
         this.tags = tags;
         this.category = prev_data[0].category;
         this.save_as = prev_data[0].id;
-        this.isBlank = [false, false, false]
+        this.isBlank = [false, false, false];
+        this.tagIncorrect = false;
     }
 
     public ShowPublication() {
@@ -381,7 +391,7 @@ class PreviewController extends DragAndDrop {
     }
 
     public submit(template_id) {
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending)) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending||this.tagIncorrect)) {
             this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
             for (var iter in this.tags)
@@ -398,7 +408,6 @@ class PreviewController extends DragAndDrop {
             });
             this.http.handlerUrl = "makepublication/";
             this.http.usePostHandler(data).then((data)=>this.checkResponse(data));
-
         }
     }
 
@@ -562,7 +571,7 @@ class CommentsController {
     }
 
     public deleteComment(id:string) {
-        this.http.handlerUrl = "/deleteComment/" + id+'/'
+        this.http.handlerUrl = "/deleteComment/" + id + '/'
         this.http.usePostHandler({}).then(()=>this.getComments());
     }
 

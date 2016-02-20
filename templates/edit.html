@@ -60,7 +60,9 @@
                                         id="id_tags" max-length="15"
                                         min-tags="3"
                                         max-tags="5"
-                                        placeholder="{% trans 'three at least, five maximum' %}">
+                                        placeholder="{% trans 'three at least, five maximum' %}"
+                                        on-tag-removed="ctrl.checkTags()"
+                                        on-tag-added="ctrl.checkTags()">
                                 <auto-complete source="ctrl.loadTags($query)"></auto-complete>
                             </tags-input>
                         </div>
@@ -92,7 +94,7 @@
                     <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
                        data-target="#previewzona" class="btn btn-warning">{% trans 'Preview' %}</a>
                     <a class="btn btn-success"
-                       ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2] || ctrl.sending"
+                       ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.isBlank[2] || ctrl.sending||ctrl.tagIncorrect"
                        ng-click="ctrl.submit({{ template_id }})">{% trans 'Publish' %}</a>
                 </div>
                 <div class="col-md-3">
