@@ -48,7 +48,6 @@ var UserProfile = (function () {
     UserProfile.prototype.fillUserProfile = function (data) {
         this.profile = data.profile[0];
         this.achievements = data.achievements;
-        console.log(this.achievements);
     };
     return UserProfile;
 })();
@@ -98,7 +97,6 @@ var PublicationController = (function () {
     };
     PublicationController.prototype.init = function (username) {
         if (username === void 0) { username = ""; }
-        console.log(username);
         this.setFilter(0, username);
     };
     PublicationController.prototype.fillPublication = function (data) {
@@ -437,7 +435,6 @@ var CommentsController = (function () {
             })).then(function (data) { return _this.applyPublicationVote(data); });
     };
     CommentsController.prototype.applyPublicationVote = function (data) {
-        console.log(data);
         if (this.like !== null) {
             if (this.like == true)
                 if (this.like == data.like) {

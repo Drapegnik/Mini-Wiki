@@ -57,7 +57,6 @@ class UserProfile {
     public fillUserProfile(data:any) {
         this.profile = data.profile[0];
         this.achievements = data.achievements;
-        console.log(this.achievements)
     }
 
 }
@@ -123,7 +122,6 @@ class PublicationController {
     }
 
     public init(username:string = "") {
-        console.log(username)
         this.setFilter(0, username)
     }
 
@@ -542,7 +540,6 @@ class CommentsController {
     }
 
     private applyPublicationVote(data) {
-        console.log(data);
         if (this.like !== null) {
             if (this.like == true)
                 if (this.like == data.like) {
