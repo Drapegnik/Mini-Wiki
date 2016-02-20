@@ -61,6 +61,7 @@ var PublicationController = (function () {
         this.userProfile = new UserProfile($http);
         this.currentFilter = {};
         this.busy = true;
+        this.noPost = true;
     }
     PublicationController.prototype.setFilter = function (categoryId, username, tag, sortBy) {
         if (categoryId === void 0) { categoryId = 0; }
@@ -107,6 +108,10 @@ var PublicationController = (function () {
         }
         if (data.publications.length != 0)
             this.busy = false;
+        if (this.publications.length == 0)
+            this.noPost = true;
+        else
+            this.noPost = false;
     };
     PublicationController.prototype.getPublications = function (range_first, range_last) {
         var _this = this;

@@ -73,6 +73,7 @@ class PublicationController {
         this.userProfile = new UserProfile($http);
         this.currentFilter = {};
         this.busy = true;
+        this.noPost = true;
     }
 
     scope:ng.IScope;
@@ -83,6 +84,7 @@ class PublicationController {
     tagSearch:boolean;
     currentFilter:any;
     busy:boolean;
+    noPost:boolean;
 
     private http:HttpHandlerService;
 
@@ -100,6 +102,7 @@ class PublicationController {
         };
         this.publications = [];
         this.getPublications(0, 4);
+
     }
 
     public setSort(sort_by:string) {
@@ -131,6 +134,11 @@ class PublicationController {
         }
         if (data.publications.length != 0)
             this.busy = false;
+
+        if (this.publications.length == 0)
+            this.noPost = true;
+        else
+            this.noPost = false;
     }
 
     private getPublications(range_first:number, range_last:number) {
@@ -358,8 +366,8 @@ class PreviewController extends DragAndDrop {
         }
     }
 
-    private checkTags(){
-        if( this.tags.length < 3|| this.tags.length>5)
+    private checkTags() {
+        if (this.tags.length < 3 || this.tags.length > 5)
             this.tagIncorrect = true;
         else
             this.tagIncorrect = false;
@@ -391,7 +399,7 @@ class PreviewController extends DragAndDrop {
     }
 
     public submit(template_id) {
-        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending||this.tagIncorrect)) {
+        if (!(this.isBlank[0] || this.isBlank[1] || this.isBlank[2] || this.sending || this.tagIncorrect)) {
             this.sending = true;
             var body = CKEDITOR.instances.editor.getData();
             for (var iter in this.tags)

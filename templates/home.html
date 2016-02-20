@@ -117,7 +117,9 @@
                     </div>
                 </div>
             </div>
+<h1 ng-cloak ng-show="ctrl.noPost" >{% trans 'Sorry, still no post Here' %} </h1>
             <div class="publ col-md-8 pull-right" ng-repeat="publication in ctrl.publications track by $index">
+
                 {% verbatim %}
                 <div class="panel panel-success">
                     <div class="panel-heading">
