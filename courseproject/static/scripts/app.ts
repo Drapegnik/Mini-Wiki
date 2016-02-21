@@ -491,7 +491,7 @@ class CommentsController {
         this.http.useGetHandler(data).then((data) => this.comments = data.comments);
     }
 
-    public init(id, username, is_super, rate,like:string) {
+    public init(id, username, is_super, rate, like:string) {
         this.publication_id = id;
         this.username = username;
         this.is_super = is_super;
