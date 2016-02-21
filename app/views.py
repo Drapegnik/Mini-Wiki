@@ -2,7 +2,7 @@ import itertools
 import random
 from ast import literal_eval
 
-from cloudinary import uploader
+from cloudinary import uploader, CloudinaryImage
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
@@ -130,11 +130,11 @@ class GetProfile(View):
         achievements = []
         for elem in achievements_id:
             achievements.append(
-                    Achievement.objects.filter(id=elem['achievement']).values('name', 'description', 'picture','id')[0])
-        print(achievements)
+                    Achievement.objects.filter(id=elem['achievement']).values('name', 'description', 'picture', 'id')[
+                        0])
         for elem in achievements:
             elem['description'] = _(elem['description'])
-            elem['created_at'] = UsersAchievement.objects.get(user=profile[0]['id'],achievement=elem['id']).created_at
+            elem['created_at'] = UsersAchievement.objects.get(user=profile[0]['id'], achievement=elem['id']).created_at
         return JsonResponse(dict(profile=profile, achievements=achievements))
 
 
@@ -240,8 +240,7 @@ class MakePublication(View):
             obj = MakePublication.update_publication(data['save_as'][0], data, category)
         p_id = 'p' + str(obj.id)
         if (data['image'][0]):
-            uploader.destroy(p_id, invalidate=True)
-            obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
+                obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
         obj.save()
         return JsonResponse(dict(redirect=reverse('show', args=[obj.id])))
 
@@ -270,7 +269,6 @@ class GetComments(View):
 class CreateComment(View):
     @staticmethod
     def post(request, *args, **kwargs):
-        print(request.POST)
         data = dict(request.POST)
         if literal_eval(data['edit'][0]):
             obj = Comment.objects.get(id=data['comment'][0])

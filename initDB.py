@@ -11,7 +11,7 @@ themes = {"Light": "https://bootswatch.com/flatly/bootstrap.min.css",
 languages = {"English": "en-us", "Russian": "ru"}
 
 templates = [{"Template1": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455957202/Template1.png"},
-             {"Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455957313/Template2.png"},
+             {"Template2": "http://res.cloudinary.com/ddde4c88o/image/upload/v1456074286/Template2.png"},
              {"Template3": "http://res.cloudinary.com/ddde4c88o/image/upload/v1455956561/Template3.png"}]
 
 achievements = {"hundred": ["http://res.cloudinary.com/ddde4c88o/image/upload/v1455719879/badge_l_dhjrve.png",

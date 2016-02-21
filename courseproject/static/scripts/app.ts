@@ -429,7 +429,7 @@ class PreviewController extends DragAndDrop {
         if ($.trim(this.input.val()).length == 0) {
             this.input.val("");
             var mes = this.input.attr("name");
-            this.input.attr("placeholder", mes + " can't be blank");
+            this.input.attr("placeholder", gettext(mes + " can't be blank"));
             this.input.addClass("holdcol");
             this.isBlank[index] = true;
         }
@@ -520,9 +520,8 @@ class CommentsController {
         this.input = angular.element(id);
         if ($.trim(this.input.val()).length == 0) {
             this.input.val("");
-            this.input.attr("placeholder", "Comment can't be empty");
+            this.input.attr("placeholder", gettext("Comment can't be empty"));
             this.input.addClass("holdcol");
-            //angular.element(id.concat('_tab')).addClass("has-error");
             this.isBlank = true;
         }
         else

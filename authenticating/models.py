@@ -32,11 +32,11 @@ class AccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-    username = models.CharField(max_length=254, unique=True)
-    email = models.EmailField(max_length=254, blank=True, unique=True)
-    location = models.CharField(max_length=140, blank=True)
-    gender = models.CharField(max_length=140, blank=True)
-    about = models.CharField(max_length=500, blank=True)
+    username = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(max_length=50, blank=True, unique=True)
+    location = models.CharField(max_length=50, blank=True)
+    gender = models.CharField(max_length=10, blank=True)
+    about = models.CharField(max_length=100, blank=True)
     photo = models.URLField(blank=True)
     theme = models.ForeignKey(Theme, default=1)
     language = models.ForeignKey(Language, default=1)

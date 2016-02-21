@@ -21,7 +21,7 @@
                         <div class="col-md-6">
                             <input ng-model="ctrl.header" ng-change="ctrl.inputChange('#id_header', 0)" ng-trim="false"
                                    type="text" class="form-control" id="id_header"
-                                   maxlength="254" name="header" placeholder="{% trans 'you header' %}"/>
+                                   maxlength="100" name="header" placeholder="{% trans 'you header' %}"/>
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                 <textarea ng-change="ctrl.inputChange('#id_description', 1)" ng-trim="false" ng-model="ctrl.description"
                           class="form-control" id="id_description" type="text"
-                          name="description" placeholder="{% trans 'you description' %}" maxlength="300"></textarea>
+                          name="description" placeholder="{% trans 'you description' %}" maxlength="500"></textarea>
                         </div>
                     </div>
 
@@ -93,7 +93,7 @@
                     });
                 </script>
                 <div class="editbuttongroup col-md-12">
-                    <div class="col-md-4">
+                    <div class="col-md-4" ng-show="!ctrl.sending">
                         <a href="#" class="btn btn-danger">{% trans 'Cancel' %}</a>
                         <a ng-click="ctrl.ShowPublication()" data-toggle="collapse"
                            data-target="#previewzona" class="btn btn-warning">{% trans 'Preview' %}</a>
@@ -101,9 +101,7 @@
                            ng-disabled="ctrl.isBlank[0] || ctrl.isBlank[1] || ctrl.sending || ctrl.tagIncorrect"
                            ng-click="ctrl.submit({{ template_id }})">{% trans 'Publish' %}</a>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-5">
+                    <div class="col-md-12">
                         <div style="margin-top: 10px" ng-cloak ng-show="ctrl.sending"
                              class="progress progress-striped active">
                             <div class="progress-bar" style="width: 100%">{% trans 'loading ' %}</div>
@@ -112,6 +110,5 @@
                 </div>
             </div>
         </form>
-    </div>
     </div>
 {% endblock %}

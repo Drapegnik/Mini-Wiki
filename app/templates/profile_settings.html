@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label for="id_username" class="col-lg-4 control-label">{% trans 'User' %}:</label>
                 <div class="col-lg-8">
-                    <input type="text" disabled class="form-control" id="id_username" maxlength="254"
+                    <input type="text" disabled class="form-control" id="id_username" maxlength="20"
                            name="username"
                            placeholder="{% trans 'User' %}" value="{{ user.username }}"/>
                 </div>
@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label for="id_email" class="col-lg-4 control-label">Email:</label>
                 <div class="col-lg-8">
-                    <input class="form-control" id="id_email" disabled maxlength="254" name="email" type="email"
+                    <input class="form-control" id="id_email" disabled maxlength="50" name="email" type="email"
                            placeholder="Email" value="{{ user.email }}"/>
                 </div>
             </div>
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="id_location" class="col-lg-4 control-label">{% trans 'Location' %}:</label>
                 <div class="col-lg-8">
-                    <input class="form-control" id="id_location" maxlength="140" name="location"
+                    <input class="form-control" id="id_location" maxlength="50" name="location"
                            placeholder="{% trans 'Location' %}" value="{{ user.location }}" type="text"/>
                 </div>
             </div>
@@ -79,7 +79,7 @@
             <div class="form-group">
                 <label for="id_about" class="col-lg-4 control-label">{% trans 'About' %}:</label>
                 <div class="col-lg-8">
-                    <textarea class="form-control" id="id_about" maxlength="500" name="about"
+                    <textarea class="form-control" id="id_about" maxlength="100" name="about"
                               placeholder="{% trans 'About' %}">{{ user.about }}</textarea>
                 </div>
             </div>

@@ -1,5 +1,5 @@
-from django.views.generic import TemplateView
-from django.conf.urls import url, include
+from django.views.i18n import javascript_catalog
+from django.conf.urls import url
 from app.views import *
 
 urlpatterns = [
@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'search/', MySearchView(), name='search'),
     url(r'deletePublication/(?P<publication_id>\d+)/$', DeletePublication.as_view(), name='delete'),
     url(r'deleteComment/(?P<comment_id>\d+)/$', DeleteComment.as_view()),
+    url(r'^jsi18n/$', javascript_catalog),
 ]
