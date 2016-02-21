@@ -179,10 +179,11 @@ class ShowPublication(View):
             'author_id': Account.objects.get(username=publication.author).id,
             'is_super': request.user.is_superuser,
         }
-        try:
-            like = PublicationVote.objects.get(target_id=publication_id, user=request.user).like
-        except PublicationVote.DoesNotExist:
-            like = None
+        if request.user.is_authenticated:
+            try:
+                like = PublicationVote.objects.get(target_id=publication_id, user=request.user).like
+            except PublicationVote.DoesNotExist:
+                like = None
         context_dict['like'] = like
         return render(request, 'article.html', context_dict)
 

@@ -454,9 +454,9 @@ class CommentsController {
         this.isBlank = true;
         this.text = "";
         this.interval = $interval;
-       /* this.interval(() => {
+        this.interval(() => {
             this.getComments();
-        }, 1500);*/
+        }, 1500);
         this.isEdit = false;
         this.editcomment = "";
         this.editindex = -1;
@@ -491,12 +491,13 @@ class CommentsController {
         this.http.useGetHandler(data).then((data) => this.comments = data.comments);
     }
 
-    public init(id, username, is_super, rate,like:string) {
+    public init(id, username, is_super, rate, like:string) {
         this.publication_id = id;
         this.username = username;
         this.is_super = is_super;
         this.rate = rate;
-        if(like != null)
+        console.log(like);
+        if (like != "None")
             this.like = like == 'True' ? true : false;
         else
             this.like = null;
