@@ -392,8 +392,7 @@ var CommentsController = (function () {
         this.username = username;
         this.is_super = is_super;
         this.rate = rate;
-        console.log(like);
-        if (like != "None")
+        if (like != 'None')
             this.like = like == 'True' ? true : false;
         else
             this.like = null;
