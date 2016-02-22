@@ -25,8 +25,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2" ng-cloak ng-show="!ctrl.viewProfile">
-            <div class="panel panel-success">
+        <div class="col-md-3" ng-cloak ng-show="!ctrl.viewProfile">
+            <div class="panel panel-success text-center">
                 <div class="panel-heading">
                     <h3 class="panel-title">{% trans 'Categories' %}</h3>
                 </div>
@@ -130,15 +130,19 @@
                         </a>
                     </div>
                     <div class="panel-body">
-                        <a href="/articles/{{ publication.id }}">
+                        <div><a href="/articles/{{ publication.id }}">
                             <div ng-hide="{{ publication.template }}==3" class="col-md-6 text-center">
                                 <span class="imgRect2 img-thumbnail"
                                       style="background-image: url({{ publication.image }}); height: 200px; max-width: 350px"></span>
                                 </span>
                             </div>
-                        </a>
+                        </a></div>
 
-                        <div class="well col-md-6">
+                        <div ng-show="{{ publication.image }}" class="well col-md-6">
+                            {{ publication.description }}
+                        </div>
+
+                        <div ng-show="!'{{ publication.image }}'" class="well col-md-12">
                             {{ publication.description }}
                         </div>
 

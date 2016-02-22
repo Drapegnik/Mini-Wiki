@@ -543,33 +543,26 @@ class CommentsController {
     }
 
     private applyPublicationVote(data) {
-        console.log(data.like);
         if (this.like !== null) {
             if (this.like == true)
                 if (this.like == data.like) {
-                    console.log('1')
                     this.rate -= 1;
                 }
                 else {
-                    console.log('2')
                     this.rate -= 2;
                 }
             else if (this.like == data.like) {
-                console.log('3')
                 this.rate += 1;
             }
             else {
-                console.log('4')
                 this.rate += 2;
             }
             this.like = this.like == data.like ? null : data.like;
         }
         else {
-            console.log('5')
             this.rate += data.like ? 1 : -1;
             this.like = data.like;
         }
-        console.log(this.like)
     }
 
     public edit(value, isOk, text, index, id) {

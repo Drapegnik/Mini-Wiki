@@ -68,11 +68,12 @@ def normalize_publication(publication, user):
     publication['category'] = _(Category.objects.get(id=publication['category']).name)
     publication['author'] = Account.objects.get(id=publication['author']).username
     publication['comments_count'] = Comment.objects.filter(publication=publication['id']).count()
-    try:
-        vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
-        publication['like'] = vote.like
-    except PublicationVote.DoesNotExist:
-        pass
+    if user.is_authenticated():
+        try:
+            vote = PublicationVote.objects.get(target_id=publication['id'], user=user.id)
+            publication['like'] = vote.like
+        except PublicationVote.DoesNotExist:
+            pass
 
 
 def get_publications(request):
@@ -125,7 +126,7 @@ class GetProfile(View):
         profile = list(
                 Account.objects.filter(username=username).values('username', 'email', 'location', 'gender', 'about',
                                                                  'photo', 'karma', 'id'))
-
+        profile[0]['gender'] = _(profile[0]['gender'])
         achievements_id = UsersAchievement.objects.filter(user=profile[0]['id']).values('achievement')
         achievements = []
         for elem in achievements_id:
@@ -179,11 +180,12 @@ class ShowPublication(View):
             'author_id': Account.objects.get(username=publication.author).id,
             'is_super': request.user.is_superuser,
         }
-        if request.user.is_authenticated:
+        like = None
+        if request.user.is_authenticated():
             try:
                 like = PublicationVote.objects.get(target_id=publication_id, user=request.user).like
             except PublicationVote.DoesNotExist:
-                like = None
+              pass
         context_dict['like'] = like
         return render(request, 'article.html', context_dict)
 
@@ -230,7 +232,6 @@ class MakePublication(View):
 
     @staticmethod
     def post(request, *args, **kwargs):
-        print(request.POST)
         author = request.user
         data = dict(request.POST)
         category = Category.objects.get(name=data['category'][0])
@@ -241,7 +242,7 @@ class MakePublication(View):
             obj = MakePublication.update_publication(data['save_as'][0], data, category)
         p_id = 'p' + str(obj.id)
         if (data['image'][0]):
-                obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
+            obj.image = uploader.upload(data['image'][0], public_id=p_id, invalidate=True)['url']
         obj.save()
         return JsonResponse(dict(redirect=reverse('show', args=[obj.id])))
 
