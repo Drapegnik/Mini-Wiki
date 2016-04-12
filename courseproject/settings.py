@@ -25,9 +25,10 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '$qu71e3&tu8y%dzf7)o=0pkwxxq!cjgss$1buo0=y%d9vwum(d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = (
+    'drapegnik-wiki.herokuapp.com',
     'localhost',
     '127.0.0.1',
 )
