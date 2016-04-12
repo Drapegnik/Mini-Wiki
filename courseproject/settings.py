@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import dj_database_url
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -150,6 +151,9 @@ DATABASES = {
         'PORT': '',  # Set to empty string for default.
     }
 }
+
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 CLOUDINARY = {
     'cloud_name': 'ddde4c88o',
