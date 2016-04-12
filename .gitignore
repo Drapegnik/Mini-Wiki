@@ -8,10 +8,4 @@
 ;;directories to ignore
 .idea/
 courseproject/my.cnf
-courseproject/migrations/
-authenticating/migrations/
-app/migrations/
-courseproject/static/ckeditor/
-courseproject/static/scripts/app.js
-courseproject/static/scripts/app.js.map
 courseproject/whoosh_index
