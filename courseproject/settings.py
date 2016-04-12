@@ -144,11 +144,11 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'courseproject',
-        'USER': 'postgres',
-        'PASSWORD': 'dtkjcbgtl',
-        'HOST': '',  # Set to empty string for localhost.
-        'PORT': '',  # Set to empty string for default.
+        'NAME': 'devct1beufr8ol',
+        'USER': 'qtauzostskbpkb',
+        'PASSWORD': '81VtAfzkg6g4H5VLqj-EnDJwd_',
+        'HOST': 'ec2-54-163-254-148.compute-1.amazonaws.com',  # Set to empty string for localhost.
+        'PORT': '5432',  # Set to empty string for default.
     }
 }
 
