@@ -26,7 +26,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '$qu71e3&tu8y%dzf7)o=0pkwxxq!cjgss$1buo0=y%d9vwum(d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = (
     'drapegnik-wiki.herokuapp.com',
@@ -144,11 +144,11 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'devct1beufr8ol',
-        'USER': 'qtauzostskbpkb',
-        'PASSWORD': '81VtAfzkg6g4H5VLqj-EnDJwd_',
-        'HOST': 'ec2-54-163-254-148.compute-1.amazonaws.com',  # Set to empty string for localhost.
-        'PORT': '5432',  # Set to empty string for default.
+        'NAME': 'courseproject',  # 'devct1beufr8ol',
+        'USER': 'postgres',  # qtauzostskbpkb',
+        'PASSWORD': 'dtkjcbgtl',  # '81VtAfzkg6g4H5VLqj-EnDJwd_',
+        'HOST': '',  # 'ec2-54-163-254-148.compute-1.amazonaws.com',  # Set to empty string for localhost.
+        'PORT': '',  # '5432',  # Set to empty string for default.
     }
 }
 
@@ -206,9 +206,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
