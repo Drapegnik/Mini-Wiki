@@ -1,0 +1,31 @@
+.dropzona {
+    color: black; /*white;*/
+    font-family: Arial;
+    font-size: 20px;
+    text-align: center;
+    height: 165px;
+
+    background: #c1dcfb;
+    /*background: #4c515b;*/
+    border: 2px dashed black; /*white*/
+
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.dropzona.hover {
+    background: #ddd;
+    border-color: #c1dcfb;
+}
+
+.dropzona.error {
+    background: #faa;
+    border-color: #f00;
+}
+
+/*.dropzona.drop {*/
+    /*background: #afa;*/
+    /*border-color: #0f0;*/
+/*}*/

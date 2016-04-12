@@ -5,7 +5,7 @@
 <head>
     {% load staticfiles %}
     <meta charset="utf-8">
-    <title>Course Project</title>
+    <title>Mini Wiki</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'styles/bootstrap-social.css' %}" type="text/css">
@@ -42,7 +42,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Course Project</a>
+            <a class="navbar-brand" href="/">Mini Wiki</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -91,7 +91,7 @@
 <!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 
-{% load staticfiles %}
+{% load static from staticfiles %}
 <!-- ngTagsInput -->
 <script src="{% static 'scripts/ng-tags-input.js' %}"></script>
 

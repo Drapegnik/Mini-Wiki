@@ -1,8 +1,4 @@
-;; 2013.01.21
-;; yasushisakai
-;;
 ;; gitignore for Django using pyCharm
-;;
 
 ;;extensions to ignore
 *.log
