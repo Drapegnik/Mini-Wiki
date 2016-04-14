@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import dj_database_url
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,7 +28,6 @@ SECRET_KEY = '$qu71e3&tu8y%dzf7)o=0pkwxxq!cjgss$1buo0=y%d9vwum(d'
 DEBUG = True
 
 ALLOWED_HOSTS = (
-    'drapegnik-wiki.herokuapp.com',
     'localhost',
     '127.0.0.1',
 )
@@ -135,25 +133,22 @@ WSGI_APPLICATION = 'courseproject.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'OPTIONS': {
-    #         'read_default_file': 'courseproject/my.cnf',
-    #         "init_command": "SET foreign_key_checks = 0;",
-    #     },
-    # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'courseproject',  # 'devct1beufr8ol',
-        'USER': 'postgres',  # qtauzostskbpkb',
-        'PASSWORD': 'dtkjcbgtl',  # '81VtAfzkg6g4H5VLqj-EnDJwd_',
-        'HOST': '',  # 'ec2-54-163-254-148.compute-1.amazonaws.com',  # Set to empty string for localhost.
-        'PORT': '',  # '5432',  # Set to empty string for default.
+        'NAME': 'courseproject',
+        'USER': 'postgres',
+        'PASSWORD': 'dtkjcbgtl',
+        'HOST': '',
+        'PORT': '',
+    },
+    'second': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': 'courseproject/my.cnf',
+            "init_command": "SET foreign_key_checks = 0;",
+        },
     }
 }
-
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
 
 CLOUDINARY = {
     'cloud_name': 'ddde4c88o',

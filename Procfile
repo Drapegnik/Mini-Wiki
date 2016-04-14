@@ -1,1 +1,1 @@
-web: gunicorn courseproject.wsgi --log-file -
+web: gunicorn courseproject.wsgi_heroku --log-file -
