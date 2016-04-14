@@ -141,13 +141,13 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
     },
-    'second': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': 'courseproject/my.cnf',
-            "init_command": "SET foreign_key_checks = 0;",
-        },
-    }
+    # 'second': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'OPTIONS': {
+    #         'read_default_file': 'courseproject/my.cnf',
+    #         "init_command": "SET foreign_key_checks = 0;",
+    #     },
+    # }
 }
 
 CLOUDINARY = {
