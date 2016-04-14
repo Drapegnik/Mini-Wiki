@@ -3,7 +3,7 @@ defusedxml==0.4.1
 dj-database-url==0.4.1
 Django==1.9.2
 django-debug-toolbar==1.4
-git+git@github.com:django-haystack/django-haystack.git
+git+https://user:password@github.com:django-haystack/django-haystack.git@04cc1ab8f918a0473bc3d59a47f249cf0a6e9f25
 django-tagging==0.4.1
 dropbox==4.0
 elasticsearch==2.2.0
