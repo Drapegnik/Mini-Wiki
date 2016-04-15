@@ -22,7 +22,7 @@ def check_for_achievement(username=None, user=None, is_new=False, storage=None, 
                           details=None):
     if not user.photo:
         user.photo = \
-            cloudinary.uploader.upload(settings.STATIC_ROOT + '/static/icons/userpic.png', public_id=user.id)[
+            cloudinary.uploader.upload(settings.STATIC_ROOT + '/icons/userpic.png', public_id=user.id)[
                 'url']
     user.save()
     if UserSocialAuth.objects.filter(user=user).count() == 3:

@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static from staticfiles %}
 {% block content %}
-    {% load staticfiles %}
-    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
-
     <div style="background-color: inherit" ng-controller="PreviewController as ctrl"
          ng-init="ctrl.initPreview('#content','#dropview','#target',{{ prev_data }},'{{ request.user.username }}')">
 
@@ -87,11 +85,25 @@
                 <textarea ng-trim="false" name="editor" id="editor" rows="10" cols="80">
                     {% trans 'Your text will de shown here. Just remove this one and start to type in editor' %}
                 </textarea>
+                <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+                <script src="{% static 'ckeditor/styles.js' %}"></script>
+                <script src="{% static 'ckeditor/config.js' %}"></script>
+                <script src="{% static 'ckeditor/lang/ru.js' %}"></script>
+                <script src="{% static 'ckeditor/lang/en.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/wenzgmap/dialogs/wenzgmap.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/link/dialogs/link.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/link/dialogs/anchor.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/tliyoutube2/dialogs/tliyoutube2.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/SimpleImage/dialogs/simpleimage.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/SimpleLink/dialogs/simplelink.js' %}"></script>
+                <script src="{% static 'ckeditor/plugins/videodetector/dialogs/videoDialog.js' %}"></script>
+                <link rel="stylesheet" href="{% static 'styles/ckeditor.css' %}" type="text/css">
+                <link rel="stylesheet" href="{% static 'ckeditor/skins/bootstrapck/dialog.css' %}" type="text/css">
                 <script>
                     CKEDITOR.replace('editor', {
                         language: '{{ user.language.code }}'
                     });
-                    
+
                 </script>
                 <div class="editbuttongroup col-md-12">
                     <div class="col-md-4" ng-show="!ctrl.sending">

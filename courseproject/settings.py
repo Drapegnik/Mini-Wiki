@@ -25,7 +25,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '$qu71e3&tu8y%dzf7)o=0pkwxxq!cjgss$1buo0=y%d9vwum(d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = (
     'localhost',
@@ -80,7 +80,7 @@ DEBUG_TOOLBAR_PANELS = [
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+        'PATH': os.path.join(BASE_DIR, 'static/whoosh_index'),
     },
 }
 
@@ -210,6 +210,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'authenticating.Account'
+
+# social
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1535977566730515'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'a03844bd78d9a5f0a5250f1f322e3698'
