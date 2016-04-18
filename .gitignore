@@ -8,4 +8,5 @@
 ;;directories to ignore
 .idea/
 courseproject/my.cnf
-courseproject/whoosh_index
+static/whoosh_index
+staticfiles/whoosh_index
