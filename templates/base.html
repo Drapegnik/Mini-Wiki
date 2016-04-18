@@ -8,7 +8,7 @@
     <title>Mini Wiki</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{% static 'styles/bootstrap-social.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap-social.min.css' %}" type="text/css">
     {% if user.is_authenticated %}
         <link rel="stylesheet" href="{{ user.theme.css_link }}" type="text/css">
     {% else %}
@@ -16,17 +16,18 @@
     {% endif %}
 
     <!-- ngTagsInput -->
-    <link rel="stylesheet" href="{% static 'styles/ng-tags-input.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'styles/ng-tags-input.bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'styles/ng-tags-input.min.css' %}" type="text/css">
+{#    <link rel="stylesheet" href="{% static 'styles/ng-tags-input.bootstrap.css' %}" type="text/css">#}
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- CSS -->
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'styles/tags.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'styles/dropzona.css' %}" type="text/css">
+{#    <link rel="stylesheet" href="{% static 'styles/style.css' %}" type="text/css">#}
+{#    <link rel="stylesheet" href="{% static 'styles/tags.css' %}" type="text/css">#}
+{#    <link rel="stylesheet" href="{% static 'styles/dropzona.css' %}" type="text/css">#}
+    <link rel="stylesheet" href="{% static 'styles/app.min.css' %}" type="text/css">
 
     <!-- Mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,10 +97,10 @@
 
 {% load static from staticfiles %}
 <!-- ngTagsInput -->
-<script src="{% static 'scripts/ng-tags-input.js' %}"></script>
+<script src="{% static 'scripts/ng-tags-input.min.js' %}"></script>
 
 <!-- Scroll -->
-<script src="{% static 'scripts/angular-whenScrolled.js' %}"></script>
+<script src="{% static 'scripts/angular-whenScrolled.min.js' %}"></script>
 
 <!-- Bootstrap -->
 <script src="{% static 'scripts/bootstrap.min.js' %}" type="text/javascript"></script>

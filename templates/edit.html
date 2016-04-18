@@ -2,10 +2,9 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-    <div style="background-color: inherit" ng-controller="PreviewController as ctrl"
+    <div ng-controller="PreviewController as ctrl"
          ng-init="ctrl.initPreview('#content','#dropview','#target',{{ prev_data }},'{{ request.user.username }}')">
-
-        <div class="collapse" id="previewzona">
+        <div {% if request.user.theme.id == 1 %} style="background-color: #ffffff" {% else %} style="background-color: #222222" {% endif %} class="collapse" id="previewzona">
             {% include template %}
         </div>
         <form class="form-horizontal">

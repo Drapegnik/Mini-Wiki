@@ -21,7 +21,7 @@ def registration(request):
                                             form.cleaned_data['password'])
                 obj = Account.objects.get(username=form.cleaned_data['username'])
                 obj.photo = \
-                    cloudinary.uploader.upload(settings.STATIC_ROOT + '/icons/userpic.png', public_id=obj.id)[
+                    cloudinary.uploader.upload(settings.STATIC_ROOT + '/icons/userpic.png', public_id=obj.id, eager = { 'quality': 'jpegmini', 'crop': "fill"})[
                         'url']
                 obj.save()
                 return redirect(reverse('login'))
