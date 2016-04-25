@@ -9,4 +9,5 @@
 .idea/
 courseproject/my.cnf
 static/whoosh_index
-staticfiles/whoosh_index
+staticfiles/
+components/
