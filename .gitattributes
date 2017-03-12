@@ -1,0 +1,7 @@
+static/ckeditor* linguist-vendored
+static/scripts/angular-whenScrolled.min.js linguist-vendored
+static/scripts/app.js linguist-vendored
+static/scripts/app.js.map linguist-vendored
+static/styles/app.min.css linguist-vendored
+static/styles/ckeditor.css linguist-vendored
+staticfiles/* linguist-vendored
