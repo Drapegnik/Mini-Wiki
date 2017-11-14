@@ -1,8 +1,6 @@
 # Mini-Wiki
 A web application that allows to create articles with images, youtube and google maps attachment, rate posts, leave comments and other
 
-:arrow_right: [**demo**](https://drapegnik-wiki.herokuapp.com/ "mini-wiki") :arrow_left:
-
 <img src="http://res.cloudinary.com/dzsjwgjii/image/upload/v1460745554/mini-wiki.png"/>
 
 **install**:  
@@ -28,5 +26,3 @@ $ python manage.py migrate --run-syncdb
 
 <img src="http://res.cloudinary.com/dzsjwgjii/image/upload/v1461005731/wiki-mobile.png" width=400px/>
 <img src="http://res.cloudinary.com/dzsjwgjii/image/upload/v1461005767/wiki-pc.png" width=400px/>
-
-
